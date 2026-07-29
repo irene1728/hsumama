@@ -1,4 +1,4 @@
-import AddToCartButton from "../../../components/AddToCartButton";
+import AddToCartButton from "@/components/AddToCartButton";
 import Image from "next/image";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
