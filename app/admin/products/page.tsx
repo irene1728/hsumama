@@ -1,0 +1,230 @@
+"use client";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import Image from "next/image";
+import { supabase } from "@/lib/supabase";
+
+const categoryMap: Record<string, string> = {
+  pork: "豬肉",
+  chicken: "雞肉",
+  beef: "牛肉",
+  lamb: "羊肉",
+  sausage: "香腸",
+  seafood: "海鮮",
+  soup: "湯品",
+};
+
+export default function AdminProductsPage() {
+
+  const [products, setProducts] = useState<any[]>([]);
+
+  useEffect(() => {
+    loadProducts();
+  }, []);
+
+async function loadProducts() {
+
+    const { data, error } = await supabase
+      .from("products")
+      .select("*")
+      .order("sort_order");
+
+    if (error) {
+      console.error(error);
+      return;
+
+    }
+
+    setProducts(data ?? []);
+  }
+
+async function toggleActive(product: any) {
+
+  const { error } = await supabase
+    .from("products")
+    .update({
+      is_active: !product.is_active,
+    })
+    .eq("id", product.id);
+
+  if (error) {
+    alert("更新失敗");
+    return;
+  }
+
+  loadProducts();
+}
+
+async function toggleFeatured(product: any) {
+
+  const { error } = await supabase
+    .from("products")
+    .update({
+      featured: !product.featured,
+    })
+    .eq("id", product.id);
+
+  if (error) {
+    alert("更新失敗");
+    return;
+  }
+
+  loadProducts();
+}
+
+async function updateSortOrder(
+  productId: number,
+  sortOrder: number
+) {
+
+  const { error } = await supabase
+    .from("products")
+    .update({
+      sort_order: sortOrder,
+    })
+    .eq("id", productId);
+
+  if (error) {
+    alert("排序更新失敗");
+    return;
+  }
+
+
+  loadProducts();
+}
+
+  return (
+    <main className="max-w-7xl mx-auto p-10">
+
+      <h1 className="text-4xl font-bold mb-8">
+        商品管理
+      </h1>
+
+      <div className="overflow-x-auto rounded-2xl border">
+
+       <table className="w-full table-fixed">
+
+          <thead className="bg-orange-100">
+
+<tr>
+
+<th className="w-28 px-4 py-3">圖片</th>
+
+<th className="w-74 text-left px-4">商品</th>
+
+<th className="w-32 px-4 text-center">分類</th>
+<th className="w-32 px-4 text-center">價格</th>
+<th className="w-20 px-4 text-center">人氣</th>
+<th className="w-20 px-4 text-center">上架</th>
+<th className="w-20 px-4 text-center">排序</th>
+<th className="w-32 px-4 text-center">操作</th>
+
+            </tr>
+
+          </thead>
+
+          <tbody>
+
+            {products.map((product) => (
+
+              <tr
+  key={product.id}
+  className="border-t h-12"
+>
+
+<td className="w-28 px-4 py-3">
+
+  <Image
+    src={product.image}
+    alt={product.name}
+    width={40}
+    height={40}
+    className="mx-auto rounded-lg object-cover"
+  />
+
+</td>
+
+<td className="w-74 px-4">
+  {product.name}
+</td>
+
+<td className="px-4 text-center">
+  {categoryMap[product.category] ?? product.category}
+</td>
+
+<td className="px-4 text-center">
+  {product.price ? `NT$ ${product.price}` : "-"}
+</td>
+
+<td className="text-center">
+
+  <button
+    onClick={() => toggleFeatured(product)}
+    className={`px-3 py-1 rounded-full text-sm font-bold transition
+      ${
+        product.featured
+          ? "bg-yellow-100 text-yellow-700 hover:bg-yellow-200"
+          : "bg-gray-100 text-gray-500 hover:bg-gray-200"
+      }`}
+  >
+    {product.featured ? "⭐ 人氣" : "☆ 一般"}
+  </button>
+
+</td>
+
+<td className="text-center">
+
+  <button
+    onClick={() => toggleActive(product)}
+    className={`px-3 py-1 rounded-full text-sm font-bold transition
+      ${
+        product.is_active
+          ? "bg-green-100 text-green-700 hover:bg-green-200"
+          : "bg-red-100 text-red-700 hover:bg-red-200"
+      }`}
+  >
+    {product.is_active ? "上架" : "下架"}
+  </button>
+
+</td>
+
+<td className="text-center">
+
+  <input
+    type="number"
+    defaultValue={product.sort_order}
+    className="w-16 border rounded-lg px-2 py-1 text-center"
+    onBlur={(e) =>
+      updateSortOrder(
+        product.id,
+        Number(e.target.value)
+      )
+    }
+  />
+
+</td>
+
+<td className="text-center">
+
+  <Link
+  href={`/admin/products/${product.id}`}
+  className="bg-orange-600 hover:bg-orange-700 text-white text-sm font-medium px-3 py-2 rounded-lg transition inline-block"
+>
+  編輯
+</Link>
+  
+</td>
+
+              </tr>
+
+            ))}
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </main>
+  );
+}
