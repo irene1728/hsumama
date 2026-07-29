@@ -24,3 +24,9 @@
 - 建立 WORKFLOW.md
 - 建立專案開發 SOP
 - 完善 docs 文件架構
+
+## v0.7.0（開發中）
+
+### 🚀 調整
+- 建立 Next.js Route Groups
+- 首頁搬移至 (shop)
