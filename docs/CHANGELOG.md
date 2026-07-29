@@ -30,3 +30,15 @@
 ### 🚀 調整
 - 建立 Next.js Route Groups
 - 首頁搬移至 (shop)
+- 商品列表搬移至 (shop)
+- 商品詳細頁搬移至 (shop)
+- 修正 Product Detail AddToCartButton import
+- 購物車搬移至 (shop)
+- Checkout 搬移至 (shop)
+
+
+
+### 🛠 修正
+- 修正 order-success 部署錯誤
+- 修正 Vercel 環境變數設定
+- 重新建立 Vercel Project
