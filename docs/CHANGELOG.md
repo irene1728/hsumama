@@ -25,7 +25,7 @@
 - 建立專案開發 SOP
 - 完善 docs 文件架構
 
-## v0.7.0（開發中）
+## v0.7.0（Route Groups 前台重構完成）
 
 ### 🚀 調整
 - 建立 Next.js Route Groups
