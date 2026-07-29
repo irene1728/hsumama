@@ -43,4 +43,5 @@
 - 修正 Vercel 環境變數設定
 - 重新建立 Vercel Project
 
-# v0.7.0（Route Groups 前台重構完成）
+## v0.7.0（Route Groups 前台重構完成）
+
