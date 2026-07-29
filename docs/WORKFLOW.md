@@ -1,0 +1,47 @@
+# 徐媽媽冰鑽滷味 開發流程（Workflow）
+
+> 本文件為本專案唯一的開發流程標準（Single Source of Truth）。
+>
+> 每次功能開發、修正、版本發布皆依照本文件執行。
+> 若流程有變更，請優先更新本文件。
+
+## 每次開始開發
+1. git pull
+2. npm run dev
+
+---
+
+## 開發完成
+
+1. 本機測試
+2. git status
+3. git add .
+4. git commit -m "功能名稱"
+5. git push
+6. 確認 Vercel 部署成功
+7. 更新 docs/CHANGELOG.md
+
+---
+
+## 大版本發布
+
+建立 Tag
+
+git tag -a v0.x.x -m "版本說明"
+
+git push origin v0.x.x
+
+---
+
+## 發布前確認
+
+□ 首頁正常
+□ 商品頁正常
+□ 商品圖片正常
+□ 購物車正常
+□ 結帳正常
+□ 後台正常
+□ 手機版正常
+□ Vercel Ready
+□ CHANGELOG 更新
+□ Tag 建立（重要版本）
