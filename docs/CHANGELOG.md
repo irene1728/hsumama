@@ -35,7 +35,7 @@
 - 修正 Product Detail AddToCartButton import
 - 購物車搬移至 (shop)
 - Checkout 搬移至 (shop)
-
+- Order Success 搬移至 (shop)
 
 
 ### 🛠 修正
