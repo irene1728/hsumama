@@ -16,3 +16,11 @@
 - GitHub Repository
 - GitHub Push
 - Vercel 同步
+
+## v0.6.1 (2026-07-29)
+
+### 新增
+
+- 建立 WORKFLOW.md
+- 建立專案開發 SOP
+- 完善 docs 文件架構
