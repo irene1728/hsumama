@@ -18,7 +18,7 @@ export default function BrandFeatures() {
   ];
 
   return (
-    <section className="bg-white py-10">
+    <section className="bg-white py-12">
 
       <div className="max-w-7xl mx-auto px-8">
 
