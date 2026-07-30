@@ -2,17 +2,17 @@ export default function BrandFeatures() {
   const features = [
     {
       title:"獨家祕方",
-      desc: "傳承三代的獨門滷製，慢火細滷，香氣濃郁。",
+      desc: "傳承三代的滷製祕方，香氣濃郁。",
       icon: "🥣",
     },
     {
       title:"多樣選擇",
-      desc: "牛肉、豬肉、羊肉、雞肉，多種美味任你挑。",
+      desc: "多樣人氣滷味，輕鬆滿足全家人的味蕾。",
       icon: "🍖",
     },
     {
       title:"輕鬆上桌",
-      desc: "真空包裝保存，簡單加熱，美味立即享用。",
+      desc: "真空包裝，簡單加熱，輕鬆上桌。",
       icon: "❤️",
     },
   ];

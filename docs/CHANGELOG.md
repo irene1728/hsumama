@@ -75,3 +75,15 @@
 商品卡間距調整
 Hero 與商品區視覺銜接
 查看全部商品按鈕
+
+## v0.9.1 - Product Detail & UI Refinement
+
+### Added
+- Product image links to product detail page
+- Product name links to product detail page
+
+### Changed
+- ProductCard button redesigned
+- ProductCard hover interaction improved
+- BrandFeatures content refined
+- Product detail page UI improvements
