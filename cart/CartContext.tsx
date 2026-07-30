@@ -4,6 +4,7 @@ import {
   createContext,
   useContext,
   useState,
+  useEffect,
   ReactNode,
 } from "react";
 
@@ -37,6 +38,20 @@ export function CartProvider({
   children: ReactNode;
 }) {
   const [cart, setCart] = useState<CartItem[]>([]);
+
+  // 第一次載入時，讀取 LocalStorage
+  useEffect(() => {
+    const savedCart = localStorage.getItem("cart");
+
+    if (savedCart) {
+      setCart(JSON.parse(savedCart));
+    }
+  }, []);
+
+  // cart 改變時，自動儲存到 LocalStorage
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(cart));
+  }, [cart]);
 
   // 加入購物車
   function addToCart(product: Product) {
@@ -102,22 +117,22 @@ export function CartProvider({
       prev.filter((item) => item.slug !== slug)
     );
   }
-// 清空購物車
-function clearCart() {
-  setCart([]);
-}
 
+  // 清空購物車
+  function clearCart() {
+    setCart([]);
+  }
 
   return (
     <CartContext.Provider
-    value={{
-  cart,
-  addToCart,
-  increaseQuantity,
-  decreaseQuantity,
-  removeFromCart,
-  clearCart,
-}}
+      value={{
+        cart,
+        addToCart,
+        increaseQuantity,
+        decreaseQuantity,
+        removeFromCart,
+        clearCart,
+      }}
     >
       {children}
     </CartContext.Provider>
