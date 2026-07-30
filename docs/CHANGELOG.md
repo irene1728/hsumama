@@ -76,7 +76,8 @@
 Hero 與商品區視覺銜接
 查看全部商品按鈕
 
-## v0.9.1 - Product Detail & UI Refinement
+## v0.9.1 - Product Detail & UI Refinement 
+## ProductCard 升級
 
 ### Added
 - Product image links to product detail page
