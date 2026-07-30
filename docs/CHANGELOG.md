@@ -88,3 +88,13 @@ Hero 與商品區視覺銜接
 - ProductCard hover interaction improved
 - BrandFeatures content refined
 - Product detail page UI improvements
+
+
+## v0.9.2 - Shopping Cart Persistence 購物車永久保存
+
+### Added
+- Save shopping cart to LocalStorage
+- Restore shopping cart on page refresh
+
+### Changed
+- Cart state is now persisted across browser refreshes
