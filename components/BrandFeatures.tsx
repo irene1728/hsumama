@@ -1,24 +1,24 @@
 export default function BrandFeatures() {
   const features = [
     {
-      title: "獨家祕方",
-      desc: "傳承三代的獨門滷製技藝，慢火細滷，香氣濃郁。",
+      title:"獨家祕方",
+      desc: "傳承三代的獨門滷製，慢火細滷，香氣濃郁。",
       icon: "🥣",
     },
     {
-      title: "多樣選擇",
-      desc: "豬腳、雞肉、雞爪、虎掌、德國豬腳，多種美味任你挑。",
+      title:"多樣選擇",
+      desc: "牛肉、豬肉、羊肉、雞肉，多種美味任你挑。",
       icon: "🍖",
     },
     {
-      title: "輕鬆上桌",
+      title:"輕鬆上桌",
       desc: "真空包裝保存，簡單加熱，美味立即享用。",
       icon: "❤️",
     },
   ];
 
   return (
-    <section className="bg-white py-24">
+    <section className="bg-white py-10">
 
       <div className="max-w-7xl mx-auto px-8">
 
@@ -30,7 +30,7 @@ export default function BrandFeatures() {
           傳承的不只是味道，更是一份對家人的用心。
         </p>
 
-        <div className="grid md:grid-cols-3 gap-10 mt-16">
+        <div className="grid md:grid-cols-3 gap-10 mt-10">
 
           {features.map((item) => (
 
@@ -47,7 +47,7 @@ export default function BrandFeatures() {
                 {item.title}
               </h3>
 
-              <p className="text-gray-600 leading-8 mt-4">
+              <p className="text-gray-600 text-sm leading-8 mt-4">
                 {item.desc}
               </p>
 

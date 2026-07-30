@@ -1,6 +1,6 @@
 export default function Story() {
   return (
-    <section className="bg-white py-24">
+    <section className="bg-white py-12">
 
       <div className="max-w-7xl mx-auto px-8">
 

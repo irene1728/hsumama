@@ -18,18 +18,20 @@ export default function Navbar() {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isHome
-          ? "bg-white/20 backdrop-blur-md border-b border-white/20"
-          : "bg-white/95 backdrop-blur-md border-b border-gray-200 shadow-sm"
+          ? "bg-white/30 backdrop-blur-xl border-b border-white/30"
+          : "bg-white/90 backdrop-blur-md border-b border-gray-200 shadow-sm"
       }`}
     >
-      <div className="max-w-7xl mx-auto grid grid-cols-3 items-center px-8 py-4">
+      <div className="max-w-7xl mx-auto grid grid-cols-3 items-center px-8 py-3">
 
         {/* Logo */}
         <div className="justify-self-start">
           <Link href="/">
             <h1
               className={`text-4xl font-bold cursor-pointer transition ${
-                isHome ? "text-white" : "text-stone-900"
+                isHome
+  ? "text-[#4E342E]"
+  : "text-[#4E342E]"
               }`}
             >
               徐媽媽冰鑽滷味
@@ -37,8 +39,8 @@ export default function Navbar() {
           </Link>
 
           <p
-            className={`text-sm mt-1 transition ${
-              isHome ? "text-amber-200" : "text-orange-600"
+            className={`text-base mt-1 transition ${
+              isHome ? "text-[#C56A2D]" : "text-orange-600"
             }`}
           >
             獨家祕方．傳承三代
@@ -52,8 +54,8 @@ export default function Navbar() {
             href="/"
             className={`transition ${
               isHome
-                ? "text-white hover:text-amber-300"
-                : "text-stone-800 hover:text-orange-600"
+                ? "text-[#AA7700] text-[22px] hover:text-amber-300"
+                : "text-[#AA7700] text-[22px] hover:text-orange-600"
             }`}
           >
             首頁
@@ -63,34 +65,32 @@ export default function Navbar() {
             href="/products"
             className={`transition ${
               isHome
-                ? "text-white hover:text-amber-300"
-                : "text-stone-800 hover:text-orange-600"
+                ? "text-[#AA7700] text-[22px] hover:text-amber-300"
+                : "text-[#AA7700] text-[22px] hover:text-orange-600"
             }`}
           >
             全部商品
           </Link>
 
-          <a
-            href="/#story"
+          <Link href="/#story"
             className={`transition ${
               isHome
-                ? "text-white hover:text-amber-300"
-                : "text-stone-800 hover:text-orange-600"
+                ? "text-[#AA7700] text-[22px] hover:text-amber-300"
+                : "text-[#AA7700] text-[22px] hover:text-orange-600"
             }`}
           >
             關於我們
-          </a>
+          </Link>
 
-          <a
-            href="/#order"
+          <Link href="/#order"
             className={`transition ${
               isHome
-                ? "text-white hover:text-amber-300"
-                : "text-stone-800 hover:text-orange-600"
+                ? "text-[#AA7700] text-[22px] hover:text-amber-300"
+                : "text-[#AA7700] text-[22px] hover:text-orange-600"
             }`}
           >
             訂購方式
-          </a>
+         </Link>
 
         </nav>
 
@@ -98,13 +98,15 @@ export default function Navbar() {
         <div className="justify-self-end">
           <Link
             href="/cart"
-            className="flex items-center gap-2 rounded-full bg-orange-600 px-5 py-3 text-white font-semibold hover:bg-orange-700 transition"
+            className="flex items-center gap-2 rounded-full bg-orange-600 px-5 py-3 text-white font-semibold
+             hover:bg-orange-800 transition hover:scale-105 hover:shadow-lg"
           >
-            <span>🛒</span>
+            <span className="text-2xl">🛒</span>
 
             <span>購物車</span>
 
-            <span className="bg-white text-orange-600 rounded-full min-w-6 h-6 flex items-center justify-center text-sm font-bold px-2">
+          <span className="bg-white text-orange-600 transition-all
+duration-300 rounded-full min-w-8 h-8 flex items-center justify-center text-m font-bold px-2">
               {totalQuantity}
             </span>
           </Link>

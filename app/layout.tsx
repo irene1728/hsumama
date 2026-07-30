@@ -1,5 +1,4 @@
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+
 import { CartProvider } from "@/cart/CartContext";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
@@ -33,15 +32,7 @@ export default function RootLayout({
       <body className="...">
 
   <CartProvider>
-
-  <Navbar />
-
-  <main className="pt-24">
-    {children}
-  </main>
-
-  <Footer />
-
+  {children}
 </CartProvider>
 
 </body>

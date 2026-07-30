@@ -1,8 +1,8 @@
 export default function Footer() {
   return (
-    <footer className="bg-[#8B5E3C] text-white mt-24">
+    <footer className="bg-[#8B5E3C] text-white">
 
-      <div className="max-w-7xl mx-auto px-8 py-16">
+      <div className="max-w-7xl mx-auto px-8 py-10">
 
         <div className="grid md:grid-cols-4 gap-12">
 
@@ -113,7 +113,7 @@ export default function Footer() {
 
         </div>
 
-        <div className="border-t border-orange-300 mt-16 pt-8 text-center">
+        <div className="border-t border-orange-300 mt-8 pt-4 text-center">
 
           <p className="text-xl text-orange-100">
 

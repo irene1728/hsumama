@@ -50,7 +50,7 @@ useEffect(() => {
         );
 
   return (
-    <main className="max-w-7xl mx-auto px-8 py-12">
+    <main className="max-w-7xl mx-auto pt-26 px-8 py-6">
 
       <h1 className="text-4xl font-bold text-center text-stone-800">
         全部商品
@@ -60,7 +60,7 @@ useEffect(() => {
         共 {filteredProducts.length} 項商品
       </p>
 
-      <div className="flex flex-wrap justify-center gap-3 mt-8">
+      <div className="flex flex-wrap justify-center gap-3 mt-4">
 
         {categories.map((category) => (
           <button

@@ -23,11 +23,11 @@ export default function OrderSteps() {
   ];
 
   return (
-    <section className="bg-[#FFF8F0] py-24">
+    <section className="bg-[#FFF8F0] py-8">
 
       <div className="max-w-7xl mx-auto px-8">
 
-        <div className="text-center mb-16">
+        <div className="text-center mb-8">
 
           <p className="text-orange-600 font-semibold tracking-widest">
             ORDER PROCESS
