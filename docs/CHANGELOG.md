@@ -45,3 +45,10 @@
 
 ## v0.7.0（Route Groups 前台重構完成）
 
+## v0.8.0 - Layout 分離
+
+### Changed
+- 建立 `(admin)` Route Group
+- 將 `app/admin` 搬移至 `app/(admin)/admin`
+- 保持 `/admin/*` 網址不變
+- 為後續前後台 Layout 分離做好準備
