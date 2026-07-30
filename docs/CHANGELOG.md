@@ -52,3 +52,18 @@
 - 將 `app/admin` 搬移至 `app/(admin)/admin`
 - 保持 `/admin/*` 網址不變
 - 為後續前後台 Layout 分離做好準備
+
+## v0.8.1 - Homepage Redesign & Premium Navbar
+
+### Added
+- 建立 Premium Navbar
+- Hero Banner 置頂
+- Navbar 疊加 Hero Banner
+- Navbar Scroll 視覺效果
+- 新版購物車按鈕
+
+### Changed
+- 首頁版面重新配置
+- 人氣商品區移至品牌特色前
+- Footer 樣式調整
+- BrandFeatures、Story、OrderSteps 視覺優化
