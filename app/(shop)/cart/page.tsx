@@ -11,12 +11,12 @@ export default function CartPage() {
   const { cart } = useCart();
 
   return (
-    <main className="max-w-7xl mx-auto px-8 py-12">
+    <main className="max-w-7xl mx-auto px-8 py-24">
       <h1 className="text-4xl font-bold text-stone-800">
         購物車
       </h1>
 
-      <p className="text-gray-500 mt-2">
+      <p className="text-gray-500 mt-1">
         共 {cart.length} 項商品
       </p>
 
@@ -34,7 +34,7 @@ export default function CartPage() {
           </Link>
         </div>
       ) : (
-        <div className="mt-12 grid lg:grid-cols-3 gap-10">
+        <div className="mt-2 grid lg:grid-cols-3 gap-10">
           {/* 商品列表 */}
           <div className="lg:col-span-2">
             <CartItem />

@@ -22,7 +22,7 @@ export default function CartItem() {
         return (
           <div
             key={item.id}
-            className="bg-white border border-gray-200 rounded-2xl shadow p-6 flex items-center gap-6"
+            className="bg-white border border-gray-200 rounded-2xl shadow p-3 flex items-center gap-6"
           >
             <Image
               src={item.image}
