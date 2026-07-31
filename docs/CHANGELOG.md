@@ -116,3 +116,20 @@ Hero 與商品區視覺銜接
 ✅ CartItem.tsx 負責商品列表
 ✅ CartSummary.tsx 負責購物車摘要
 ✅ 功能與重構前一致
+
+
+## v0.9.4（Cart Pricing & Summary）
+
+### Added
+- 新增 CartSummaryItem 元件
+- 購物車摘要加入商品縮圖
+- 顯示商品名稱
+- 顯示數量 × 單價
+- 顯示每項小計
+- 摘要區支援捲動
+- 顯示商品總數
+- 顯示商品總金額
+
+### Changed
+- CartSummary 改採 CartSummaryItem 組成
+- 改善購物車摘要版面與資訊層級

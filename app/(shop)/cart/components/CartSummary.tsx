@@ -1,7 +1,11 @@
 "use client";
 
 import Link from "next/link";
+
 import { useCart } from "@/cart/CartContext";
+import { formatPrice } from "@/lib/formatPrice";
+
+import CartSummaryItem from "./CartSummaryItem";
 
 export default function CartSummary() {
   const { cart } = useCart();
@@ -11,38 +15,57 @@ export default function CartSummary() {
     0
   );
 
+  const totalPrice = cart.reduce(
+    (sum, item) => sum + (item.price ?? 0) * item.quantity,
+    0
+  );
+
   return (
-    <div className="bg-white border border-gray-200 rounded-2xl shadow p-8 h-fit sticky top-28">
+    <aside className="bg-white border border-gray-200 rounded-2xl shadow p-6 sticky top-28">
       <h2 className="text-2xl font-bold text-stone-800">
         購物車摘要
       </h2>
 
-      <div className="mt-8 space-y-5">
-        <div className="flex justify-between">
-          <span>商品數量</span>
+      {/* 商品摘要 */}
+      <div className="mt-6 border rounded-xl divide-y max-h-120 overflow-y-auto">
+        {cart.map((item) => (
+          <CartSummaryItem
+            key={item.id}
+            item={item}
+          />
+        ))}
+      </div>
 
-          <span className="font-bold">
+      {/* 統計 */}
+      <div className="mt-6 space-y-4">
+        <div className="flex justify-between items-center">
+          <span className="text-gray-600">
+            商品數量
+          </span>
+
+          <span className="font-bold text-stone-800">
             {totalQuantity} 件
           </span>
         </div>
 
-        <hr />
+        <div className="flex justify-between items-center">
+          <span className="text-gray-600">
+            商品總額
+          </span>
 
-        <div className="flex justify-between">
-          <span>商品金額</span>
-
-          <span className="font-bold text-orange-600">
-            價格請洽詢
+          <span className="text-2xl font-bold text-orange-600">
+            {formatPrice(totalPrice)}
           </span>
         </div>
       </div>
 
+      {/* 結帳按鈕 */}
       <Link
         href="/checkout"
-        className="block w-full mt-10 bg-orange-600 hover:bg-orange-700 text-white py-4 rounded-xl text-lg font-bold text-center transition"
+        className="block w-full mt-8 bg-orange-600 hover:bg-orange-700 text-white text-center text-lg font-bold py-4 rounded-xl transition"
       >
         前往結帳
       </Link>
-    </div>
+    </aside>
   );
 }
