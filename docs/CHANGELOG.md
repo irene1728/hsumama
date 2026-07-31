@@ -133,3 +133,20 @@ Hero 與商品區視覺銜接
 ### Changed
 - CartSummary 改採 CartSummaryItem 組成
 - 改善購物車摘要版面與資訊詳細層級
+
+
+## v0.9.5 – Product Card UX 完成
+
+完成項目：
+
+✅ 商品圖片可點擊
+✅ 商品名稱可點擊
+✅ 顯示商品價格
+✅ 查看商品按鈕
+✅ 加入購物車按鈕
+✅ lucide-react 圖示
+✅ Navbar 購物車數量即時更新
+✅ 加入後顯示「✓ 已加入」
+✅ 商品圖片 Hover 放大
+✅ 商品圖片點擊縮放
+✅ 商品卡片 Hover 浮起（最終採用：hover:-translate-y-2 + hover:shadow-xl）
