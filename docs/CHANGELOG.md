@@ -98,3 +98,21 @@ Hero 與商品區視覺銜接
 
 ### Changed
 - Cart state is now persisted across browser refreshes
+
+
+## v0.9.3 - Cart Components Refactor 建立共用金額格式化工具（formatPrice）
+
+### Changed
+- Refactored cart page into reusable components.
+- Added CartItem component.
+- Added CartSummary component.
+- Simplified cart page to follow Thin Page architecture.
+- Adopted Feature-First project structure for cart module.
+
+0.9.3 完成項目
+✅ 購物車功能正常
+✅ 元件拆分完成
+✅ page.tsx 符合 Thin Page
+✅ CartItem.tsx 負責商品列表
+✅ CartSummary.tsx 負責購物車摘要
+✅ 功能與重構前一致
