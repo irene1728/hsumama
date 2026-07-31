@@ -132,4 +132,4 @@ Hero 與商品區視覺銜接
 
 ### Changed
 - CartSummary 改採 CartSummaryItem 組成
-- 改善購物車摘要版面與資訊層級
+- 改善購物車摘要版面與資訊詳細層級
