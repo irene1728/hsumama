@@ -805,6 +805,4 @@ export const products: Product[] = [
   featured: false,
 },
 
-
-
 ];

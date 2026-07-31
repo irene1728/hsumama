@@ -70,3 +70,29 @@ v0.9.4 → 結帳流程
 
 不要同一版又改動畫、又改會員、又改 UI。
 除非是修正 Bug，否則不在已經 Ready 的版本上加入新功能。
+
+每完成一個版本，就花 2～3 分鐘回顧：「哪些地方做得順利？有沒有需要改進的流程？」
+✅ 完整檔案比局部修改更適合目前的開發方式。
+
+## 「功能模組自己管理自己的檔案」的原則
+規範一:功能模組自己管理自己的檔案（Feature-First）
+規範二:只有真正跨功能使用的程式，才放到根目錄（components、lib、hooks、types）
+規範三：Page 保持精簡（Thin Page）
+規範四：Refactor 與新功能分開版本
+
+page.tsx 的責任只有：
+
+取得資料
+組合元件
+控制頁面流程
+不要把商業邏輯和大量 UI 都塞在 page.tsx。
+
+
+1.✅ 一個版本只做一件事（Single Responsibility per Version）
+2.✅ 完成功能 → 測試 → Git → Vercel → CHANGELOG
+3.✅ 修改超過 10 行，提供完整檔案
+4.✅ Feature-First（功能模組自己管理自己的檔案）
+5.✅ 只有跨功能共用程式才放根目錄
+6.✅ Page 保持精簡（Thin Page）
+7.✅ Refactor 與新功能分開版本
+8.✅先設計架構，再開始寫程式（Architecture First）
