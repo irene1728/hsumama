@@ -1,17 +1,113 @@
 "use client";
-import { useState } from "react";
+
+// Next.js
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+
+// Features
+import { useCheckout } from "@/features/checkout/hooks/useCheckout";
+import { validateCheckout } from "@/features/checkout/utils/validateCheckout";
+import { createOrder } from "@/features/checkout/utils/createOrder";
+// Shared
 import { useCart } from "@/cart/CartContext";
+import { supabase } from "@/lib/supabase";
 
 export default function CheckoutPage() {
 
+  const router = useRouter();
+
   const { cart, clearCart } = useCart();
 
-  const [customerName, setCustomerName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("");
-  const [address, setAddress] = useState("");
-  const [note, setNote] = useState("");
+ const {
+  customerName,
+  setCustomerName,
+
+  phone,
+  setPhone,
+
+  email,
+  setEmail,
+
+  address,
+  setAddress,
+
+  note,
+  setNote,
+
+  deliveryMethod,
+  setDeliveryMethod,
+
+  paymentMethod,
+  setPaymentMethod,
+
+  loading,
+  setLoading,
+} = useCheckout();
+   const totalQuantity = cart.reduce(
+      (sum, item) => sum + item.quantity,
+      0
+    );
+const totalAmount = cart.reduce(
+  (sum, item) => sum + (item.price ?? 0) * item.quantity,
+  0
+);
+
+async function handleSubmit() {
+
+const error = validateCheckout({
+  customerName,
+  phone,
+  address,
+  cartLength: cart.length,
+});
+
+if (error) {
+  alert(error);
+  return;
+}
+
+  setLoading(true);
+
+  try {
+
+   
+    const order = await createOrder({
+  customerName,
+  phone,
+  email,
+  address,
+  note,
+  paymentMethod,
+
+  totalQuantity,
+  totalAmount,
+
+  cart,
+});
+
+clearCart();
+
+if (order) {
+  router.push(`/order-success?id=${order.id}`);
+}
+
+}
+
+catch (error) {
+
+  console.error("Supabase Error:", error);
+
+  alert(JSON.stringify(error, null, 2));
+
+}
+  
+  finally {
+
+    setLoading(false);
+
+  }
+
+}
 
   return (
     <main className="max-w-7xl mx-auto px-8 py-12">
@@ -183,11 +279,13 @@ export default function CheckoutPage() {
   {/* 付款方式 */}
   <div className="flex justify-between">
 
-    <span>付款方式</span>
+    <span className="font-bold text-orange-600">
+  付款方式
+</span>
 
     <span className="font-bold text-orange-600">
-      價格請洽詢
-    </span>
+  ATM轉帳/貨到付款
+</span>
 
   </div>
 
@@ -199,23 +297,55 @@ export default function CheckoutPage() {
     <span>商品金額</span>
 
     <span className="font-bold text-orange-600">
-      價格請洽詢
-    </span>
+  NT$ {totalAmount.toLocaleString("zh-TW")}
+</span>
 
   </div>
 
 </div>
 
-<Link
-  href="/order-success"
-  className="block w-full mt-10 bg-orange-600 hover:bg-orange-700 text-white py-4 rounded-xl text-lg font-bold text-center transition"
+{/* 付款方式 */}
+<div className="mt-8">
+  <h2 className="text-xl font-bold mb-4">付款方式</h2>
+
+  <div className="space-y-3">
+
+    <label className="flex items-center gap-3 cursor-pointer">
+      <input
+        type="radio"
+        name="payment"
+        value="ATM轉帳"
+        checked={paymentMethod === "ATM轉帳"}
+        onChange={(e) => setPaymentMethod(e.target.value)}
+      />
+      <span>ATM 轉帳</span>
+    </label>
+
+    <label className="flex items-center gap-3 cursor-pointer">
+      <input
+        type="radio"
+        name="payment"
+        value="貨到付款"
+        checked={paymentMethod === "貨到付款"}
+        onChange={(e) => setPaymentMethod(e.target.value)}
+      />
+      <span>貨到付款</span>
+    </label>
+
+  </div>
+</div>
+
+<button
+  onClick={handleSubmit}
+  disabled={loading}
+  className="w-full mt-10 bg-orange-600 hover:bg-orange-700 disabled:bg-gray-400 text-white py-4 rounded-xl text-lg font-bold transition"
 >
-  確認送出訂單
-</Link>
+  {loading ? "送出中..." : "確認送出訂單"}
+</button>
 
         </div>
 
-      </div>
+      </div>  
 
     </main>
   );

@@ -47,3 +47,97 @@ git push origin v0.x.x
 □ Vercel Ready
 □ CHANGELOG 更新
 □ Tag 建立（重要版本）
+
+
+# WORKFLOW
+
+本文件記錄各功能模組的工作流程（Workflow）。
+
+開發新功能時，先規劃 Workflow，再進入 Data → UI → Logic。
+
+---
+
+# Checkout Workflow
+
+```text
+購物車（Cart）
+
+        │
+
+        ▼
+
+Checkout
+
+        │
+
+        ├── 收件資訊（CheckoutForm）
+
+        ├── 配送方式（DeliveryMethod）
+
+        ├── 付款方式（PaymentMethod）
+
+        ├── 訂單摘要（OrderSummary）
+
+        │
+
+        ▼
+
+確認送出訂單
+
+        │
+
+        ▼
+
+資料驗證
+
+        │
+
+        ▼
+
+建立訂單（createOrder）
+
+        │
+
+        ▼
+
+Supabase
+
+        ├── orders
+
+        └── order_items
+
+        │
+
+        ▼
+
+清空購物車（clearCart）
+
+        │
+
+        ▼
+
+導向訂單完成頁（Order Success）
+
+        │
+
+        ▼
+
+未來功能（預留）
+
+        ├── Email 通知客戶
+        ├── Email 通知出貨
+        ├── PDF 出貨單
+        ├── QR Code
+        ├── LINE Notify
+        └── 後台待出貨
+```
+
+---
+
+## 設計理念
+
+- Data → UI → Logic
+- Feature-First
+- Single Responsibility
+- Business-Driven Development
+- 預留擴充性，不預做功能
