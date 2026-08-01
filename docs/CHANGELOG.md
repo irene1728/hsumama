@@ -150,3 +150,63 @@ Hero 與商品區視覺銜接
 ✅ 商品圖片 Hover 放大
 ✅ 商品圖片點擊縮放
 ✅ 商品卡片 Hover 浮起（最終採用：hover:-translate-y-2 + hover:shadow-xl）
+
+## v0.9.6 – Checkout Feature 重構（Feature-First）
+
+## ✨ 新增
+
+- 建立 `features/checkout/` Feature 模組。
+- 建立 Checkout 專屬 Data、UI、Logic 架構。
+- 新增 `checkout.ts`（Single Source of Truth）。
+- 新增 `useCheckout.ts`（Checkout 狀態管理）。
+- 新增 `validateCheckout.ts`（結帳資料驗證）。
+- 新增 `createOrder.ts`（建立訂單流程）。
+
+## 🧩 Component
+
+建立 Checkout 專屬元件：
+
+- `CheckoutForm`
+- `DeliveryMethod`
+- `PaymentMethod`
+- `OrderSummary`
+
+全部改為 Props 化（Controlled Components）。
+
+## 🏗️ Architecture
+
+完成 Checkout Feature-First 架構：
+
+Data
+→ UI
+→ Logic
+→ Composition（Thin Page）
+
+CheckoutPage 不再直接管理 UI，
+改由 Feature Components 組裝完成。
+
+## 🎨 UI
+
+- 收件資訊改為獨立元件。
+- 配送方式改為獨立元件。
+- 付款方式改為獨立元件。
+- 訂單摘要改為獨立元件。
+- 付款方式改回簡潔版 Radio UI。
+- 修正手機版滾動時元件互相遮蓋問題（取消 sticky）。
+
+## 🔧 Refactor
+
+- State 全部移至 `useCheckout`。
+- UI 與 Business Logic 分離。
+- 建立 Checkout Component Standards：
+  - Input Components
+  - Selection Components
+  - Display Components
+
+## 📝 Notes
+
+本版本以「架構重構」為主，
+不新增 UX 功能。
+
+OrderSummary 商品展開／收合功能，
+規劃於下一版本（v0.9.7）。
