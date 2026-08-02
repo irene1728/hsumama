@@ -217,7 +217,7 @@ OrderSummary 商品展開／收合功能，
 
 ## v0.9.7 – Checkout UX Optimization
 
-## ✨ 新增
+## ✨ 新增 ✨
 
 - OrderSummary 新增商品展開／收合功能。
 - 新增 `useOrderSummary` Hook 管理展開狀態。
@@ -243,3 +243,4 @@ OrderSummary 商品展開／收合功能，
 
 - OrderSummary UX 已完成第一版。
 - 後續可視需求加入展開／收合動畫。
+
