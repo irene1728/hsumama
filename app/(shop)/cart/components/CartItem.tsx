@@ -27,9 +27,9 @@ export default function CartItem() {
             <Image
               src={item.image}
               alt={item.name}
-              width={140}
-              height={140}
-              className="rounded-xl object-contain ml-4"
+              width={120}
+              height={120}
+              className="rounded-xl object-contain ml-2"
             />
 
             <div className="flex-1">
