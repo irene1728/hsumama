@@ -210,3 +210,36 @@ CheckoutPage 不再直接管理 UI，
 
 OrderSummary 商品展開／收合功能，
 規劃於下一版本（v0.9.7）。
+
+- 已建立 `useOrderSummary.ts` Hook 架構。
+- 商品展開／收合功能將於 v0.9.7 完成。
+
+
+## v0.9.7 – Checkout UX Optimization
+
+## ✨ 新增
+
+- OrderSummary 新增商品展開／收合功能。
+- 新增 `useOrderSummary` Hook 管理展開狀態。
+
+## 🎨 UI
+
+- OrderSummary 預設顯示前 5 項商品。
+- 超過 5 項時顯示「▼ 查看其餘 X 項商品」。
+- 展開後可切換為「▲ 收合商品」。
+- 手機與桌機採用一致的顯示策略。
+
+## 🏗️ Architecture
+
+- 新增 `features/checkout/hooks/useOrderSummary.ts`。
+- OrderSummary 採用 Hook 管理 UI 狀態。
+
+## 🔧 Refactor
+
+- 商品列表改為依 `expanded` 狀態切換顯示。
+- 使用 `hiddenCount` 動態計算未顯示商品數量。
+
+## 📝 Notes
+
+- OrderSummary UX 已完成第一版。
+- 後續可視需求加入展開／收合動畫。

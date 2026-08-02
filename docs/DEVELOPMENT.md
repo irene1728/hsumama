@@ -212,29 +212,17 @@ Vercel
 # 新元件開發流程
 
 Design
-
 ↓
-
 UI
-
 ↓
-
 Props
-
 ↓
-
 Controlled Component
-
 ↓
-
 Logic
-
 ↓
-
 Page
-
 ↓
-
 Test
 
 # Component Design Standard
@@ -247,3 +235,98 @@ Display Components
 以後任何元件：
 先分類。
 再開始寫。
+
+
+### CHANGELOG 撰寫規範
+
+每個版本固定使用以下結構：
+
+# Version
+
+例如：
+
+# v0.9.6 – Checkout Feature 重構
+
+---
+
+## ✨ 新增（New）
+
+本版本新增的功能、元件或模組。
+
+---
+
+## 🎨 UI（User Interface）
+
+介面調整、版面修改、RWD、UX 改善。
+
+---
+
+## 🏗️ Architecture（Architecture）
+
+資料夾結構、Feature-First、Component Composition、
+Hook、Data Flow、整體架構調整。
+
+---
+
+## 🔧 Refactor（Refactor）
+
+程式碼重構、Props 化、Logic 分離、
+命名調整、效能改善。
+
+---
+
+## 📝 Notes（Notes）
+
+版本備註、已知事項、下一版本規劃。
+
+例如：
+
+- 下一版預計加入 OrderSummary 展開／收合
+- 手機預設收合，桌機預設展開
+- 後續規劃 PDF 訂單
+
+
+# ### CHANGELOG 原則
+
+1. 每個版本都有明確主題。
+
+2. 一個版本只完成一種主要目標。
+
+3. Refactor 與新功能盡量分開版本。
+
+4. CHANGELOG 只記錄「本版本實際完成」的內容。
+
+5. 未完成或下一步規劃，統一寫在 Notes。
+
+## TypeScript / React Coding Style
+
+### 排版規範
+
+- import 與程式主體之間保留 1 個空白行。
+- Function 開頭不要保留多餘空白行。
+- State 集中放在 Function 最前面。
+- Function 放在 State 後面。
+- return 前保留 1 個空白行。
+- 區塊之間最多保留 1 個空白行。
+- 不要連續出現 2 個以上空白行。
+- 檔案結尾保留 1 個空白行。
+
+### 範例
+
+```ts
+"use client";
+
+import { useState } from "react";
+
+export function useOrderSummary() {
+  const [expanded, setExpanded] = useState(false);
+
+  function toggleExpanded() {
+    setExpanded((prev) => !prev);
+  }
+
+  return {
+    expanded,
+    toggleExpanded,
+  };
+}

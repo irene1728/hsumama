@@ -1,4 +1,7 @@
+
+import { useOrderSummary } from "@/features/checkout/hooks/useOrderSummary";
 type OrderItem = {
+  slug: string;
   name: string;
   quantity: number;
 };
@@ -23,32 +26,42 @@ export default function OrderSummary({
   paymentMethod,
 }: OrderSummaryProps) {
 
+const {
+  expanded,
+  toggleExpanded,
+} = useOrderSummary();
+
+const hiddenCount = Math.max(cart.length - 5, 0);
+
   return (
-    <section className="bg-white border border-gray-200 rounded-2xl shadow p-8 space-y-6">
+    <section className="bg-white border border-gray-200 rounded-2xl shadow p-4 space-y-2">
       <h2 className="text-2xl font-bold text-stone-800">
         訂單摘要
       </h2>
 
-      <p className="mt-2 text-gray-500">
+      <p className="mt-1 text-[#CC0000]">
         請再次確認您的訂單內容。
       </p>
 
-      <div className="mt-8 space-y-5">
+      <div className="mt-4 space-y-5">
 
         {/* 商品列表（暫時示意） */}
-      <div className="space-y-4">
+<div className="space-y-2">
 
-  {cart.map((item) => (
+  {(expanded ? cart : cart.slice(0, 5)).map((item) => (
+    
 
     <div
-      key={item.name}
-      className="flex justify-between items-center"
+      key={item.slug}
+      className="flex justify-between items-start gap-3"
     >
 
-      <span>{item.name}</span>
+      <span className="flex-1">
+        {item.name}
+      </span>
 
-      <span className="font-semibold">
-        ×{item.quantity}
+      <span className="font-semibold whitespace-nowrap">
+        × {item.quantity}
       </span>
 
     </div>
@@ -56,7 +69,22 @@ export default function OrderSummary({
   ))}
 
 </div>
-
+{cart.length > 5 && (
+  <button
+    type="button"
+    onClick={toggleExpanded}
+    className="
+      mt-4
+      text-orange-600
+      font-semibold
+      hover:underline
+    "
+  >
+    {expanded
+      ? "▲ 收合商品"
+      : `▼ 查看其餘 ${hiddenCount} 項商品`}
+  </button>
+)}
         <hr />
 
         {/* 商品數量 */}

@@ -27,7 +27,7 @@ export default function CartSummary() {
       </h2>
 
       {/* 商品摘要 */}
-      <div className="mt-6 border rounded-xl divide-y max-h-200 overflow-y-auto">
+      <div className="mt-4 border rounded-xl divide-y max-h-360 overflow-y-auto">
         {cart.map((item) => (
           <CartSummaryItem
             key={item.id}

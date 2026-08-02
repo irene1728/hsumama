@@ -18,12 +18,12 @@ export default function CartSummaryItem({
 
   return (
     <div className="flex gap-3 py-1">
-      <div className="flex-shrink-0">
+      <div className="flex-shrink-0 ml-4">
         <Image
           src={item.image}
           alt={item.name}
-          width={60}
-          height={60}
+          width={70}
+          height={70}
           className="rounded-lg object-cover border"
         />
       </div>

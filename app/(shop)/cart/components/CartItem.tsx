@@ -22,14 +22,14 @@ export default function CartItem() {
         return (
           <div
             key={item.id}
-            className="bg-white border border-gray-200 rounded-2xl shadow p-3 flex items-center gap-6"
+            className="bg-white border border-gray-200 rounded-2xl shadow p-2 flex items-center gap-6"
           >
             <Image
               src={item.image}
               alt={item.name}
-              width={120}
-              height={120}
-              className="rounded-xl object-contain"
+              width={140}
+              height={140}
+              className="rounded-xl object-contain ml-4"
             />
 
             <div className="flex-1">
@@ -41,10 +41,10 @@ export default function CartItem() {
                 {formatPrice(item.price)}
               </p>
 
-              <div className="flex items-center gap-3 mt-5">
+              <div className="flex items-center gap-3 mt-3">
                 <button
                   onClick={() => decreaseQuantity(item.slug)}
-                  className="w-10 h-10 rounded-lg border text-xl hover:bg-gray-100 transition"
+                  className="w-9 h-9 rounded-lg border text-xl hover:bg-gray-100 transition"
                 >
                   −
                 </button>
@@ -55,13 +55,13 @@ export default function CartItem() {
 
                 <button
                   onClick={() => increaseQuantity(item.slug)}
-                  className="w-10 h-10 rounded-lg border text-xl hover:bg-gray-100 transition"
+                  className="w-9 h-9 rounded-lg border text-xl hover:bg-gray-100 transition"
                 >
                   ＋
                 </button>
               </div>
 
-              <p className="mt-5 text-base text-gray-600">
+              <p className="mt-3 text-base text-gray-600">
                 小計：
                 <span className="ml-2 font-bold text-stone-800">
                   {formatPrice(subtotal)}
