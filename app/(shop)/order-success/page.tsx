@@ -4,11 +4,19 @@ import { Suspense, useEffect, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { supabase } from "@/lib/supabase";
+import { orderToPdf } from "@/features/checkout/mapper";
+import DownloadOrderButton from "@/features/checkout/components/DownloadOrderButton";
 
 type Order = {
   id: number;
+
   customer_name: string;
+  phone: string;
+  email: string;
+  address: string;
+
   payment: string;
+
   total_amount: number;
 };
 
@@ -25,7 +33,7 @@ function OrderSuccessContent() {
 
       const { data } = await supabase
         .from("orders")
-        .select("id, customer_name, payment, total_amount")
+        .select("id, customer_name, phone, email, address, payment, total_amount")
         .eq("id", Number(orderId))
         .single();
 
@@ -51,6 +59,10 @@ function OrderSuccessContent() {
     alert("複製失敗，請手動複製。");
   }
 }
+
+if (!order) return null;
+
+const pdfOrder = orderToPdf(order);
 
   return (
     <main className="max-w-3xl mx-auto px-8 py-6">
@@ -82,6 +94,10 @@ function OrderSuccessContent() {
             <div className="flex justify-between">
               <span>訂單編號</span>
               <span className="font-bold">#{order.id}</span>
+               <DownloadOrderButton
+  order={pdfOrder}
+/>
+        
             </div>
 
             <div className="flex justify-between">

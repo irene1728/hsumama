@@ -180,33 +180,19 @@ CHANGELOG
 ## 三、開發流程（Workflow）
 
 Business
-
 ↓
-
 Workflow
-
 ↓
-
 Data
-
 ↓
-
 UI
-
 ↓
-
 Logic
-
 ↓
-
 Test
-
 ↓
-
 Git
-
 ↓
-
 Vercel
 
 # 新元件開發流程
@@ -286,6 +272,70 @@ Hook、Data Flow、整體架構調整。
 - 後續規劃 PDF 訂單
 
 
+官方資源開發流程 v1.0（正式版）
+Step 1
+官方文件（Official Docs）
+        │
+        ▼
+Step 2
+確認技術方案（Best Practice）
+        │
+        ▼
+Step 3
+設計架構（Architecture）
+        │
+        ▼
+Step 4
+開始實作（Implementation）
+        │
+        ▼
+Step 5
+測試（Testing）
+        │
+        ▼
+Step 6
+Git Commit
+        │
+        ▼
+Step 7
+GitHub Push
+        │
+        ▼
+Step 8
+Vercel Ready
+        │
+        ▼
+Step 9
+更新 CHANGELOG
+## 查官方文件
+確認最佳實作（Best Practice）
+提出架構設計
+
+##  字型專案標準：
+原始字型
+## public/fonts-source/
+唯一來源。
+字體名稱-Weight.ttf
+例如：
+NotoSansTC-Regular.ttf
+NotoSansTC-Bold.ttf
+Roboto-Regular.ttf
+Roboto-Bold.ttf
+
+❌❌不建立
+NotoSansTC-Regular.js
+NotoSansTC-Bold.js
+Roboto-Regular.js
+Roboto-Bold.js
+❌❌不建立
+convert-font.js
+
+🟡registerFonts()
+唯一負責：
+載入字型
+註冊字型
+設定預設字型
+
 # ### CHANGELOG 原則
 
 1. 每個版本都有明確主題。
@@ -330,3 +380,5 @@ export function useOrderSummary() {
     toggleExpanded,
   };
 }
+
+
