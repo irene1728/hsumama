@@ -244,3 +244,33 @@ OrderSummary 商品展開／收合功能，
 - OrderSummary UX 已完成第一版。
 - 後續可視需求加入展開／收合動畫。
 
+## v0.9.8 – PDF Engine 持續開發
+
+### Added
+
+- 新增 PDF Customer（客戶資訊）區塊
+- 新增 PDF 商品明細（AutoTable）
+- 新增 PDF Customer / Items 繪圖模組
+- 新增 PDF Order Mapper（orderToPdf）
+
+### Changed
+
+- PDF 採用 jsPDF-AutoTable 作為商品明細表格
+- Customer 改為單欄式資訊排版
+- PDF Customer 資料改由 Mapper 提供
+- orders 查詢新增 phone、email、address 欄位
+
+### Fixed
+
+- 修正 PDF 中文字型載入問題
+- 修正 Customer 電話、Email、地址未顯示問題
+- 修正 PDF 與 OrderRow 資料對應
+
+### Notes
+
+- PDF 字型正式採用 NotoSansTC。
+- 不採用 Font Module。
+- 採用 fetch() + addFileToVFS() + addFont()。
+- 商品明細採用 jsPDF-AutoTable。
+- Customer 改為「標籤：內容」單欄式設計。
+- PDF Engine 採用 Mapper 分離資料來源。
