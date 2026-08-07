@@ -274,3 +274,46 @@ OrderSummary 商品展開／收合功能，
 - 商品明細採用 jsPDF-AutoTable。
 - Customer 改為「標籤：內容」單欄式設計。
 - PDF Engine 採用 Mapper 分離資料來源。
+
+
+# Changelog
+
+## v0.9.8 – Order Receipt PDF 正式版
+
+### ✨ Added
+- 新增 PDF Engine v1.0 架構
+- 新增訂單收據 PDF（Order Receipt）
+- 新增 Header（Logo、品牌名稱、訂單資訊）
+- 新增客戶資訊區塊
+- 新增商品明細（AutoTable）
+- 新增商品小計／運費／總金額（Summary）
+- 新增付款資訊
+- 新增配送資訊
+- 新增 Footer
+- 新增 LINE 官方帳號 QR Code
+- 新增官方網站 QR Code
+- 新增自動換頁（Auto Page Break）
+- 新增第二頁商品表頭自動重複顯示
+
+### ♻️ Changed
+- 採用 Dynamic Layout Flow，改為依區塊自動排版
+- 商品明細、客戶資訊、付款資訊、配送資訊重新調整版面
+- Receipt Compact Layout，降低留白、提升版面利用率
+- Footer 改為動態位置，不再使用固定座標
+- QR Code 改由 Footer 統一管理
+
+### 🛠 Refactored
+- 建立 PDF Config 集中管理版面設定
+- 建立 PDF Font 集中管理字型與字級
+- 建立 PDF Assets 集中管理圖片資源
+- 建立 Loader 統一載入圖片素材
+- drawXXX 模組全面採用 Single Responsibility
+- 移除大部分 Magic Number
+- 全面採用共用設定（Spacing、Height、Font、QR Size）
+
+### 📋 Architecture
+- 完成 PDF Engine v1.0
+- 完成 Dynamic Layout System
+- 完成 Auto Page Break System
+- 完成 Footer QR Layout
+- 建立 PDF Engine 開發規範（24 條）
