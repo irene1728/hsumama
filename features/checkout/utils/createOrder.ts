@@ -3,6 +3,7 @@ import { supabase } from "@/lib/supabase";
 type OrderItem = {
   name: string;
   quantity: number;
+  price: number;
 };
 
 type CreateOrderParams = {
@@ -52,13 +53,17 @@ export async function createOrder({
   }
 
   // 建立訂單商品
-  const items = cart.map((item) => ({
-    order_id: order.id,
-    product_name: item.name,
-    quantity: item.quantity,
-    
-  }));
+const items = cart.map((item) => ({
+  order_id: order.id,
 
+  product_name: item.name,
+
+  quantity: item.quantity,
+
+  price: item.price,
+
+  subtotal: item.price * item.quantity,
+}));
   const { error: itemError } = await supabase
     .from("order_items")
     .insert(items);

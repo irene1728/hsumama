@@ -1,5 +1,5 @@
 import { jsPDF } from "jspdf";
-
+import { PDF } from "./pdfConfig";
 import type { Order } from "../../types/order";
 
 import { createPdf } from "./createPdf";
@@ -8,6 +8,11 @@ import { registerFonts } from "./fonts";
 import { loadPdfAssets } from "./loader";
 import { drawCustomer } from "./drawCustomer";
 import { drawItems } from "./drawItems";
+import { drawSummary } from "./drawSummary";
+import { drawPayment } from "./drawPayment";
+import { drawShipping } from "./drawShipping";
+import { drawFooter } from "./drawFooter";
+import { ensurePageSpace } from "./pageBreak";
 /**
  * 產生訂單 PDF
  *
@@ -26,7 +31,7 @@ export async function generateOrderPdf(
   order: Order
 ): Promise<jsPDF> {
 
-console.log(order);
+
   //------------------------------------------
   // 建立 PDF
   //------------------------------------------
@@ -60,46 +65,74 @@ drawCustomer({
   doc,
   order,
   assets,
+
 });
 
+//------------------------------------------
+// Items
+//------------------------------------------
 
-
-  //------------------------------------------
-  // Shipping
-  //------------------------------------------
-
-  // drawShipping({
-  //   doc,
-  //   order,
-  // });
-
-  //------------------------------------------
-  // Items
-  //------------------------------------------
-
- drawItems({
+const itemsBottom = drawItems({
   doc,
   order,
   assets,
 });
 
   //------------------------------------------
+  // Summary
+  //------------------------------------------
+
+const summaryBottom = drawSummary({
+  doc,
+  order,
+  startY: itemsBottom + PDF.summary.topSpacing,
+});
+
+  //------------------------------------------
   // Payment
   //------------------------------------------
 
-  // drawPayment({
-  //   doc,
-  //   order,
-  // });
+const paymentStart = ensurePageSpace(
+  doc,
+  summaryBottom + PDF.payment.topSpacing,
+  PDF.payment.height
+);
 
-  //------------------------------------------
-  // Footer
-  //------------------------------------------
+const paymentBottom = drawPayment({
+  doc,
+  order,
+  assets,
+  startY: paymentStart,
+});
 
-  // drawFooter({
-  //   doc,
-  //   assets,
-  // });
+//------------------------------------------
+// Shipping
+//------------------------------------------
+
+const shippingBottom = drawShipping({
+  doc,
+  order,
+  assets,
+  startY: paymentBottom + PDF.shipping.topSpacing,
+   
+});
+
+//------------------------------------------
+// Footer
+//------------------------------------------
+
+const footerStart = ensurePageSpace(
+  doc,
+  shippingBottom + PDF.footer.topSpacing,
+  PDF.footer.height
+);
+
+drawFooter({
+  doc,
+  order,
+  assets,
+  startY: footerStart,
+});
 
   //------------------------------------------
   // Return PDF

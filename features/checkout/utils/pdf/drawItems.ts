@@ -21,8 +21,9 @@ import {
 export function drawItems({
   doc,
   order,
-}: PdfContext): void {
+}: PdfContext): number {
 
+  console.log(order.items);
   //------------------------------------------
   // 標題
   //------------------------------------------
@@ -41,34 +42,56 @@ export function drawItems({
 
   setBodyFont(doc);
 
-  autoTable(doc, {
-    startY: PDF.items.tableStartY,
+ autoTable(doc, {
+  startY: PDF.items.tableStartY,
 
-    head: [[
-      "商品名稱",
-      "數量",
-      "單價",
-      "小計",
-    ]],
+  head: [[
+    "商品名稱",
+    "數量",
+    "單價",
+    "小計",
+  ]],
 
-    body: order.items.map((item) => [
-      item.name,
-      item.quantity.toString(),
-      `$${item.price.toLocaleString()}`,
-      `$${item.subtotal.toLocaleString()}`,
-    ]),
-
+  body: order.items.map(item => [
+    item.name,
+    item.quantity,
+    item.price,
+    item.subtotal,
+  ]),
+  
     theme: "grid",
 
-    styles: {
-      font: "NotoSansTC",
-      fontSize: PDF.font.body,
-    },
+  bodyStyles: {
+    minCellHeight: 6,
+  },
 
-    headStyles: {
-      font: "NotoSansTC",
-      fontStyle: "bold",
-    },
+   styles: {
+  font: "NotoSansTC",
+  fontSize: 10,
+   cellPadding: 1.2,
+},
+
+headStyles: {
+  font: "NotoSansTC",
+  fontStyle: "bold",
+  fontSize: 10,
+  cellPadding: 1.2,
+},
+didParseCell: (data) => {
+  if (data.section === "head") {
+    switch (data.column.index) {
+      case 0:
+        data.cell.styles.halign = "left";
+        break;
+
+      case 1:
+      case 2:
+      case 3:
+        data.cell.styles.halign = "right";
+        break;
+    }
+  }
+},
 
     columnStyles: {
       0: {
@@ -76,7 +99,7 @@ export function drawItems({
       },
 
       1: {
-        halign: "center",
+        halign: "right",
       },
 
       2: {
@@ -88,4 +111,9 @@ export function drawItems({
       },
     },
   });
+return (
+  (doc as any).lastAutoTable?.finalY ??
+  PDF.items.tableStartY
+);
+
 }

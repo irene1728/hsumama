@@ -41,6 +41,22 @@ Codex：
 20. 所有 drawXXX.ts 不直接處理字型，僅呼叫 fonts.ts 提供的字型 API。
 21. registerFonts() 於 generateOrderPdf() 僅呼叫一次。
 22. 字型註冊集中於 fonts.ts，其他模組不得重複註冊字型。
+23. 所有 PDF 字體大小必須集中於 PDF_FONT.size 管理。
+    不得在各模組硬寫字體大小（除非屬於特殊版面）。
+    需要調整整份 PDF 字體時，優先修改 PDF_FONT.size。
+    各模組若需特殊字體大小，需有明確理由（例如 Logo、QR Code 說明等）。
+24. 所有版面尺寸（Spacing、Padding、Row Height、Table Width、QR Size 等）必須集中於 pdfConfig.ts 管理。
+    不得於 drawXXX() 中直接使用 Magic Number。
+    然後可以附幾個例子：
+    ❌ 不建議：
+    startY + 8
+    cellPadding: 1.2
+    minCellHeight: 6
+    ✅ 建議：
+    startY + PDF.spacing.section
+    cellPadding: PDF.table.cellPadding
+    minCellHeight: PDF.table.rowHeight
+
 
 ## 這個 PDF 模組，我們遵守一個原則：
 drawXXX.ts 永遠不能 fetch、不能讀檔、不能知道圖片在哪裡。
@@ -337,3 +353,65 @@ setHeadingFont()
 setBodyFont()
 setSmallFont()
 都不要再改。
+
+## PDF 版面應優先符合實際商業文件閱讀習慣（Business Document Layout）。
+
+也就是：
+
+資訊由上而下閱讀。
+商品與金額為核心。
+付款、配送資訊放在商品之後。
+Footer 放在最後。
+版面以清楚、節省空間、方便列印為優先。
+
+
+# 本訂單由徐媽媽冰鑽滷味系統自動產生。
+
+建議把它視為品牌標準文案（Standard Footer Text），不要只放在訂單 PDF。
+
+未來所有 PDF 都統一使用
+
+例如：
+
+✅ 訂單收據（Order Receipt）
+✅ 出貨單（Packing List）
+✅ 報價單（Quotation）
+✅ 採購單（Purchase Order，如果未來有）
+✅ 銷售報表（內部）
+✅ 客戶明細
+✅ 商品清單
+
+Footer 都可以統一：
+
+本訂單由徐媽媽冰鑽滷味系統自動產生。
+
+這樣整個品牌的文件風格會非常一致。
+
+
+# Roadmap v0.9.8 PDF Engine
+
+✅ Header
+✅ Customer
+✅ Items
+✅ Summary
+✅ Payment
+✅ Shipping
+
+⬇
+
+⭐ Task-007
+Layout Flow（動態定位）
+
+⬇
+
+⭐ Task-007.1
+Footer
+
+⬇
+
+⭐ Task-008
+Auto Page Break
+
+⬇
+
+⭐ PDF Engine v1.0 正式版

@@ -108,8 +108,18 @@ v0.9.4 → 結帳流程
          元件透過 onXXXChange 通知外部。
          元件不要直接知道 useState、useCart 或其他狀態來源。
 # 規範十一:已有元件，以修改（Refactor）為主，不以重寫（Rewrite）為主。
-
-
+# 規範十二:規範十二：共用資料只定義一次（資料、狀態、常數）。
+         訂單建立後，所有交易資料必須保存成交當下的快照（Snapshot），不得依賴目前商品資料。
+# 規範十三：共用設定集中管理（Centralized Configuration）
+         所有版面尺寸、間距、座標、欄位寬度等共用設定，都集中於 pdfConfig.ts（或對應的 Config 檔），禁止在各功能模組中重複定義 Magic Number。
+# 規範十四：品牌固定文案集中管理（Brand Standard Text）
+         品牌名稱、Footer 固定文案、版權聲明、官方資訊等，集中於 Config 管理，不得在各模組重複寫死。
+# 規範十五:PDF 開發規範
+         所有 PDF 字體大小必須集中於 PDF_FONT.size 管理。
+         不得在各模組硬寫字體大小（除非屬於特殊版面）。
+         需要調整整份 PDF 字體時，優先修改 PDF_FONT.size。
+         各模組若需特殊字體大小，需有明確理由（例如 Logo、QR Code 說明等）。
+         
 📋 最終版規範（v1.0）
 Feature-First（功能模組自己管理）
 Shared Only（共用程式才放根目錄）

@@ -6,6 +6,10 @@ import { useSearchParams } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { orderToPdf } from "@/features/checkout/mapper";
 import DownloadOrderButton from "@/features/checkout/components/DownloadOrderButton";
+type OrderItem = {
+  product_name: string;
+  quantity: number;
+};
 
 type Order = {
   id: number;
@@ -14,10 +18,13 @@ type Order = {
   phone: string;
   email: string;
   address: string;
+  note: string;
 
   payment: string;
 
   total_amount: number;
+
+  items: OrderItem[];
 };
 
 function OrderSuccessContent() {
@@ -33,13 +40,24 @@ function OrderSuccessContent() {
 
       const { data } = await supabase
         .from("orders")
-        .select("id, customer_name, phone, email, address, payment, total_amount")
+        .select(
+  "id, customer_name, phone, email, address, note, payment, total_amount"
+)
         .eq("id", Number(orderId))
         .single();
 
+const { data: items } = await supabase
+  .from("order_items")
+  .select("*")
+  .eq("order_id", Number(orderId));
+
+
       if (data) {
-        setOrder(data);
-      }
+  setOrder({
+    ...data,
+    items: items ?? [],
+  });
+}
     }
 
     loadOrder();
@@ -153,7 +171,7 @@ const pdfOrder = orderToPdf(order);
 </button>
 
 </div>
-      <p><strong>戶名：</strong>徐媽媽冰鑽滷味</p>
+     
     </div>
 
     <p className="mt-4 text-sm text-red-600">

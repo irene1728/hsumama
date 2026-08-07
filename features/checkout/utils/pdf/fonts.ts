@@ -34,7 +34,7 @@ export const PDF_FONT = {
 
   size: {
     title: 20,
-    heading: 14,
+    heading: 13,
     body: 11,
     small: 9,
   },

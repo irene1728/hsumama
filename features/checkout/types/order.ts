@@ -15,7 +15,8 @@ export interface Order {
   phone: string;
   email: string;
   address: string;
-
+  note: string;
+    
   paymentMethod: "ATM" | "COD";
 
   shippingMethod: string;
