@@ -9,6 +9,9 @@ import DownloadOrderButton from "@/features/checkout/components/DownloadOrderBut
 type OrderItem = {
   product_name: string;
   quantity: number;
+
+  price: number;
+  subtotal: number;
 };
 
 type Order = {

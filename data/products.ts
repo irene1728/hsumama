@@ -13,7 +13,7 @@ export type Product = {
     | "seafood"
     | "soup";
 
-  price: number | null;
+  price: number;
 
   description: string;
 
@@ -36,7 +36,7 @@ export const products: Product[] = [
 
   category: "soup",
 
-  price: null,
+  price: 999,
 
   description: "",
 
@@ -57,7 +57,7 @@ export const products: Product[] = [
 
   category: "pork",
 
-  price: null,
+  price: 999,
 
   description: "",
 
@@ -78,7 +78,7 @@ export const products: Product[] = [
 
   category: "pork",
 
-  price: null,
+  price: 180,
 
   description: "",
 
@@ -99,7 +99,7 @@ export const products: Product[] = [
 
   category: "chicken",
 
-  price: null,
+  price: 999,
 
   description: "",
 
@@ -120,7 +120,7 @@ export const products: Product[] = [
 
   category: "chicken",
 
-  price: null,
+  price: 999,
 
   description: "",
 
@@ -141,7 +141,7 @@ export const products: Product[] = [
 
   category: "pork",
 
-  price:230,
+  price:280,
 
   description: "",
 
@@ -162,7 +162,7 @@ export const products: Product[] = [
 
   category: "pork",
 
-  price: null,
+  price: 999,
 
   description: "",
 
@@ -183,7 +183,7 @@ export const products: Product[] = [
 
   category: "pork",
 
-  price: null,
+  price: 280,
 
   description: "",
 
@@ -204,7 +204,7 @@ export const products: Product[] = [
 
   category: "pork",
 
-  price:150,
+  price: 200,
 
   description: "",
 
@@ -225,7 +225,7 @@ export const products: Product[] = [
 
   category: "pork",
 
-  price:90,
+  price: 100,
 
   description: "",
 
@@ -246,7 +246,7 @@ export const products: Product[] = [
 
   category: "pork",
 
-  price:150,
+  price: 200,
 
   description: "",
 
@@ -267,7 +267,7 @@ export const products: Product[] = [
 
   category: "pork",
 
-  price: null,
+  price: 350,
 
   description: "",
 
@@ -288,7 +288,7 @@ export const products: Product[] = [
 
   category: "pork",
 
-  price: null,
+  price: 999,
 
   description: "",
 
@@ -309,7 +309,7 @@ export const products: Product[] = [
 
   category: "pork",
 
-  price: null,
+  price: 220,
 
   description: "",
 
@@ -330,7 +330,7 @@ export const products: Product[] = [
 
   category: "pork",
 
-  price: null,
+  price: 999,
 
   description: "",
 
@@ -351,7 +351,7 @@ export const products: Product[] = [
 
   category: "chicken",
 
-  price: null,
+  price: 999,
 
   description: "",
 
@@ -372,7 +372,7 @@ export const products: Product[] = [
 
   category: "chicken",
 
-  price: null,
+  price: 999,
 
   description: "",
 
@@ -393,7 +393,7 @@ export const products: Product[] = [
 
   category: "chicken",
 
-  price: null,
+  price: 999,
 
   description: "",
 
@@ -414,7 +414,7 @@ export const products: Product[] = [
 
   category: "pork",
 
-  price: null,
+  price: 999,
 
   description: "",
 
@@ -435,7 +435,7 @@ export const products: Product[] = [
 
   category: "pork",
 
-  price: null,
+  price: 999,
 
   description: "",
 
@@ -456,7 +456,7 @@ export const products: Product[] = [
 
   category: "pork",
 
-  price: null,
+  price: 999,
 
   description: "",
 
@@ -477,7 +477,7 @@ export const products: Product[] = [
 
   category: "pork",
 
-  price: null,
+  price: 999,
 
   description: "",
 
@@ -498,7 +498,7 @@ export const products: Product[] = [
 
   category: "pork",
 
-  price:160,
+  price: 200,
 
   description: "",
 
@@ -519,7 +519,7 @@ export const products: Product[] = [
 
   category: "sausage",
 
-  price: null,
+  price: 999,
 
   description: "",
 
@@ -540,7 +540,7 @@ export const products: Product[] = [
 
   category: "sausage",
 
-  price: null,
+  price: 200,
 
   description: "",
 
@@ -561,7 +561,7 @@ export const products: Product[] = [
 
   category: "sausage",
 
-  price: null,
+  price: 999,
 
   description: "",
 
@@ -582,7 +582,7 @@ export const products: Product[] = [
 
   category: "beef",
 
-  price:220,
+  price: 260,
 
   description: "",
 
@@ -603,7 +603,7 @@ export const products: Product[] = [
 
   category: "beef",
 
-  price: null,
+  price: 700,
 
   description: "",
 
@@ -624,7 +624,7 @@ export const products: Product[] = [
 
   category: "beef",
 
-  price: null,
+  price: 300,
 
   description: "",
 
@@ -645,7 +645,7 @@ export const products: Product[] = [
 
   category: "beef",
 
-  price: null,
+  price: 999,
 
   description: "",
 
@@ -666,7 +666,7 @@ export const products: Product[] = [
 
   category: "lamb",
 
-  price:220,
+  price: 250,
 
   description: "",
 
@@ -687,7 +687,7 @@ export const products: Product[] = [
 
   category: "chicken",
 
-  price: null,
+  price: 160,
 
   description: "",
 
@@ -708,7 +708,7 @@ export const products: Product[] = [
 
   category: "chicken",
 
-  price: null,
+  price: 180,
 
   description: "",
 
@@ -729,7 +729,7 @@ export const products: Product[] = [
 
   category: "chicken",
 
-  price:140,
+  price: 180,
 
   description: "",
 
@@ -750,7 +750,7 @@ export const products: Product[] = [
 
   category: "chicken",
 
-  price:160,
+  price: 200,
 
   description: "",
 
@@ -771,7 +771,7 @@ export const products: Product[] = [
 
   category: "chicken",
 
-  price: null,
+  price: 999,
 
   description: "",
 
@@ -792,7 +792,7 @@ export const products: Product[] = [
 
   category: "seafood",
 
-  price: null,
+  price: 999,
 
   description: "",
 
