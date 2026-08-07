@@ -318,6 +318,6 @@ OrderSummary 商品展開／收合功能，
 - 完成 Footer QR Layout
 - 建立 PDF Engine 開發規範（24 條）
 
-### 🎉 Milestone  🎉
+### 🎉 Milestone
 - 完成 PDF Engine v1.0（Production Ready）
 - 可作為後續出貨單、報價單、付款通知等 PDF 的共用引擎。
