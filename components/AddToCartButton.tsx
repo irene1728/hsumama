@@ -1,9 +1,9 @@
 "use client";
 
-import { products } from "@/data/products";
+import type { Product } from "@/types/product";
 import { useCart } from "@/cart/CartContext";
 
-type Product = (typeof products)[number];
+
 
 type Props = {
   product: Product;

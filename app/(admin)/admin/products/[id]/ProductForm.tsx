@@ -4,7 +4,7 @@ import { useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { useRouter } from "next/navigation";
 
-type Product = {
+type ProductFormData = {
   id: number;
 
   slug: string;
@@ -25,7 +25,7 @@ type Product = {
   sort_order: number;
 };
 type Props = {
-  product: Product;
+  product: ProductFormData;
 };
 
 export default function ProductForm({ product }: Props) {

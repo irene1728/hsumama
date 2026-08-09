@@ -1,14 +1,15 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { products } from "@/data/products";
+import type { Product } from "@/types/product";
+
 import { formatPrice } from "@/lib/formatPrice";
 import { useCart } from "@/cart/CartContext";
 import { Check, ShoppingCart } from "lucide-react";
 import { useState } from "react";
 
 type ProductCardProps = {
-  product: (typeof products)[number];
+  product: Product;
 };
 
 

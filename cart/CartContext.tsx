@@ -8,9 +8,7 @@ import {
   ReactNode,
 } from "react";
 
-import { products } from "@/data/products";
-
-type Product = (typeof products)[number];
+import type { Product } from "@/types/product";
 
 type CartItem = Product & {
   quantity: number;

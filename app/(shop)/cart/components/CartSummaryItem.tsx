@@ -3,7 +3,7 @@
 import Image from "next/image";
 
 import { formatPrice } from "@/lib/formatPrice";
-import type { Product } from "@/data/products";
+import type { Product } from "@/types/product";
 
 type CartSummaryItemProps = {
   item: Product & {
@@ -14,7 +14,7 @@ type CartSummaryItemProps = {
 export default function CartSummaryItem({
   item,
 }: CartSummaryItemProps) {
-  const subtotal = (item.price ?? 0) * item.quantity;
+ const subtotal = item.price * item.quantity;
 
   return (
     <div className="flex gap-3 py-1">
