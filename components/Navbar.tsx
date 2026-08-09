@@ -2,12 +2,14 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useState } from "react";
 import { useCart } from "@/cart/CartContext";
 
 export default function Navbar() {
   const pathname = usePathname();
   const isHome = pathname === "/";
   const { cart } = useCart();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const totalQuantity = cart.reduce(
     (total, item) => total + item.quantity,
@@ -46,6 +48,16 @@ export default function Navbar() {
             獨家祕方．傳承三代
           </p>
         </div>
+
+{/* 手機版選單按鈕 */}
+<button
+  type="button"
+  onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+  className="md:hidden text-2xl text-[#4E342E]"
+  aria-label="開啟選單"
+>
+  ☰
+</button>
 
         {/* 中間選單 */}
         <nav className="hidden md:flex justify-center items-center gap-8 font-medium">
@@ -93,6 +105,45 @@ export default function Navbar() {
          </Link>
 
         </nav>
+
+{/* 手機版下拉選單 */}
+{mobileMenuOpen && (
+  <div className="absolute top-full left-0 right-0 bg-white shadow-lg border-t border-gray-200 md:hidden">
+    <nav className="flex flex-col">
+      <Link
+        href="/"
+        onClick={() => setMobileMenuOpen(false)}
+        className="px-6 py-4 text-lg text-[#4E342E] border-b border-gray-100"
+      >
+        首頁
+      </Link>
+
+      <Link
+        href="/products"
+        onClick={() => setMobileMenuOpen(false)}
+        className="px-6 py-4 text-lg text-[#4E342E] border-b border-gray-100"
+      >
+        全部商品
+      </Link>
+
+      <Link
+        href="/#story"
+        onClick={() => setMobileMenuOpen(false)}
+        className="px-6 py-4 text-lg text-[#4E342E] border-b border-gray-100"
+      >
+        關於我們
+      </Link>
+
+      <Link
+        href="/#order"
+        onClick={() => setMobileMenuOpen(false)}
+        className="px-6 py-4 text-lg text-[#4E342E]"
+      >
+        訂購方式
+      </Link>
+    </nav>
+  </div>
+)}
 
         {/* 購物車 */}
         <div className="justify-self-end">
