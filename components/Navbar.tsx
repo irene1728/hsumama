@@ -24,10 +24,10 @@ export default function Navbar() {
           : "bg-white/90 backdrop-blur-md border-b border-gray-200 shadow-sm"
       }`}
     >
-      <div className="max-w-7xl mx-auto flex items-center justify-between px-4 py-2 md:grid md:grid-cols-3 md:px-8 md:py-3">
+      <div className="max-w-7xl mx-auto flex items-center justify-between px-3 py-2 md:grid md:grid-cols-3 md:px-8 md:py-3">
 
         {/* Logo */}
-        <div className="justify-self-start">
+       <div className="order-2 flex-1 text-center md:order-none md:flex-none md:text-left md:justify-self-start">
           <Link href="/">
             <h1
               className={`text-2xl md:text-4xl font-bold cursor-pointer transition ${
@@ -53,7 +53,7 @@ export default function Navbar() {
 <button
   type="button"
   onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-  className="md:hidden text-2xl text-[#4E342E]"
+  className="order-1 md:order-none md:hidden shrink-0 text-3xl leading-none text-[#4E342E]"
   aria-label="開啟選單"
 >
   ☰
@@ -146,7 +146,7 @@ export default function Navbar() {
 )}
 
         {/* 購物車 */}
-        <div className="justify-self-end">
+        <div className="order-3 shrink-0 md:order-none md:justify-self-end">
           <Link
             href="/cart"
            className="flex items-center gap-1.5 rounded-full bg-orange-600 px-3 py-2 md:gap-2 md:px-5 md:py-3 text-white font-semibold
