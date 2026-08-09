@@ -22,13 +22,13 @@ export default function Navbar() {
           : "bg-white/90 backdrop-blur-md border-b border-gray-200 shadow-sm"
       }`}
     >
-      <div className="max-w-7xl mx-auto grid grid-cols-3 items-center px-8 py-3">
+      <div className="max-w-7xl mx-auto flex items-center justify-between px-4 py-2 md:grid md:grid-cols-3 md:px-8 md:py-3">
 
         {/* Logo */}
         <div className="justify-self-start">
           <Link href="/">
             <h1
-              className={`text-4xl font-bold cursor-pointer transition ${
+              className={`text-2xl md:text-4xl font-bold cursor-pointer transition ${
                 isHome
   ? "text-[#4E342E]"
   : "text-[#4E342E]"
@@ -39,7 +39,7 @@ export default function Navbar() {
           </Link>
 
           <p
-            className={`text-base mt-1 transition ${
+          className={`text-xs md:text-base mt-1 transition ${
               isHome ? "text-[#C56A2D]" : "text-orange-600"
             }`}
           >
@@ -98,15 +98,15 @@ export default function Navbar() {
         <div className="justify-self-end">
           <Link
             href="/cart"
-            className="flex items-center gap-2 rounded-full bg-orange-600 px-5 py-3 text-white font-semibold
+           className="flex items-center gap-1.5 rounded-full bg-orange-600 px-3 py-2 md:gap-2 md:px-5 md:py-3 text-white font-semibold
              hover:bg-orange-800 transition hover:scale-105 hover:shadow-lg"
           >
-            <span className="text-2xl">🛒</span>
+           <span className="text-lg md:text-2xl">🛒</span>
 
-            <span>購物車</span>
+           <span className="text-sm md:text-base">購物車</span>
 
           <span className="bg-white text-orange-600 transition-all
-duration-300 rounded-full min-w-8 h-8 flex items-center justify-center text-m font-bold px-2">
+duration-300 rounded-full min-w-6 h-6 md:min-w-8 md:h-8 flex items-center justify-center text-m font-bold px-2">
               {totalQuantity}
             </span>
           </Link>
