@@ -1,6 +1,7 @@
 "use client";
 
 // Next.js
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -22,6 +23,17 @@ export default function CheckoutPage() {
   const router = useRouter();
 
   const { cart, clearCart } = useCart();
+
+type ShippingSetting = {
+  delivery_method: string;
+  shipping_fee: number;
+  free_shipping_threshold: number;
+  is_active: boolean;
+};
+
+const [shippingSetting, setShippingSetting] =
+  useState<ShippingSetting | null>(null);
+
 
  const {
   customerName,
@@ -48,6 +60,30 @@ export default function CheckoutPage() {
   loading,
   setLoading,
 } = useCheckout();
+
+useEffect(() => {
+  async function loadShippingSetting() {
+    const { data, error } = await supabase
+      .from("shipping_settings")
+      .select(
+        "delivery_method, shipping_fee, free_shipping_threshold, is_active"
+      )
+      .eq("delivery_method", deliveryMethod)
+      .eq("is_active", true)
+      .maybeSingle();
+
+    if (error) {
+      console.error("Shipping settings error:", error);
+      return;
+    }
+
+    setShippingSetting(data);
+   
+  }
+
+  loadShippingSetting();
+}, [deliveryMethod]);
+
    const totalQuantity = cart.reduce(
       (sum, item) => sum + item.quantity,
       0
