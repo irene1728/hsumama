@@ -1,12 +1,11 @@
 export type DeliveryMethod =
-  | "home"
+  | "黑貓冷凍宅配"
   | "seven"
   | "family";
 
 export type PaymentMethod =
-  | "credit-card"
-  | "bank-transfer"
-  | "cash-on-delivery";
+  | "ATM轉帳"
+  | "貨到付款";
 
 export type CheckoutFormData = {
   customerName: string;
@@ -20,6 +19,6 @@ export type CheckoutFormData = {
   note: string;
 
   deliveryMethod: DeliveryMethod;
-
+  
   paymentMethod: PaymentMethod;
 };
