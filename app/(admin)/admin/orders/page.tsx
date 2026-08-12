@@ -13,6 +13,9 @@ type Order = {
   payment: string;
   total_quantity: number;
   total_amount: number;
+  shipping_fee: number;
+  grand_total: number;
+  free_shipping_threshold: number;
   status: string;
   created_at: string;
 };
@@ -235,10 +238,31 @@ async function saveStatus() {
       {selectedOrder?.payment}
     </p>
 
-    <p>
-      <span className="font-semibold">💰 訂單金額：</span>
-      NT$ {selectedOrder?.total_amount.toLocaleString("zh-TW")}
-    </p>
+<div className="space-y-2">
+  <p>
+    <span className="font-semibold">💰 商品金額：</span>
+    NT$ {selectedOrder?.total_amount.toLocaleString("zh-TW")}
+  </p>
+
+  <p>
+    <span className="font-semibold">🚚 運費說明：</span>
+    {selectedOrder?.shipping_fee === 0
+      ? `滿 NT$${selectedOrder?.free_shipping_threshold.toLocaleString(
+          "zh-TW"
+        )} 免運費`
+      : `未達免運門檻，運費 NT$${selectedOrder?.shipping_fee.toLocaleString(
+          "zh-TW"
+        )}`}
+  </p>
+
+  <p>
+    <span className="font-semibold">💰 應付總金額：</span>
+    <span className="font-bold text-orange-600">
+      NT$ {selectedOrder?.grand_total.toLocaleString("zh-TW")}
+    </span>
+  </p>
+</div>
+
   </div>
 
   <h3 className="font-bold text-lg mb-3">
@@ -275,6 +299,7 @@ async function saveStatus() {
     className="border rounded-lg px-3 py-2 w-full"
   >
     <option value="待處理">待處理</option>
+    <option value="已付款">已付款</option>
     <option value="處理中">處理中</option>
     <option value="已完成">已完成</option>
     <option value="已取消">已取消</option>

@@ -12,12 +12,17 @@ type CreateOrderParams = {
   email: string;
   address: string;
   note: string;
-  paymentMethod: string;
+paymentMethod: string;
+deliveryMethod: string;
 
-  totalQuantity: number;
-  totalAmount: number;
+totalQuantity: number;
+totalAmount: number;
+shippingFee: number;
+grandTotal: number;
+freeShippingThreshold: number;
 
-  cart: OrderItem[];
+
+cart: OrderItem[];
 
 };
 
@@ -28,23 +33,34 @@ export async function createOrder({
   address,
   note,
   paymentMethod,
+  deliveryMethod,
   totalQuantity,
   totalAmount,
+  shippingFee,
+  grandTotal,
+  freeShippingThreshold,
   cart,
 }: CreateOrderParams) {
+
   // 建立訂單
   const { data: order, error: orderError } = await supabase
     .from("orders")
-    .insert({
-      customer_name: customerName,
-      phone,
-      email,
-      address,
-      note,
-      payment: paymentMethod,
-      total_quantity: totalQuantity,
-      total_amount: totalAmount,
-    })
+    
+.insert({
+  customer_name: customerName,
+  phone,
+  email,
+  address,
+  note,
+  payment: paymentMethod,
+  delivery_method: deliveryMethod,
+  total_quantity: totalQuantity,
+  total_amount: totalAmount,
+  shipping_fee: shippingFee,
+  grand_total: grandTotal,
+  free_shipping_threshold: freeShippingThreshold,
+})
+
     .select()
     .single();
 

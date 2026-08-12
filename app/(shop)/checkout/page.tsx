@@ -14,6 +14,8 @@ import PaymentMethod from "@/features/checkout/components/PaymentMethod";
 import { useCheckout } from "@/features/checkout/hooks/useCheckout";
 import { validateCheckout } from "@/features/checkout/utils/validateCheckout";
 import { createOrder } from "@/features/checkout/utils/createOrder";
+import { calculateOrderTotal } from "@/features/checkout/utils/calculateOrderTotal";
+
 // Shared
 import { useCart } from "@/cart/CartContext";
 import { supabase } from "@/lib/supabase";
@@ -93,6 +95,24 @@ const totalAmount = cart.reduce(
   0
 );
 
+const {
+  shippingFee,
+  grandTotal,
+  freeShippingThreshold,
+} = shippingSetting
+  ? calculateOrderTotal({
+      totalAmount,
+      shippingFee: shippingSetting.shipping_fee,
+      freeShippingThreshold:
+        shippingSetting.free_shipping_threshold,
+    })
+  : {
+      shippingFee: 0,
+      grandTotal: totalAmount,
+      freeShippingThreshold: 0,
+    };
+
+
 async function handleSubmit() {
 
 const error = validateCheckout({
@@ -112,16 +132,20 @@ if (error) {
   try {
 
    
-    const order = await createOrder({
+const order = await createOrder({
   customerName,
   phone,
   email,
   address,
   note,
   paymentMethod,
+  deliveryMethod,
 
   totalQuantity,
   totalAmount,
+  shippingFee,
+  grandTotal,
+  freeShippingThreshold,
 
   cart,
 });
@@ -182,13 +206,18 @@ catch (error) {
         {/* 右邊：訂單摘要 */}
 <div className="h-fit sticky top-28 space-y-6">
 
-  <OrderSummary
-    cart={cart}
-    totalQuantity={totalQuantity}
-    totalAmount={totalAmount}
-    deliveryMethod={deliveryMethod}
-    paymentMethod={paymentMethod}
-  />
+<OrderSummary
+  cart={cart}
+  totalQuantity={totalQuantity}
+  totalAmount={totalAmount}
+  shippingFee={shippingFee}
+  freeShippingThreshold={
+    shippingSetting?.free_shipping_threshold ?? 0
+  }
+  grandTotal={grandTotal}
+  deliveryMethod={deliveryMethod}
+  paymentMethod={paymentMethod}
+/>
 
   <PaymentMethod
     paymentMethod={paymentMethod}

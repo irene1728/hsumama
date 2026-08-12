@@ -24,8 +24,11 @@ type Order = {
   note: string;
 
   payment: string;
+  delivery_method: string;
 
   total_amount: number;
+  shipping_fee: number;
+  grand_total: number;
 
   items: OrderItem[];
 };
@@ -41,13 +44,14 @@ function OrderSuccessContent() {
     async function loadOrder() {
       if (!orderId) return;
 
-      const { data } = await supabase
-        .from("orders")
-        .select(
-  "id, customer_name, phone, email, address, note, payment, total_amount"
-)
-        .eq("id", Number(orderId))
-        .single();
+const { data } = await supabase
+  .from("orders")
+  .select(
+    "id, customer_name, phone, email, address, note, payment, delivery_method, total_amount, shipping_fee, grand_total"
+  )
+  .eq("id", Number(orderId))
+  .single();
+
 
 const { data: items } = await supabase
   .from("order_items")
@@ -137,6 +141,27 @@ const pdfOrder = orderToPdf(order);
                 NT$ {order.total_amount.toLocaleString("zh-TW")}
               </span>
             </div>
+
+<div className="flex justify-between">
+  <span>運送金額</span>
+  <span>
+    NT$ {order.shipping_fee.toLocaleString("zh-TW")}
+  </span>
+</div>
+
+<div className="flex justify-between">
+  <span>配送方式</span>
+  <span>{order.delivery_method}</span>
+</div>
+
+<div className="flex justify-between">
+  <span>應付總金額</span>
+  <span className="font-bold text-orange-600">
+    NT$ {order.grand_total.toLocaleString("zh-TW")}
+  </span>
+</div>
+
+
 {/* 配送方式 */}
 <div className="flex justify-between">
   <span>配送方式</span>
