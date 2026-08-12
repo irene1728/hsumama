@@ -16,6 +16,10 @@ const menus = [
     name: "訂單管理",
     href: "/admin/orders",
   },
+  {
+    name: "配送設定",
+    href: "/admin/shipping",
+  },
 ];
 
 export default function AdminNav() {
