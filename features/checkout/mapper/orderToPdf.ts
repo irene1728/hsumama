@@ -6,7 +6,7 @@ import type { Order as PdfOrder } from "../types/order";
 interface OrderItemRow {
   product_name: string;
   quantity: number;
-  
+
   price: number;
   subtotal: number;
 }

@@ -13,7 +13,7 @@ type ProductFormData = {
   name: string;
   category: string;
   price: number | null;
-
+wholesale_price: number | null;
   description: string | null;
   weight: string | null;
 
@@ -36,6 +36,7 @@ const [image, setImage] = useState(product.image);
 const [imagePreview, setImagePreview] = useState(product.image);
 const [name, setName] = useState(product.name);
 const [price, setPrice] = useState(product.price ?? 0);
+const [wholesalePrice, setWholesalePrice] = useState(product.wholesale_price ?? 0);
 const [description, setDescription] = useState(product.description ?? "");
 const [category, setCategory] = useState(product.category);
 const [weight, setWeight] = useState(product.weight ?? "");
@@ -100,8 +101,9 @@ async function saveProduct() {
 
   name,
   category,
-  price,
-  description,
+price,
+wholesale_price: wholesalePrice,
+description,
   weight,
   storage,
   delivery,
@@ -123,8 +125,9 @@ async function saveProduct() {
 
   name,
   category,
-  price,
-  description,
+ price,
+wholesale_price: wholesalePrice,
+description,
   weight,
   storage,
   delivery,
@@ -215,6 +218,19 @@ onChange={(e) => setPrice(Number(e.target.value))}
           className="w-full border rounded-xl px-4 py-3"
         />
       </div>
+
+<div>
+  <label className="block font-semibold mb-2">
+    批發價
+  </label>
+
+  <input
+    type="number"
+    value={wholesalePrice}
+    onChange={(e) => setWholesalePrice(Number(e.target.value))}
+    className="w-full border rounded-xl px-4 py-3"
+  />
+</div>
 
       <div>
         <label className="block font-semibold mb-2">

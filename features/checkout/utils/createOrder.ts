@@ -4,6 +4,7 @@ type OrderItem = {
   name: string;
   quantity: number;
   price: number;
+  wholesale_price: number | null;
 };
 
 type CreateOrderParams = {
@@ -12,18 +13,16 @@ type CreateOrderParams = {
   email: string;
   address: string;
   note: string;
-paymentMethod: string;
-deliveryMethod: string;
+  paymentMethod: string;
+  deliveryMethod: string;
 
-totalQuantity: number;
-totalAmount: number;
-shippingFee: number;
-grandTotal: number;
-freeShippingThreshold: number;
+  totalQuantity: number;
+  totalAmount: number;
+  shippingFee: number;
+  grandTotal: number;
+  freeShippingThreshold: number;
 
-
-cart: OrderItem[];
-
+  cart: OrderItem[];
 };
 
 export async function createOrder({
@@ -41,26 +40,24 @@ export async function createOrder({
   freeShippingThreshold,
   cart,
 }: CreateOrderParams) {
-
+  
   // 建立訂單
   const { data: order, error: orderError } = await supabase
     .from("orders")
-    
-.insert({
-  customer_name: customerName,
-  phone,
-  email,
-  address,
-  note,
-  payment: paymentMethod,
-  delivery_method: deliveryMethod,
-  total_quantity: totalQuantity,
-  total_amount: totalAmount,
-  shipping_fee: shippingFee,
-  grand_total: grandTotal,
-  free_shipping_threshold: freeShippingThreshold,
-})
-
+    .insert({
+      customer_name: customerName,
+      phone,
+      email,
+      address,
+      note,
+      payment: paymentMethod,
+      delivery_method: deliveryMethod,
+      total_quantity: totalQuantity,
+      total_amount: totalAmount,
+      shipping_fee: shippingFee,
+      grand_total: grandTotal,
+      free_shipping_threshold: freeShippingThreshold,
+    })
     .select()
     .single();
 
@@ -69,17 +66,25 @@ export async function createOrder({
   }
 
   // 建立訂單商品
-const items = cart.map((item) => ({
-  order_id: order.id,
+  const items = cart.map((item) => ({
+    order_id: order.id,
 
-  product_name: item.name,
+    product_name: item.name,
 
-  quantity: item.quantity,
+    quantity: item.quantity,
 
-  price: item.price,
+    price: item.price,
 
-  subtotal: item.price * item.quantity,
-}));
+    subtotal: item.price * item.quantity,
+
+    wholesale_price: item.wholesale_price,
+
+    wholesale_subtotal:
+      item.wholesale_price !== null
+        ? item.wholesale_price * item.quantity
+        : null,
+  }));
+
   const { error: itemError } = await supabase
     .from("order_items")
     .insert(items);

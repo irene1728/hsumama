@@ -15,6 +15,8 @@ export type Product = {
 
   price: number;
 
+  wholesale_price: number | null;
+
   description: string;
 
   weight: string | null;

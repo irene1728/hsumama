@@ -12,6 +12,9 @@ type OrderItem = {
 
   price: number;
   subtotal: number;
+
+  wholesale_price: number | null;
+  wholesale_subtotal: number | null;
 };
 
 type Order = {

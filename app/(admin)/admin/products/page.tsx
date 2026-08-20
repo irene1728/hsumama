@@ -114,6 +114,7 @@ async function updateSortOrder(
 
 <th className="w-32 px-4 text-center">分類</th>
 <th className="w-32 px-4 text-center">價格</th>
+<th className="w-32 px-4 text-center">批發價</th>
 <th className="w-20 px-4 text-center">人氣</th>
 <th className="w-20 px-4 text-center">上架</th>
 <th className="w-20 px-4 text-center">排序</th>
@@ -154,6 +155,12 @@ async function updateSortOrder(
 
 <td className="px-4 text-center">
   {product.price ? `NT$ ${product.price}` : "-"}
+</td>
+
+<td className="px-4 text-center">
+  {product.wholesale_price != null
+    ? `NT$ ${product.wholesale_price}`
+    : "尚未設定"}
 </td>
 
 <td className="text-center">
