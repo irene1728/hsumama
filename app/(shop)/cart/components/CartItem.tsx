@@ -35,7 +35,7 @@ export default function CartItem() {
 
             {/* 商品資訊 */}
             <div className="flex-1 min-w-0">
-              <h2 className="text-xl lg:text-xl font-bold text-stone-800 break-words">
+              <h2 className="text-lg lg:text-2xl font-bold text-stone-800 break-words">
                 {item.name}
               </h2>
 
