@@ -43,7 +43,7 @@ export default function CartItem() {
                 {formatPrice(item.price)}
               </p>
 
-              <div className="flex items-center gap-3 mt-2">
+              <div className="flex items-center gap-2 mt-2">
                 <button
                   onClick={() => decreaseQuantity(item.slug)}
                   className="w-9 h-8 rounded-lg border text-xl hover:bg-gray-100 transition shrink-0"
@@ -63,7 +63,7 @@ export default function CartItem() {
                 </button>
               </div>
 
-              <p className="mt-2 text-base text-gray-600">
+              <p className="mt-1 text-base text-gray-600">
                 小計：
                 <span className="ml-2 font-bold text-stone-800">
                   {formatPrice(subtotal)}
