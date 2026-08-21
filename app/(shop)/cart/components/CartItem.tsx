@@ -35,18 +35,18 @@ export default function CartItem() {
 
             {/* 商品資訊 */}
             <div className="flex-1 min-w-0">
-              <h2 className="text-xl lg:text-2xl font-bold text-stone-800 break-words">
+              <h2 className="text-xl lg:text-xl font-bold text-stone-800 break-words">
                 {item.name}
               </h2>
 
-              <p className="mt-2 text-lg text-orange-600 font-semibold">
+              <p className="mt-1 text-lg text-orange-600 font-semibold">
                 {formatPrice(item.price)}
               </p>
 
-              <div className="flex items-center gap-3 mt-3">
+              <div className="flex items-center gap-3 mt-2">
                 <button
                   onClick={() => decreaseQuantity(item.slug)}
-                  className="w-9 h-9 rounded-lg border text-xl hover:bg-gray-100 transition shrink-0"
+                  className="w-9 h-8 rounded-lg border text-xl hover:bg-gray-100 transition shrink-0"
                 >
                   −
                 </button>
@@ -57,13 +57,13 @@ export default function CartItem() {
 
                 <button
                   onClick={() => increaseQuantity(item.slug)}
-                  className="w-9 h-9 rounded-lg border text-xl hover:bg-gray-100 transition shrink-0"
+                  className="w-9 h-8 rounded-lg border text-xl hover:bg-gray-100 transition shrink-0"
                 >
                   ＋
                 </button>
               </div>
 
-              <p className="mt-3 text-base text-gray-600">
+              <p className="mt-2 text-base text-gray-600">
                 小計：
                 <span className="ml-2 font-bold text-stone-800">
                   {formatPrice(subtotal)}
