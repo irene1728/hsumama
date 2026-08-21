@@ -257,7 +257,7 @@ export function drawReconciliationItems({
     // 商品分隔線
     //----------------------------------------
 
-    currentY += 3;
+    currentY += 2;
 
     drawDivider(
       doc,
@@ -266,7 +266,7 @@ export function drawReconciliationItems({
       currentY
     );
 
-    currentY += 6;
+    currentY += 5;
   });
 
   //------------------------------------------

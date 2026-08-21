@@ -84,9 +84,9 @@ export const RECONCILIATION_PDF = {
   // Items
   // =========================
   items: {
-    titleY: 88,
+    titleY: 72,
 
-    tableStartY: 95,
+    tableStartY: 78,
 
     x: 16,
     width: 178,
@@ -135,6 +135,6 @@ export const RECONCILIATION_PDF = {
     x: 16,
     width: 178,
 
-    height: 40,
+    height: 25,
   },
 } as const;

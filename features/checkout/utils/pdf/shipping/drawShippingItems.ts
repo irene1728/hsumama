@@ -159,7 +159,7 @@ doc.setFontSize(10);
     //----------------------------------------
     // 序號：左對齊
     //----------------------------------------
-doc.setFontSize(10);
+doc.setFontSize(11);
     doc.text(
       String(index + 1),
       x,
@@ -169,7 +169,7 @@ doc.setFontSize(10);
     //----------------------------------------
     // 商品名稱：左對齊
     //----------------------------------------
-doc.setFontSize(10);
+doc.setFontSize(11);
     doc.text(
       item.name,
       x + columns.no,
@@ -179,7 +179,7 @@ doc.setFontSize(10);
     //----------------------------------------
     // 數量：右對齊
     //----------------------------------------
-doc.setFontSize(10);
+doc.setFontSize(11);
     doc.text(
       String(item.quantity),
       quantityRightX,
@@ -192,7 +192,7 @@ doc.setFontSize(10);
     //----------------------------------------
     // 顧客單價：右對齊
     //----------------------------------------
-doc.setFontSize(10);
+doc.setFontSize(11);
     doc.text(
       `NT$ ${item.price}`,
       priceRightX,
@@ -219,7 +219,7 @@ doc.setFontSize(10);
     // 商品分隔線
     //----------------------------------------
 
-    currentY += 3;
+    currentY += 2;
 
     drawDivider(
       doc,
@@ -228,7 +228,7 @@ doc.setFontSize(10);
       currentY
     );
 
-    currentY += 6;
+    currentY += 5;
   });
 
   return currentY;

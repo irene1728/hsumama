@@ -58,7 +58,7 @@ export function drawReconciliationCustomer({
   // 外框
   //------------------------------------------
 
-  const tableHeight = rowHeight * 5;
+  const tableHeight = rowHeight * 3;
 
   doc.rect(
     x,
@@ -92,12 +92,6 @@ export function drawReconciliationCustomer({
     y + rowHeight * 3
   );
 
-  doc.line(
-    x,
-    y + rowHeight * 4,
-    x + width,
-    y + rowHeight * 4
-  );
 
   //------------------------------------------
   // 第一、二列中線
@@ -165,15 +159,9 @@ export function drawReconciliationCustomer({
     y + rowHeight * 2 + textOffset
   );
 
-  //------------------------------------------
-  // 第四列
-  // 保留版面高度，方便與出貨單保持一致
-  //------------------------------------------
 
-  //------------------------------------------
-  // 第五列
-  // 保留版面高度，方便與出貨單保持一致
-  //------------------------------------------
+
+
 
   //------------------------------------------
   // 回傳表格底部位置

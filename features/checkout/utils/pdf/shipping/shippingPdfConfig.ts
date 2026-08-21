@@ -35,39 +35,39 @@ export const SHIPPING_PDF = {
   header: {
     logo: {
       x: 16,
-      y: 12,
+      y: 10,
       width: 22,
       height: 22,
     },
 
     brand: {
       x: 40,
-      y: 27,
+      y: 25,
     },
 
     documentTitle: {
       x: 150,
-      y: 18,
+      y: 16,
     },
 
     orderInfo: {
       x: 150,
-      orderNoY: 25,
-      orderDateY: 31,
+      orderNoY: 22,
+      orderDateY: 28,
     },
 
-    dividerY: 33,
+    dividerY: 31,
   },
 
   // =========================
   // Customer / Order Info
   // =========================
 customer: {
-  titleY: 41,
+  titleY: 39,
 
   table: {
     x: 16,
-    y: 44,
+    y: 42,
     width: 178,
 
     leftWidth: 100,
@@ -80,9 +80,9 @@ customer: {
   // Items
   // =========================
   items: {
-    titleY: 88,
+    titleY: 86,
 
-    tableStartY: 95,
+    tableStartY: 93,
 
     x: 16,
     width: 178,
@@ -131,7 +131,7 @@ footer: {
   x: 16,
   width: 178,
 
-  height: 40,
+  height: 25,
 },
 
 } as const;

@@ -38,7 +38,7 @@ export function drawShippingFooter({
 
   setBodyFont(doc);
 
-  const footerY = startY + 9;
+  const footerY = startY + 5;
 
   // 左側：品牌名稱
   doc.text(
