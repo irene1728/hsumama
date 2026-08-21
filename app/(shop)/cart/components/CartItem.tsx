@@ -22,7 +22,7 @@ export default function CartItem() {
         return (
           <div
             key={item.id}
-            className="bg-white border border-gray-200 rounded-2xl shadow p-3 lg:p-2 flex flex-col lg:flex-row lg:items-center gap-4 lg:gap-6 min-w-0"
+            className="bg-white border border-gray-200 rounded-2xl shadow p-3 lg:p-2 flex flex-wrap lg:flex-nowrap lg:items-center gap-3 lg:gap-6 min-w-0"
           >
             {/* 商品圖片 */}
             <Image
@@ -30,7 +30,7 @@ export default function CartItem() {
               alt={item.name}
               width={120}
               height={120}
-              className="rounded-xl object-contain ml-0 lg:ml-2 shrink-0 mx-auto lg:mx-0"
+              className="rounded-xl object-contain ml-0 lg:ml-2 shrink-0 lg:mx-0 w-[100px] h-[100px] lg:w-[120px] lg:h-[120px]"
             />
 
             {/* 商品資訊 */}
@@ -74,13 +74,9 @@ export default function CartItem() {
             {/* 刪除按鈕 */}
             <button
               onClick={() => removeFromCart(item.slug)}
-              className="w-full lg:w-auto flex items-center justify-center gap-2 px-4 py-2 rounded-lg border border-red-200 text-red-500 hover:bg-red-50 hover:border-red-300 hover:text-red-700 transition shrink-0"
+              className="w-full lg:w-auto flex items-center justify-center gap-2 px-3 py-1.5 rounded-lg border border-red-200 text-red-500 hover:bg-red-50 hover:border-red-300 hover:text-red-700 transition shrink-0 lg:ml-auto"
             >
-              <span className="text-2xl">
-                🗑️
-              </span>
-
-              <span className="text-lg font-medium">
+              <span className="text-base font-medium">
                 刪除
               </span>
             </button>
