@@ -126,20 +126,21 @@ doc.setFontSize(12);
     const noticeY = bottomY + 10;
 
     setTitleFont(doc);
-
+doc.setFontSize(14);
     doc.text(
       "貨到付款",
       SHIPPING_PDF.page.margin,
       noticeY
     );
 
+    doc.setFontSize(14);
     doc.text(
       `應收金額：NT$ ${order.total}`,
       SHIPPING_PDF.page.margin,
-      noticeY + 4
+      noticeY + 5
     );
 
-    bottomY = noticeY + 4;
+    bottomY = noticeY ;
   }
 
   return bottomY;

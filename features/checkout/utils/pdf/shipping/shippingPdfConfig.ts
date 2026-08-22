@@ -70,8 +70,8 @@ customer: {
     y: 42,
     width: 178,
 
-    leftWidth: 100,
-    rightWidth: 78,
+    leftWidth: 110,
+    rightWidth: 68,
 
     rowHeight: 7,
   },
@@ -119,14 +119,14 @@ customer: {
     x: 16,
     width: 178,
 
-    height: 22,
+    height: 18,
   },
 
   // =========================
   // Footer / Note
   // =========================
 footer: {
-  topSpacing: 10,
+  topSpacing: 8,
 
   x: 16,
   width: 178,
