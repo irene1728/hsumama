@@ -162,11 +162,7 @@ const pdfOrder = orderToPdf(order);
 </div>
 
 
-{/* 配送方式 */}
-<div className="flex justify-between">
-  <span>配送方式</span>
-  <span>黑貓冷凍宅配</span>
-</div>
+
 
 {/* ATM 轉帳 */}
 {order.payment === "ATM轉帳" && (
