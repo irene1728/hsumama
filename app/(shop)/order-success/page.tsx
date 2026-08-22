@@ -102,7 +102,7 @@ const pdfOrder = orderToPdf(order);
         <div className="text-center">
 
       
-          <h1 className="text-2xl font-bold text-stone-800 mt-12 lg:mt-14">
+          <h1 className="text-2xl font-bold text-stone-800 mt-8 lg:mt-14">
             🎉訂單已成立🎉
           </h1>
 
