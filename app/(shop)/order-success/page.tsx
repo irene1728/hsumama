@@ -101,23 +101,20 @@ const pdfOrder = orderToPdf(order);
 
         <div className="text-center">
 
-          <div className="text-5xl mb-4 ">
-            🎉
-          </div>
-
-          <h1 className="text-2xl font-bold text-stone-800">
-            訂單已成立
+      
+          <h1 className="text-2xl font-bold text-stone-800 mt-14">
+            🎉訂單已成立🎉
           </h1>
 
-          <p className="mt-4 text-gray-600">
-            感謝您的訂購，我們已收到您的訂單。
-          </p>
-
+            <p className="mt-1 text-gray-600 leading-7">
+    <span className="block">感謝您的訂購，</span>
+    <span className="block">我們已收到您的訂單。</span>
+  </p>
         </div>
 
         {order && (
 
-          <div className="mt-8 space-y-4 border-t pt-6">
+          <div className="mt-4 space-y-4 border-t pt-4">
 
             <div className="flex justify-between">
               <span>訂單編號</span>
