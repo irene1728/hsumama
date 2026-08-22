@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import { generateShippingPdf } from "@/features/checkout/utils/pdf/shipping/generateShippingPdf";
 import { generateReconciliationPdf } from "@/features/checkout/utils/pdf/reconciliation/generateReconciliationPdf";
@@ -531,16 +532,11 @@ export default function AdminOrdersPage() {
 
               <div className="space-y-3">
                 {orders.map((order) => (
-                  <button
-                    key={order.id}
-                    type="button"
-                    onClick={() => loadItems(order.id)}
-                    className={`w-full text-left rounded-xl border p-4 transition ${
-                      selectedOrderId === order.id
-                        ? "bg-orange-50 border-orange-400"
-                        : "bg-white hover:bg-orange-50"
-                    }`}
-                  >
+               <Link
+  key={order.id}
+  href={`/admin/orders/${order.id}`}
+  className="block w-full text-left rounded-xl border p-4 transition bg-white hover:bg-orange-50"
+>
                     <div className="flex items-center justify-between gap-3">
                       <span className="font-bold text-lg">
                         訂單 #{order.id}
@@ -602,225 +598,13 @@ export default function AdminOrdersPage() {
                         </span>
                       </div>
                     </div>
-                  </button>
+                  </Link>
                 ))}
               </div>
             </section>
 
-            {/* Mobile 商品明細 */}
-            <section className="border rounded-xl bg-gray-50 p-4 min-w-0">
-              <div className="mb-4">
-                <h2 className="text-lg font-medium text-gray-800">
-                  商品明細
-                </h2>
-
-                <div className="flex items-center gap-2 mt-3">
-                  <button
-                    onClick={downloadShippingPdf}
-                    className="bg-orange-500 hover:bg-orange-600 text-white font-medium px-3 py-2 rounded-lg text-sm"
-                  >
-                    📦 出貨單
-                  </button>
-
-                  <button
-                    onClick={downloadReconciliationPdf}
-                    className="bg-blue-500 hover:bg-blue-600 text-white font-medium px-3 py-2 rounded-lg text-sm"
-                  >
-                    📋 對帳單
-                  </button>
-                </div>
-              </div>
-
-              {selectedOrderId === null ? (
-                <p className="text-gray-500 text-sm">
-                  請點選上方訂單
-                </p>
-              ) : (
-                <>
-                  <p className="font-bold text-lg mb-4">
-                    訂單 #{selectedOrderId}
-                  </p>
-
-                  <div className="space-y-3 mb-6 min-w-0">
-                    <p className="break-words">
-                      <span className="font-semibold">
-                        👤 收件人：
-                      </span>
-                      {selectedOrder?.customer_name}
-                    </p>
-
-                    <p>
-                      <span className="font-semibold">
-                        📞 電話：
-                      </span>
-                      {selectedOrder?.phone}
-                    </p>
-
-                    <p className="break-all">
-                      <span className="font-semibold">
-                        📧 Email：
-                      </span>
-                      {selectedOrder?.email}
-                    </p>
-
-                    <p className="break-words">
-                      <span className="font-semibold">
-                        📍 地址：
-                      </span>
-                      {selectedOrder?.address}
-                    </p>
-
-                    <p className="break-words">
-                      <span className="font-semibold">
-                        📝 備註：
-                      </span>
-                      {selectedOrder?.note || "無"}
-                    </p>
-
-                    <p className="break-words">
-                      <span className="font-semibold">
-                        💳 付款方式：
-                      </span>
-                      {selectedOrder?.payment}
-                    </p>
-
-                    <p>
-                      <span className="font-semibold">
-                        💰 付款狀態：
-                      </span>
-                      {selectedOrder?.payment_status}
-                    </p>
-
-                    <div className="space-y-2">
-                      <p>
-                        <span className="font-semibold">
-                          💰 商品金額：
-                        </span>
-                        NT${" "}
-                        {selectedOrder?.total_amount.toLocaleString(
-                          "zh-TW"
-                        )}
-                      </p>
-
-                      <p className="break-words">
-                        <span className="font-semibold">
-                          🚚 運費說明：
-                        </span>
-
-                        {selectedOrder?.shipping_fee === 0
-                          ? `滿 NT$${selectedOrder?.free_shipping_threshold.toLocaleString(
-                              "zh-TW"
-                            )} 免運費`
-                          : `未達免運門檻，運費 NT$${selectedOrder?.shipping_fee.toLocaleString(
-                              "zh-TW"
-                            )}`}
-                      </p>
-
-                      <p>
-                        <span className="font-semibold">
-                          💰 應付總金額：
-                        </span>
-
-                        <span className="font-bold text-orange-600">
-                          NT${" "}
-                          {selectedOrder?.grand_total.toLocaleString(
-                            "zh-TW"
-                          )}
-                        </span>
-                      </p>
-                    </div>
-                  </div>
-
-                  <h3 className="font-bold text-lg mb-3">
-                    商品內容
-                  </h3>
-
-                  <ul className="space-y-3">
-                    {items.map((item) => (
-                      <li
-                        key={item.id}
-                        className="flex justify-between gap-4 border-b pb-2 min-w-0"
-                      >
-                        <span className="break-words min-w-0">
-                          {item.product_name}
-                        </span>
-
-                        <span className="shrink-0">
-                          x {item.quantity}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-
-                  <div className="mt-6">
-                    <label className="block font-semibold mb-2">
-                      付款狀態
-                    </label>
-
-                    <select
-                      value={paymentStatus}
-                      onChange={(e) =>
-                        setPaymentStatus(e.target.value)
-                      }
-                      className="border rounded-lg px-3 py-2 w-full"
-                    >
-                      <option value="未付款">
-                        未付款
-                      </option>
-
-                      <option value="已付款">
-                        已付款
-                      </option>
-
-                      <option value="待收款">
-                        待收款
-                      </option>
-                    </select>
-                  </div>
-
-                  <div className="mt-8 border-t pt-6">
-                    <h3 className="font-bold text-lg mb-3">
-                      訂單狀態
-                    </h3>
-
-                    <select
-                      value={status}
-                      onChange={(e) =>
-                        setStatus(e.target.value)
-                      }
-                      className="border rounded-lg px-3 py-2 w-full"
-                    >
-                      <option value="待處理">
-                        待處理
-                      </option>
-
-                      <option value="處理中">
-                        處理中
-                      </option>
-
-                      <option value="已出貨">
-                        已出貨
-                      </option>
-
-                      <option value="已完成">
-                        已完成
-                      </option>
-
-                      <option value="已取消">
-                        已取消
-                      </option>
-                    </select>
-
-                    <button
-                      onClick={saveStatus}
-                      className="mt-4 w-full bg-orange-500 hover:bg-orange-600 text-white px-5 py-3 rounded-lg"
-                    >
-                      儲存
-                    </button>
-                  </div>
-                </>
-              )}
-            </section>
+            
+         
           </div>
         </>
       )}
