@@ -491,6 +491,11 @@ export default function AdminOrdersPage() {
                       <option value="處理中">
                         處理中
                       </option>
+  
+                     <option value="已出貨">
+                        已出貨
+                      </option>
+
 
                       <option value="已完成">
                         已完成
@@ -791,6 +796,10 @@ export default function AdminOrdersPage() {
 
                       <option value="處理中">
                         處理中
+                      </option>
+
+                      <option value="已出貨">
+                        已出貨
                       </option>
 
                       <option value="已完成">
