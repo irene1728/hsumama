@@ -25,6 +25,7 @@ interface ReconciliationOrderItemRow {
  */
 export interface ReconciliationOrderRow {
   id: number;
+  created_at: string;
 
   customer_name: string;
   phone: string;
@@ -62,7 +63,11 @@ export function orderToReconciliationPdf(
 
     orderNo: String(order.id),
 
-    orderDate: new Date().toLocaleDateString("zh-TW"),
+    orderDate: new Date(
+  order.created_at
+).toLocaleDateString("zh-TW", {
+  timeZone: "Asia/Taipei",
+}),
 
     // ==========================================
     // 客戶資料
