@@ -70,6 +70,7 @@ return (
           alt={product.name}
           width={500}
           height={500}
+          data-product-image
           className="object-contain"
         />
 

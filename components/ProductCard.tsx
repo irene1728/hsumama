@@ -6,7 +6,8 @@ import type { Product } from "@/types/product";
 import { formatPrice } from "@/lib/formatPrice";
 import { useCart } from "@/cart/CartContext";
 import { Check, ShoppingCart } from "lucide-react";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { flyToCart } from "@/lib/flyToCart";
 
 type ProductCardProps = {
   product: Product;
@@ -18,7 +19,13 @@ export default function ProductCard({ product }: ProductCardProps) {
 const { addToCart } = useCart();
 const [added, setAdded] = useState(false);
 
+const imageRef = useRef<HTMLDivElement>(null);
+
 function handleAddToCart() {
+  if (imageRef.current) {
+    flyToCart(product.image, imageRef.current);
+  }
+
   addToCart(product);
 
   setAdded(true);
@@ -47,7 +54,9 @@ className="
         href={`/products/${product.slug}`}
          className="block overflow-hidden rounded-xl"
       >
-        <div className="h-[180px] flex items-center justify-center bg-white p-5 overflow-hidden">
+        <div
+         ref={imageRef}
+        className="h-[180px] flex items-center justify-center bg-white p-5 overflow-hidden">
           <Image
             src={product.image}
             alt={product.name}

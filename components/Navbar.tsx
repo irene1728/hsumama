@@ -84,7 +84,7 @@ export default function Navbar() {
             全部商品
           </Link>
 
-          <Link href="/#story"
+          <Link href="/about"
             className={`transition ${
               isHome
                 ? "text-[#AA7700] text-[22px] hover:text-amber-300"
@@ -94,7 +94,7 @@ export default function Navbar() {
             關於我們
           </Link>
 
-          <Link href="/#order"
+          <Link href="/order-info"
             className={`transition ${
               isHome
                 ? "text-[#AA7700] text-[22px] hover:text-amber-300"
@@ -126,16 +126,14 @@ export default function Navbar() {
         全部商品
       </Link>
 
-      <Link
-        href="/#story"
+     <Link href="/about"
         onClick={() => setMobileMenuOpen(false)}
         className="px-6 py-4 text-lg text-[#4E342E] border-b border-gray-100"
       >
         關於我們
       </Link>
 
-      <Link
-        href="/#order"
+      <Link href="/order-info"
         onClick={() => setMobileMenuOpen(false)}
         className="px-6 py-4 text-lg text-[#4E342E]"
       >
@@ -149,6 +147,7 @@ export default function Navbar() {
         <div className="order-3 shrink-0 md:order-none md:justify-self-end">
           <Link
             href="/cart"
+            data-cart-target
            className="flex items-center gap-1.5 rounded-full bg-orange-600 px-3 py-2 md:gap-2 md:px-5 md:py-3 text-white font-semibold
              hover:bg-orange-800 transition hover:scale-105 hover:shadow-lg"
           >

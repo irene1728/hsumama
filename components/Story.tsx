@@ -6,19 +6,19 @@ export default function Story() {
 
         <div className="grid md:grid-cols-2 gap-16 items-center">
 
-          {/* 左邊圖片 */}
-
-          <div>
-
-            <div className="rounded-3xl bg-orange-100 h-[600px] flex items-center justify-center">
-
-              <span className="text-orange-500 text-2xl">
-                品牌故事圖片
-              </span>
-
-            </div>
-
-          </div>
+                 {/* 左邊品牌故事影片 */}
+<div>
+  <div className="rounded-3xl overflow-hidden h-[400px] md:h-[600px] bg-orange-100">
+   
+<video
+  src="/images/mv/hsumama.mp4"
+  controls
+  loop
+  playsInline
+  className="w-full h-full object-cover"
+/>
+  </div>
+</div>
 
           {/* 右邊文字 */}
 
