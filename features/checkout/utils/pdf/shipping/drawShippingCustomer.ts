@@ -100,7 +100,7 @@ doc.setFontSize(16);
     x + leftWidth,
     y,
     x + leftWidth,
-    y + rowHeight * 3
+    y + rowHeight * 2
   );
 
   //------------------------------------------
