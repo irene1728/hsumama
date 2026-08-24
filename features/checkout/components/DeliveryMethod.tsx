@@ -20,7 +20,7 @@ export default function DeliveryMethod({
 
       <div className="mt-8 space-y-4">
 
-        {/* 黑貓宅配 */}
+        {/* 新竹物流冷凍宅配 */}
         <label
           className="
             flex
@@ -39,8 +39,8 @@ export default function DeliveryMethod({
         <input
   type="radio"
   name="deliveryMethod"
-  value="黑貓冷凍宅配"
-  checked={deliveryMethod === "黑貓冷凍宅配"}
+  value="新竹物流冷凍宅配"
+  checked={deliveryMethod === "新竹物流冷凍宅配"}
   onChange={(e) =>
     onDeliveryMethodChange(e.target.value)
   }
@@ -49,7 +49,7 @@ export default function DeliveryMethod({
 
           <div>
             <p className="font-semibold text-stone-800">
-              黑貓冷凍宅配
+              新竹物流冷凍宅配
             </p>
 
             <p className="text-sm text-gray-500 mt-1">

@@ -18,6 +18,7 @@ interface ReconciliationOrderItemRow {
 
   wholesale_price: number | null;
   wholesale_subtotal: number | null;
+  profit: number | null;
 }
 
 /**
@@ -56,7 +57,9 @@ export function orderToReconciliationPdf(
   order: ReconciliationOrderRow
 ): PdfOrder {
 
-  return {
+
+
+  const result: PdfOrder = {
     // ==========================================
     // Header
     // ==========================================
@@ -102,6 +105,7 @@ export function orderToReconciliationPdf(
       wholesalePrice: item.wholesale_price,
 
       wholesaleSubtotal: item.wholesale_subtotal,
+      profit: item.profit,
     })),
 
     // ==========================================
@@ -135,5 +139,8 @@ export function orderToReconciliationPdf(
     // ==========================================
 
     shippingMethod: order.delivery_method,
-  };
+
+      };
+
+  return result;
 }

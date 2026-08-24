@@ -13,7 +13,7 @@ export function useCheckout() {
 
   const [note, setNote] = useState("");
 
-  const [deliveryMethod, setDeliveryMethod] = useState("黑貓冷凍宅配");
+  const [deliveryMethod, setDeliveryMethod] = useState("新竹物流冷凍宅配");
 
   const [paymentMethod, setPaymentMethod] =
     useState("ATM轉帳/貨到付款");

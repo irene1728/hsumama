@@ -15,11 +15,11 @@ export default function OrderInfoPage() {
       title: "完成付款",
       text: "選擇適合您的付款方式，完成訂單。",
     },
-    {
-      icon: "🚚",
-      title: "冷凍宅配到府",
-      text: "商品完成出貨後，以冷凍宅配方式送到您家。",
-    },
+{
+  icon: "🚚",
+  title: "冷凍宅配到府",
+  text: "商品完成出貨後，以冷凍宅配方式送到您家。",
+},
   ];
 
   return (
@@ -123,14 +123,18 @@ export default function OrderInfoPage() {
           <div className="bg-white rounded-3xl border border-orange-100 p-8 md:p-10">
             <div className="text-5xl mb-5">🚚</div>
 
-            <h3 className="text-2xl font-bold text-stone-800 mb-4">
-              冷凍宅配到府
-            </h3>
+         <h3 className="text-2xl font-bold text-stone-800 mb-4">
+  新竹貨運冷凍宅配到府
+</h3>
 
-            <p className="text-gray-600 leading-8 max-w-2xl mx-auto">
-              商品完成備貨後，以冷凍宅配方式寄送，
-              讓滷味在適當的保存條件下送到您手中。
-            </p>
+<p className="text-gray-600 leading-8 max-w-3xl mx-auto">
+  <span className="block">
+    商品完成備貨後，將由新竹貨運以冷凍宅配方式配送，
+  </span>
+  <span className="block">
+    讓食品在適當的保存條件下送到您手中。
+  </span>
+</p>
           </div>
         </div>
       </section>

@@ -1,12 +1,19 @@
 export interface OrderItem {
   id: string;
+
   name: string;
+
   quantity: number;
+
   price: number;
+
   subtotal: number;
 
   wholesalePrice?: number | null;
+
   wholesaleSubtotal?: number | null;
+
+  profit?: number | null;
 }
 
 export interface Order {

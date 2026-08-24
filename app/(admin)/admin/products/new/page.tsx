@@ -16,7 +16,7 @@ wholesale_price: null,
   weight: "",
 
   storage: "冷凍保存",
-  delivery: "黑貓冷凍宅配",
+  delivery: "新竹物流冷凍宅配",
 
   featured: false,
   is_active: true,

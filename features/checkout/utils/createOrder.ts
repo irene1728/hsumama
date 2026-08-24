@@ -83,6 +83,12 @@ export async function createOrder({
       item.wholesale_price !== null
         ? item.wholesale_price * item.quantity
         : null,
+
+    profit:
+      item.wholesale_price !== null
+      ? (item.price - item.wholesale_price) * item.quantity
+      : null,
+
   }));
 
   const { error: itemError } = await supabase

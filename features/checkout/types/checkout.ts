@@ -1,5 +1,5 @@
 export type DeliveryMethod =
-  | "黑貓冷凍宅配"
+  | "新竹物流冷凍宅配"
   | "seven"
   | "family";
 

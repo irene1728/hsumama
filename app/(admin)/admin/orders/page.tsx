@@ -194,6 +194,13 @@ export default function AdminOrdersPage() {
             item.wholesale_subtotal !== undefined
               ? Number(item.wholesale_subtotal)
               : null,
+
+              profit:
+  item.profit !== null &&
+  item.profit !== undefined
+    ? Number(item.profit)
+    : null,
+    
         })),
       });
 

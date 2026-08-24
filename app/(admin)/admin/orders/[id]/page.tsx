@@ -35,6 +35,7 @@ type OrderItem = {
   subtotal: number;
   wholesale_price: number | null;
   wholesale_subtotal: number | null;
+  profit: number | null;
 };
 
 export default function AdminOrderDetailPage() {
@@ -57,6 +58,7 @@ export default function AdminOrderDetailPage() {
   }, [orderId]);
 
   async function loadOrder() {
+
     setLoading(true);
 
     const { data: orderData, error: orderError } = await supabase
@@ -71,10 +73,20 @@ export default function AdminOrderDetailPage() {
       return;
     }
 
-    const { data: itemData, error: itemError } = await supabase
-      .from("order_items")
-      .select("*")
-      .eq("order_id", orderId);
+ const { data: itemData, error: itemError } = await supabase
+  .from("order_items")
+  .select(`
+    id,
+    product_name,
+    quantity,
+    price,
+    subtotal,
+    wholesale_price,
+    wholesale_subtotal,
+    profit
+  `)
+  .eq("order_id", orderId);
+
 
     if (itemError) {
       console.error(itemError);
@@ -115,6 +127,22 @@ export default function AdminOrderDetailPage() {
     if (!order) return;
 
     try {
+
+console.error(
+  "========== 對帳單 DEBUG ==========",
+  JSON.stringify(
+    items.map((item) => ({
+      id: item.id,
+      product_name: item.product_name,
+      wholesale_subtotal: item.wholesale_subtotal,
+      profit: item.profit,
+    })),
+    null,
+    2
+  )
+);
+
+
       const paymentMethod: "ATM" | "COD" =
         order.payment.includes("ATM") ? "ATM" : "COD";
 
@@ -198,6 +226,12 @@ export default function AdminOrderDetailPage() {
               item.wholesale_subtotal !== undefined
                 ? Number(item.wholesale_subtotal)
                 : null,
+
+            profit:
+              item.profit !== null &&
+              item.profit !== undefined
+              ? Number(item.profit)
+              : null, 
           })),
         });
 

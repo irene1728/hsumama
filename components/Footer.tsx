@@ -33,55 +33,38 @@ export default function Footer() {
 
           </div>
 
-          {/* 快速連結 */}
+{/* 快速連結 */}
 
-          <div>
+<div>
 
-            <h3 className="text-xl font-bold mb-5">
-              快速連結
-            </h3>
+  <h3 className="text-xl font-bold mb-5">
+    快速連結
+  </h3>
 
-            <ul className="space-y-3 text-orange-100">
+  <ul className="space-y-3 text-orange-100">
 
-              <li>
-                <Link
-                  href="/"
-                  className="hover:text-white transition"
-                >
-                  首頁
-                </Link>
-              </li>
+    <li>
+      <Link
+        href="/shipping-policy"
+        className="hover:text-white transition"
+      >
+        運送政策
+      </Link>
+    </li>
 
-              <li>
-                <Link
-                  href="/about"
-                  className="hover:text-white transition"
-                >
-                  關於我們
-                </Link>
-              </li>
+    <li>
+      <Link
+        href="/return-policy"
+        className="hover:text-white transition"
+      >
+        退換貨政策
+      </Link>
+    </li>
 
-              <li>
-                <Link
-                  href="/products"
-                  className="hover:text-white transition"
-                >
-                  全部商品
-                </Link>
-              </li>
+  </ul>
 
-              <li>
-                <Link
-                  href="/order-info"
-                  className="hover:text-white transition"
-                >
-                  訂購方式
-                </Link>
-              </li>
+</div>
 
-            </ul>
-
-          </div>
 
           {/* 購物資訊 */}
 
@@ -93,12 +76,12 @@ export default function Footer() {
 
             <ul className="space-y-3 text-orange-100">
 
-              <li>
+           <li>
                 <Link
-                  href="/cart"
+                  href="/order-info"
                   className="hover:text-white transition"
                 >
-                  購物車
+                  訂購方式
                 </Link>
               </li>
 

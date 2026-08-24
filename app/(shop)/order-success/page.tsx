@@ -75,7 +75,7 @@ const { data: items } = await supabase
 
  async function copyAccount() {
   try {
-    await navigator.clipboard.writeText("123456789012");
+    await navigator.clipboard.writeText("170001010083");
 
     setCopied(true);
 
@@ -172,13 +172,13 @@ const pdfOrder = orderToPdf(order);
     </h3>
 
     <div className="space-y-2 text-gray-700">
-      <p><strong>銀行：</strong>（請填入你的銀行名稱）</p>
-      <p><strong>銀行代碼：</strong>822</p>
+      <p><strong>銀行：</strong>台灣銀行</p>
+      <p><strong>銀行代碼：</strong>004</p>
       <div className="flex items-center gap-3">
 
   <p>
     <strong>帳號：</strong>
-    123456789012
+    170001010083
   </p>
 
   
@@ -247,7 +247,7 @@ const pdfOrder = orderToPdf(order);
     </h3>
 
     <p className="text-gray-700">
-      商品將由黑貓冷凍宅配配送，請於收貨時付款給配送人員。
+      商品將由新竹物流冷凍宅配配送，請於收貨時付款給配送人員。
     </p>
  <hr className="my-6" />
 

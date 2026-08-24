@@ -19,7 +19,13 @@ type ReconciliationItemsProps = {
  *
  * v0.13 Step 2-3B
  *
- * 商品金額使用「下單當時保存的批發價快照」。
+ * 商品金額使用「下單當時保存的價格快照」。
+ *
+ * price
+ *   → order_items.price
+ *
+ * subtotal
+ *   → order_items.subtotal
  *
  * wholesalePrice
  *   → order_items.wholesale_price
@@ -27,11 +33,14 @@ type ReconciliationItemsProps = {
  * wholesaleSubtotal
  *   → order_items.wholesale_subtotal
  *
+ * profit
+ *   → order_items.profit
+ *
  * 不重新查詢 products.wholesale_price。
  *
- * 欄位對齊：
+ * 欄位：
  * 序號、商品名稱 → 左對齊
- * 數量、批發價、批發小計 → 右對齊
+ * 數量、售價、商品小計、批發價、批發小計、差價毛利 → 右對齊
  */
 export function drawReconciliationItems({
   doc,
@@ -82,13 +91,25 @@ export function drawReconciliationItems({
     columns.name +
     columns.quantity;
 
-  const wholesalePriceRightX =
+  const priceRightX =
     quantityRightX +
     columns.price;
 
+  const subtotalRightX =
+    priceRightX +
+    columns.subtotal;
+
+  const wholesalePriceRightX =
+    subtotalRightX +
+    columns.wholesalePrice;
+
   const wholesaleSubtotalRightX =
     wholesalePriceRightX +
-    columns.subtotal;
+    columns.wholesaleSubtotal;
+
+  const profitRightX =
+    wholesaleSubtotalRightX +
+    columns.profit;
 
   //------------------------------------------
   // 表頭
@@ -132,6 +153,32 @@ export function drawReconciliationItems({
   );
 
   //------------------------------------------
+  // 售價：右對齊
+  //------------------------------------------
+
+  doc.text(
+    "售價",
+    priceRightX,
+    headerY,
+    {
+      align: "right",
+    }
+  );
+
+  //------------------------------------------
+  // 商品小計：右對齊
+  //------------------------------------------
+
+  doc.text(
+    "商品小計",
+    subtotalRightX,
+    headerY,
+    {
+      align: "right",
+    }
+  );
+
+  //------------------------------------------
   // 批發價：右對齊
   //------------------------------------------
 
@@ -151,6 +198,19 @@ export function drawReconciliationItems({
   doc.text(
     "批發小計",
     wholesaleSubtotalRightX,
+    headerY,
+    {
+      align: "right",
+    }
+  );
+
+  //------------------------------------------
+  // 差價毛利：右對齊
+  //------------------------------------------
+
+  doc.text(
+    "差價毛利",
+    profitRightX,
     headerY,
     {
       align: "right",
@@ -182,7 +242,7 @@ export function drawReconciliationItems({
     // 序號：左對齊
     //----------------------------------------
 
-    doc.setFontSize(10);
+    doc.setFontSize(9);
 
     doc.text(
       String(index + 1),
@@ -194,7 +254,7 @@ export function drawReconciliationItems({
     // 商品名稱：左對齊
     //----------------------------------------
 
-    doc.setFontSize(10);
+    doc.setFontSize(9);
 
     doc.text(
       item.name,
@@ -206,7 +266,7 @@ export function drawReconciliationItems({
     // 數量：右對齊
     //----------------------------------------
 
-    doc.setFontSize(10);
+    doc.setFontSize(9);
 
     doc.text(
       String(item.quantity),
@@ -218,10 +278,40 @@ export function drawReconciliationItems({
     );
 
     //----------------------------------------
+    // 售價：右對齊
+    //----------------------------------------
+
+    doc.setFontSize(9);
+
+    doc.text(
+      `NT$ ${item.price}`,
+      priceRightX,
+      currentY,
+      {
+        align: "right",
+      }
+    );
+
+    //----------------------------------------
+    // 商品小計：右對齊
+    //----------------------------------------
+
+    doc.setFontSize(9);
+
+    doc.text(
+      `NT$ ${item.subtotal}`,
+      subtotalRightX,
+      currentY,
+      {
+        align: "right",
+      }
+    );
+
+    //----------------------------------------
     // 批發價：右對齊
     //----------------------------------------
 
-    doc.setFontSize(10);
+    doc.setFontSize(9);
 
     doc.text(
       item.wholesalePrice !== null &&
@@ -239,7 +329,7 @@ export function drawReconciliationItems({
     // 批發小計：右對齊
     //----------------------------------------
 
-    doc.setFontSize(12);
+    doc.setFontSize(9);
 
     doc.text(
       item.wholesaleSubtotal !== null &&
@@ -247,6 +337,24 @@ export function drawReconciliationItems({
         ? `NT$ ${item.wholesaleSubtotal}`
         : "-",
       wholesaleSubtotalRightX,
+      currentY,
+      {
+        align: "right",
+      }
+    );
+
+    //----------------------------------------
+    // 差價毛利：右對齊
+    //----------------------------------------
+
+    doc.setFontSize(9);
+
+    doc.text(
+      item.profit !== null &&
+        item.profit !== undefined
+        ? `NT$ ${item.profit}`
+        : "-",
+      profitRightX,
       currentY,
       {
         align: "right",

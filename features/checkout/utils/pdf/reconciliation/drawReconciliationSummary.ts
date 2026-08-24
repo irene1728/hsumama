@@ -14,25 +14,32 @@ type ReconciliationSummaryProps = {
   order: Order;
   startY: number;
 };
+
 /**
  * 對帳單 PDF｜金額摘要
  *
  * v0.13 Step 2-3B
  *
- * 對帳規則：
+ * 對帳內容：
  *
- * 批發商品金額
- *   = 所有 order_items.wholesale_subtotal 加總
+ * ① 商品總額
+ *    = 顧客下單時的商品總額
  *
- * 運費
- *   = orders.shipping_fee
+ * ② 運費
+ *    = 訂單建立時保存的 shipping_fee
  *
- * 批發應付金額
- *   = 批發商品金額 + 運費
+ * ③ 顧客應付總額
+ *    = 商品總額 + 運費
+ *
+ * ④ 批發商品總額
+ *    = 所有 order_items.wholesale_subtotal 加總
+ *
+ * ⑤ 差價利潤
+ *    = 所有 order_items.profit 加總
  *
  * 注意：
- * 免運資格是在顧客下單時，以顧客市價判斷。
- * 對帳單不重新使用批發價判斷免運。
+ * profit 使用訂單建立當時保存的資料。
+ * 不重新查詢 products.wholesale_price。
  */
 export function drawReconciliationSummary({
   doc,
@@ -40,11 +47,36 @@ export function drawReconciliationSummary({
   startY,
 }: ReconciliationSummaryProps): number {
 
+
   //------------------------------------------
-  // 計算批發商品金額
+  // 商品總額
+  //
+  // 顧客下單時保存的商品總額
   //------------------------------------------
 
-  const wholesaleSubtotal = order.items.reduce(
+  const productTotal = order.subtotal;
+
+  //------------------------------------------
+  // 運費
+  //
+  // 訂單建立時保存的 shippingFee
+  //------------------------------------------
+
+  const shippingFee = order.shippingFee;
+
+  //------------------------------------------
+  // 顧客實際應付總額
+  //------------------------------------------
+
+  const customerTotal = order.total;
+
+  //------------------------------------------
+  // 批發商品總額
+  //
+  // 使用每一項商品當時保存的批發小計
+  //------------------------------------------
+
+  const wholesaleTotal = order.items.reduce(
     (sum, item) => {
 
       if (
@@ -62,46 +94,59 @@ export function drawReconciliationSummary({
   );
 
   //------------------------------------------
-  // 運費
+  // 差價利潤
   //
-  // 直接使用訂單建立時保存的 shippingFee
+  // 使用 order_items.profit
   //------------------------------------------
 
-  const shippingFee = order.shippingFee;
+  const profitTotal = order.items.reduce(
+    (sum, item) => {
 
-  //------------------------------------------
-  // 批發應付金額
-  //------------------------------------------
+      if (
+        item.profit === null ||
+        item.profit === undefined
+      ) {
+        throw new Error(
+          `訂單 ${order.orderNo} 缺少差價利潤資料，無法產生對帳單。`
+        );
+      }
 
-  const reconciliationTotal =
-    wholesaleSubtotal + shippingFee;
+      return sum + item.profit;
+    },
+    0
+  );
 
   //------------------------------------------
   // 欄位位置
   //------------------------------------------
 
-  const labelX = RECONCILIATION_PDF.summary.labelX;
+  const labelX =
+    RECONCILIATION_PDF.summary.labelX;
 
-  const valueX = RECONCILIATION_PDF.summary.valueX;
+  const valueX =
+    RECONCILIATION_PDF.summary.valueX;
+
+  const lineHeight =
+    RECONCILIATION_PDF.summary.lineHeight;
 
   //------------------------------------------
-  // 批發商品金額
+  // 商品總額
   //------------------------------------------
 
   setBodyFont(doc);
 
-  doc.setFontSize(12);
+  doc.setFontSize(11);
 
   doc.text(
-    "批發商品金額",
+    "商品總額",
     labelX,
     startY
   );
 
-  doc.setFontSize(12);
+
 
   doc.text(
-    `NT$ ${wholesaleSubtotal}`,
+    `NT$ ${productTotal.toLocaleString("zh-TW")}`,
     valueX,
     startY,
     {
@@ -113,46 +158,82 @@ export function drawReconciliationSummary({
   // 運費
   //------------------------------------------
 
-  doc.setFontSize(12);
+
 
   doc.text(
     "運費",
     labelX,
-    startY + 1 +
-      RECONCILIATION_PDF.summary.lineHeight
+    startY + lineHeight
   );
 
-  doc.setFontSize(12);
-
   doc.text(
-    `NT$ ${shippingFee}`,
+    `NT$ ${shippingFee.toLocaleString("zh-TW")}`,
     valueX,
-    startY + 1 +
-      RECONCILIATION_PDF.summary.lineHeight,
+    startY + lineHeight,
     {
       align: "right",
     }
   );
 
   //------------------------------------------
-  // 分隔線
+  // 顧客應付總額
   //------------------------------------------
 
-  const totalY =
-    startY +
-    3 +
-    RECONCILIATION_PDF.summary.lineHeight;
+  doc.text(
+    "顧客應付總額",
+    labelX,
+    startY + lineHeight * 2
+  );
+
+  doc.text(
+    `NT$ ${customerTotal.toLocaleString("zh-TW")}`,
+    valueX,
+    startY + lineHeight * 2,
+    {
+      align: "right",
+    }
+  );
+
+  //------------------------------------------
+  // 第一段分隔線
+  //------------------------------------------
+
+  const wholesaleStartY =
+    startY + lineHeight * 3 + 3;
 
   drawDivider(
     doc,
     labelX,
     RECONCILIATION_PDF.page.width -
       RECONCILIATION_PDF.page.margin,
-    totalY
+    wholesaleStartY
   );
 
   //------------------------------------------
-  // 批發應付金額
+  // 批發商品總額
+  //------------------------------------------
+
+  setBodyFont(doc);
+
+  doc.setFontSize(11);
+
+  doc.text(
+    "批發商品總額",
+    labelX,
+    wholesaleStartY + 6
+  );
+
+  doc.text(
+    `NT$ ${wholesaleTotal.toLocaleString("zh-TW")}`,
+    valueX,
+    wholesaleStartY + 6,
+    {
+      align: "right",
+    }
+  );
+
+  //------------------------------------------
+  // 差價利潤
   //------------------------------------------
 
   setTitleFont(doc);
@@ -161,16 +242,19 @@ export function drawReconciliationSummary({
     RECONCILIATION_PDF.summary.totalFontSize
   );
 
+  const profitY =
+    wholesaleStartY + 6 + lineHeight;
+
   doc.text(
-    "批發應付金額",
+    "差價利潤",
     labelX,
-    totalY + 5
+    profitY
   );
 
   doc.text(
-    `NT$ ${reconciliationTotal}`,
+    `NT$ ${profitTotal.toLocaleString("zh-TW")}`,
     valueX,
-    totalY + 5,
+    profitY,
     {
       align: "right",
     }
@@ -180,5 +264,5 @@ export function drawReconciliationSummary({
   // 回傳金額區底部位置
   //------------------------------------------
 
-  return totalY + 5;
+  return profitY;
 }

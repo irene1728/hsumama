@@ -91,12 +91,15 @@ export const RECONCILIATION_PDF = {
     x: 16,
     width: 178,
 
-    columnWidth: {
-      no: 12,
-      name: 86,
-      quantity: 20,
-      price: 30,
-      subtotal: 30,
+   columnWidth: {
+  no: 8,
+  name: 45,
+  quantity: 10,
+  price: 20,
+  subtotal: 24,
+  wholesalePrice: 20,
+  wholesaleSubtotal: 26,
+  profit: 25,
     },
   },
 
