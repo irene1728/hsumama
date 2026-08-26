@@ -12,11 +12,16 @@ export async function createClient() {
         getAll() {
           return cookieStore.getAll();
         },
-        setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) =>
-            cookieStore.set(name, value, options)
-          );
-        },
+     setAll(cookiesToSet) {
+  try {
+    cookiesToSet.forEach(({ name, value, options }) =>
+      cookieStore.set(name, value, options)
+    );
+  } catch {
+    // Server Component 無法直接修改 Cookie
+    // Session 更新由 proxy.ts 負責
+  }
+},
       },
     }
   );

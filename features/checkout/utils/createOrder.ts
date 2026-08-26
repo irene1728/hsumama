@@ -1,4 +1,4 @@
-import { supabase } from "@/lib/supabase";
+import { createClient } from "@/lib/supabase/client";
 
 type OrderItem = {
   name: string;
@@ -40,14 +40,34 @@ export async function createOrder({
   freeShippingThreshold,
   cart,
 }: CreateOrderParams) {
-  
+
+  const supabase = createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  let memberNo: string | null = null;
+
+  if (user) {
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("member_no")
+      .eq("user_id", user.id)
+      .maybeSingle();
+
+    memberNo = profile?.member_no ?? null;
+  }
+
   // 建立訂單
   const { data: order, error: orderError } = await supabase
     .from("orders")
     .insert({
-      customer_name: customerName,
-      phone,
-      email,
+        user_id: user?.id ?? null,
+        member_no: memberNo,
+  customer_name: customerName,
+  phone,
+  email,
       address,
       note,
       payment: paymentMethod,

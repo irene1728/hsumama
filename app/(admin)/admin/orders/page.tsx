@@ -10,6 +10,8 @@ import { orderToReconciliationPdf } from "@/features/checkout/mapper/orderToReco
 
 type Order = {
   id: number;
+  user_id: string | null;
+  member_no: string | null;
   customer_name: string;
   phone: string;
   email: string;
@@ -243,6 +245,10 @@ export default function AdminOrdersPage() {
                       訂單
                     </th>
 
+<th className="px-4 py-3 text-left">
+  會員
+</th>
+
                     <th className="px-4 py-3 text-left">
                       收件人
                     </th>
@@ -272,13 +278,33 @@ export default function AdminOrdersPage() {
                           : ""
                       }`}
                     >
-                      <td className="px-4 py-3">
-                        #{order.id}
-                      </td>
+
 
                       <td className="px-4 py-3">
-                        {order.customer_name}
-                      </td>
+  #{order.id}
+</td>
+
+<td className="px-4 py-3">
+{order.member_no ? (
+  <button
+    type="button"
+    onClick={(e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      window.location.href = `/admin/members/${order.member_no}`;
+    }}
+    className="text-blue-600 hover:text-blue-800 hover:underline font-semibold"
+  >
+    {order.member_no}
+  </button>
+) : (
+  "訪客"
+)}
+</td>
+
+<td className="px-4 py-3">
+  {order.customer_name}
+</td>
 
                       <td className="px-4 py-3">
                         {order.phone}
@@ -553,6 +579,30 @@ export default function AdminOrdersPage() {
                         點擊查看
                       </span>
                     </div>
+
+<div className="flex items-start gap-2">
+  <span className="shrink-0">
+    🆔
+  </span>
+
+  <span className="break-words font-semibold">
+{order.member_no ? (
+  <button
+    type="button"
+    onClick={(e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      window.location.href = `/admin/members/${order.member_no}`;
+    }}
+    className="text-blue-600 hover:text-blue-800 hover:underline font-semibold"
+  >
+    {order.member_no}
+  </button>
+) : (
+  "訪客"
+)}
+  </span>
+</div>
 
                     <div className="mt-3 space-y-2">
                       <div className="flex items-start gap-2">
