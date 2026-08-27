@@ -90,8 +90,8 @@ export default function AdminProductsPage() {
   }
 
   return (
-    <main className="max-w-7xl mx-auto p-4 md:p-10">
-      <h1 className="text-3xl md:text-4xl font-bold mb-6 md:mb-8">
+    <main className="max-w-7xl mx-auto p-3 md:p-1">
+      <h1 className="text-3xl md:text-4xl font-bold mb-2 md:mb-2">
         商品管理
       </h1>
 

@@ -221,8 +221,8 @@ export default function AdminOrdersPage() {
   }
 
   return (
-    <main className="max-w-6xl mx-auto px-3 py-6 md:p-8 overflow-x-hidden">
-      <h1 className="text-3xl font-bold mb-6 md:mb-8">
+    <main className="max-w-6xl mx-auto px-3 py-3 md:p-1 overflow-x-hidden">
+      <h1 className="text-3xl md:text-4xl font-bold mb-2 md:mb-2">
         訂單管理
       </h1>
 

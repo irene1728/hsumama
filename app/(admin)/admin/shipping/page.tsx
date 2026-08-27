@@ -137,7 +137,7 @@ if (reloadError || !data) {
 }
 
   return (
-    <main className="mx-auto max-w-3xl px-6 py-10">
+    <main className="mx-auto max-w-3xl px-6 py-4">
       <h1 className="text-3xl font-bold text-stone-800">
         配送設定
       </h1>
