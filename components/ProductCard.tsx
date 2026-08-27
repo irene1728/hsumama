@@ -89,11 +89,11 @@ className="
         >
           <h3
             className="
-              text-xl
+              text-2xl
               font-bold
               text-stone-800
               line-clamp-2
-              min-h-[56px]
+              min-h-[46px]
             "
           >
             {product.name}
@@ -101,24 +101,24 @@ className="
         </Link>
 
         {/* 商品價格 */}
-        <p className="mt-3 text-xl font-bold text-orange-600">
+        <p className="mt-1 text-2xl font-bold text-orange-600">
           {formatPrice(product.price)}
         </p>
 
         {/* 按鈕 */}
-        <div className="mt-6 flex gap-3">
+        <div className="mt-2 flex gap-2">
           <Link
             href={`/products/${product.slug}`}
             className="
-              flex-1
+              flex
               inline-flex
               items-center
               justify-center
               rounded-full
               bg-orange-500
-              px-6
+              px-4
               py-2.5
-              text-sm
+              text-xl
               font-semibold
               text-white
               transition-all
@@ -136,6 +136,7 @@ className="
   type="button"
  onClick={handleAddToCart}
   className="
+    flex
     inline-flex
     items-center
     justify-center
@@ -145,7 +146,7 @@ className="
     border-orange-500
     px-5
     py-2.5
-    text-sm
+    text-[17px]
     font-semibold
     text-orange-600
     transition-all
@@ -166,7 +167,7 @@ className="
   ) : (
     <>
       <ShoppingCart size={18} />
-      <span>加入</span>
+      <span>加 入</span>
     </>
   )}
 </>

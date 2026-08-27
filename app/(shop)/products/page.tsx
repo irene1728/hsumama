@@ -56,7 +56,7 @@ useEffect(() => {
         全部商品
       </h1>
 
-      <p className="text-center text-sm text-gray-400 mt-2">
+      <p className="text-center text-base md:text-xl text-gray-600 mt-2">
         共 {filteredProducts.length} 項商品
       </p>
 
