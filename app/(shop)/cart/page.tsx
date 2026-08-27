@@ -11,7 +11,7 @@ export default function CartPage() {
   const { cart } = useCart();
 
   return (
-    <main className="max-w-7xl mx-auto px-8 py-24">
+    <main className="max-w-7xl mx-auto px-8 py-22 md:py-28">
       <h1 className="text-4xl font-bold text-stone-800">
         購物車
       </h1>

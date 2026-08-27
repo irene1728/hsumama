@@ -21,7 +21,7 @@ export default function CartSummary() {
   );
 
   return (
-    <aside className="bg-white border border-gray-200 rounded-2xl shadow p-6 sticky top-28">
+    <aside className="bg-white border border-gray-200 rounded-2xl shadow p-4 sticky top-28">
       <h2 className="text-2xl font-bold text-stone-800">
         購物車摘要
       </h2>
