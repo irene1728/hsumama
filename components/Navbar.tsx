@@ -179,18 +179,18 @@ useEffect(() => {
 )}
 
      {/* 會員 + 購物車 */}
-<div className="order-3 shrink-0 md:order-none md:justify-self-end flex items-center gap-4">
+<div className="order-3 shrink-0 md:order-none md:justify-self-end flex flex-col items-end gap-1 md:flex-row md:items-center md:gap-4">
 
   {/* 會員登入 */}
 <Link
   href={isLoggedIn ? "/account" : "/account/login"}
-  className={`flex items-center gap-1.5 font-semibold text-lg transition ${
+className={`flex items-center gap-1 font-semibold text-sm md:gap-1.5 md:text-lg transition ${
     isHome
       ? "text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)] hover:text-amber-200"
       : "text-[#4E342E] hover:text-orange-600"
   }`}
 >
-  <span className="text-xl">👤</span>
+<span className="text-base md:text-xl">👤</span>
   <span>{isLoggedIn ? "會員中心" : "會員登入"}</span>
 </Link>
 
@@ -198,15 +198,15 @@ useEffect(() => {
   <Link
     href="/cart"
     data-cart-target
-    className="flex items-center gap-1.5 rounded-full bg-orange-600 px-3 py-2 md:gap-2 md:px-5 md:py-3 text-white font-semibold
+    className="flex items-center gap-1 rounded-full bg-orange-600 px-2 py-1 md:gap-2 md:px-5 md:py-3 text-white font-semibold
       hover:bg-orange-800 transition hover:scale-105 hover:shadow-lg"
   >
-    <span className="text-lg md:text-2xl">🛒</span>
+   <span className="text-base md:text-2xl">🛒</span>
 
-    <span className="text-sm md:text-base">購物車</span>
+   <span className="text-xs md:text-base">購物車</span>
 
     <span className="bg-white text-orange-600 transition-all
-      duration-300 rounded-full min-w-6 h-6 md:min-w-8 md:h-8 flex items-center justify-center text-m font-bold px-2"
+  duration-300 rounded-full min-w-5 h-5 md:min-w-8 md:h-8 flex items-center justify-center text-xs md:text-base font-bold px-1 md:px-2"
     >
       {totalQuantity}
     </span>
