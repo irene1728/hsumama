@@ -37,7 +37,7 @@ export default function AdminNav() {
             <Link
               key={menu.href}
               href={menu.href}
-              className={`rounded-lg px-4 py-2 text-lg font-medium transition ${
+              className={`rounded-lg px-4 py-2 text-sm md:text-2xl font-medium transition ${
                 active
                   ? "bg-orange-500 text-white"
                   : "text-gray-700 hover:bg-orange-100"
