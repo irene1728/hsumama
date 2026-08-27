@@ -148,11 +148,10 @@ export default function Footer() {
         {/* 底部版權 */}
         <div className="border-t border-orange-300 mt-4 pt-4 text-center">
 
-          <p className="text-base md:text-xl text-orange-100">
-            每一口滷香，都是一份傳承；
-            每一次相聚，都值得一道好味道。
-
-          </p>
+        <p className="text-base md:text-xl text-orange-100 text-center max-w-[340px] md:max-w-none mx-auto">
+  每一口滷香，都是一份傳承；<br className="md:hidden" />
+  每一次相聚，都值得一道好味道。
+</p>
 
           <p className="text-sm mt-6 text-orange-200">
 
