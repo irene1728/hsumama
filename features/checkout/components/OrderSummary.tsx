@@ -51,7 +51,7 @@ export default function OrderSummary({
         請再次確認您的訂單內容。
       </p>
 
-      <div className="mt-4 space-y-5">
+      <div className="mt-3 space-y-3">
 
         {/* 商品列表 */}
         {(expanded ? cart : cart.slice(0, 5)).map((item) => (
@@ -135,7 +135,7 @@ export default function OrderSummary({
         </div>
 
         {/* 免運說明 */}
-        <p className="text-sm text-gray-500">
+        <p className="text-base text-[#CC0000]">
           滿 NT$
           {freeShippingThreshold.toLocaleString("zh-TW")}
           免運費

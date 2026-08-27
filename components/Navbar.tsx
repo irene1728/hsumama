@@ -56,7 +56,7 @@ useEffect(() => {
        <div className="order-2 flex-1 text-center md:order-none md:flex-none md:text-left md:justify-self-start">
           <Link href="/">
             <h1
-              className={`text-3xl md:text-5xl font-bold cursor-pointer transition ${
+              className={`text-3xl md:text-4xl font-bold cursor-pointer transition ${
                 isHome
   ? "text-[#4E342E]"
   : "text-[#4E342E]"
@@ -67,7 +67,7 @@ useEffect(() => {
           </Link>
 
           <p
-          className={`text-sm md:text-2xl mt-1 transition ${
+          className={`text-sm md:text-xl mt-1 transition ${
               isHome ? "text-[#C56A2D]" : "text-orange-600"
             }`}
           >

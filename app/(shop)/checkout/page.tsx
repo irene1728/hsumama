@@ -175,7 +175,7 @@ catch (error) {
 }
 
   return (
-    <main className="max-w-7xl mx-auto px-8 py-28">
+    <main className="max-w-7xl mx-auto px-8 py-20 md:py-28">
 
       <h1 className="text-4xl font-bold text-stone-800 mb-2">
         結帳

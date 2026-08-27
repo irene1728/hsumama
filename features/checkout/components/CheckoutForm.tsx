@@ -34,16 +34,16 @@ export default function CheckoutForm({
 
 
   return (
-    <section className="bg-white border border-gray-200 rounded-2xl shadow p-8">
+    <section className="bg-white border border-gray-200 rounded-2xl shadow p-4">
       <h2 className="text-2xl font-bold text-stone-800">
         收件資訊
       </h2>
 
-      <p className="mt-2 text-gray-500">
+      <p className="mt-1 text-lg text-gray-500">
         請填寫收件人資訊，以便安排配送。
       </p>
 
-      <div className="mt-8 space-y-6">
+      <div className="mt-4 space-y-4">
 
         {/* 姓名 */}
         <div>

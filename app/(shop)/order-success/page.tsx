@@ -102,7 +102,7 @@ const pdfOrder = orderToPdf(order);
         <div className="text-center">
 
       
-          <h1 className="text-2xl font-bold text-stone-800 mt-8 lg:mt-14">
+          <h1 className="text-2xl font-bold text-stone-800 mt-9 lg:mt-15">
             🎉訂單已成立🎉
           </h1>
 
@@ -166,12 +166,12 @@ const pdfOrder = orderToPdf(order);
 
 {/* ATM 轉帳 */}
 {order.payment === "ATM轉帳" && (
-  <div className="mt-8 rounded-2xl border border-green-200 bg-green-50 p-6">
-    <h3 className="text-xl font-bold text-orange-700 mb-4">
+  <div className="mt-8 rounded-2xl border border-green-200 bg-green-50 p-5">
+    <h3 className="text-xl font-bold text-orange-700 mb-2">
       🏦 ATM 匯款資訊
     </h3>
 
-    <div className="space-y-2 text-gray-700">
+    <div className="space-y-1 text-gray-700">
       <p><strong>銀行：</strong>台灣銀行</p>
       <p><strong>銀行代碼：</strong>004</p>
       <div className="flex items-center gap-3">
@@ -198,13 +198,13 @@ const pdfOrder = orderToPdf(order);
      
     </div>
 
-    <p className="mt-4 text-sm text-red-600">
+    <p className="mt-4 text-base text-red-600">
       ※ 請於 3 日內完成匯款，完成後請提供訂單編號及帳號後五碼。
      </p>
-<hr className="my-6" />
-<div className="mt-6 rounded-2xl border border-green-200 bg-green-50 p-6">
+<hr className="my-4" />
+<div className="mt-4 rounded-2xl border border-green-200 bg-green-50 p-4">
 
-  <h3 className="text-xl font-bold text-green-700 mb-3">
+  <h3 className="text-xl font-bold text-green-700 mb-2">
     💚 訂單完成後，請加入LINE官方帳號
   </h3>
 
@@ -212,12 +212,12 @@ const pdfOrder = orderToPdf(order);
     並提供：
   </p>
 
-  <ul className="mt-4 space-y-2 text-gray-700">
+  <ul className="mt-2 space-y-1 text-gray-700">
     <li>✅ 訂單編號</li>
     <li>✅ 匯款帳號後五碼</li>
   </ul>
 
-  <p className="mt-5 text-gray-700 leading-8">
+  <p className="mt-2 text-gray-700 leading-6">
     收到您的訊息後，
     <br />
     我們會盡快確認款項並安排出貨。
@@ -229,7 +229,7 @@ const pdfOrder = orderToPdf(order);
     href="https://lin.ee/q8kagIG"
     target="_blank"
     rel="noopener noreferrer"
-    className="inline-block mt-6 bg-green-600 hover:bg-green-700 text-white font-bold px-6 py-3 rounded-xl transition"
+    className="inline-block mt-4 bg-green-600 hover:bg-green-700 text-white text-xl font-bold px-8 py-3 rounded-xl transition"
   >
     加入 LINE 官方帳號
   </a>
