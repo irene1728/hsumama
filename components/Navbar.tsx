@@ -56,7 +56,7 @@ useEffect(() => {
        <div className="order-2 flex-1 text-center md:order-none md:flex-none md:text-left md:justify-self-start">
           <Link href="/">
             <h1
-              className={`text-2xl md:text-4xl font-bold cursor-pointer transition ${
+              className={`text-3xl md:text-5xl font-bold cursor-pointer transition ${
                 isHome
   ? "text-[#4E342E]"
   : "text-[#4E342E]"
@@ -67,7 +67,7 @@ useEffect(() => {
           </Link>
 
           <p
-          className={`text-xs md:text-base mt-1 transition ${
+          className={`text-sm md:text-2xl mt-1 transition ${
               isHome ? "text-[#C56A2D]" : "text-orange-600"
             }`}
           >
@@ -184,7 +184,7 @@ useEffect(() => {
   {/* 會員登入 */}
 <Link
   href={isLoggedIn ? "/account" : "/account/login"}
-className={`flex items-center gap-1 font-semibold text-sm md:gap-1.5 md:text-lg transition ${
+className={`flex items-center gap-1 font-semibold text-sm md:gap-1.5 md:text-xl transition ${
     isHome
       ? "text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)] hover:text-amber-200"
       : "text-[#4E342E] hover:text-orange-600"
@@ -203,10 +203,10 @@ className={`flex items-center gap-1 font-semibold text-sm md:gap-1.5 md:text-lg 
   >
    <span className="text-base md:text-2xl">🛒</span>
 
-   <span className="text-xs md:text-base">購物車</span>
+   <span className="text-sm md:text-lg">購物車</span>
 
     <span className="bg-white text-orange-600 transition-all
-  duration-300 rounded-full min-w-5 h-5 md:min-w-8 md:h-8 flex items-center justify-center text-xs md:text-base font-bold px-1 md:px-2"
+  duration-300 rounded-full min-w-5 h-5 md:min-w-8 md:h-8 flex items-center justify-center text-sm md:text-lg font-bold px-1 md:px-2"
     >
       {totalQuantity}
     </span>
