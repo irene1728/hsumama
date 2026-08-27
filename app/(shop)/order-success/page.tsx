@@ -102,7 +102,7 @@ const pdfOrder = orderToPdf(order);
         <div className="text-center">
 
       
-          <h1 className="text-2xl font-bold text-stone-800 mt-9 lg:mt-15">
+          <h1 className="text-2xl font-bold text-stone-800 mt-10 lg:mt-15">
             🎉訂單已成立🎉
           </h1>
 
@@ -208,7 +208,7 @@ const pdfOrder = orderToPdf(order);
     💚 訂單完成後，請加入LINE官方帳號
   </h3>
 
-  <p className="text-gray-700 leading-8">
+  <p className="text-gray-700 leading-6">
     並提供：
   </p>
 
@@ -220,7 +220,7 @@ const pdfOrder = orderToPdf(order);
   <p className="mt-2 text-gray-700 leading-6">
     收到您的訊息後，
     <br />
-    我們會盡快確認款項並安排出貨。
+    我們會盡快確認款項，並且為您安排出貨。
     <br />
     感謝您的支持～❤️
   </p>
@@ -229,9 +229,9 @@ const pdfOrder = orderToPdf(order);
     href="https://lin.ee/q8kagIG"
     target="_blank"
     rel="noopener noreferrer"
-    className="inline-block mt-4 bg-green-600 hover:bg-green-700 text-white text-xl font-bold px-8 py-3 rounded-xl transition"
+    className="inline-block mt-4 bg-green-600 hover:bg-green-700 text-white text-xl font-bold px-7 py-2 rounded-xl transition"
   >
-    加入 LINE 官方帳號
+    加入LINE官方帳號
   </a>
 </div>
 
