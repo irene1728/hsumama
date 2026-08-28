@@ -113,11 +113,12 @@ export default async function AccountPage() {
         ) : (
           <div className="space-y-3">
 
-            {orders.map((order) => (
-              <div
-                key={order.id}
-                className="border rounded-2xl p-5 shadow-sm bg-white"
-              >
+           {orders.map((order) => (
+  <Link
+    key={order.id}
+    href={`/account/orders/${order.id}`}
+    className="block rounded-2xl border p-5 shadow-sm bg-white"
+  >
 
                 <div className="flex items-start justify-between gap-4">
 
@@ -145,13 +146,13 @@ export default async function AccountPage() {
 
                   <p>
                     訂單狀態：{order.status ?? "—"}
-                  </p>
-                </div>
-
-              </div>
-            ))}
+                 </p>
+    </div>
+  </Link>
+))}
 
           </div>
+          
         )}
 
       </section>
