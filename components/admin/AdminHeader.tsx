@@ -1,19 +1,36 @@
+import Link from "next/link";
 import LogoutButton from "./LogoutButton";
+import { createClient } from "@/lib/supabase/server";
 
-export default function AdminHeader() {
+export default async function AdminHeader() {
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   return (
     <header className="border-b bg-white shadow-sm">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
+      <div className="max-w-7xl mx-auto flex h-12 md:h-12 items-center justify-between px-6">
+
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">
+          <h1 className="text-3xl font-bold text-gray-900">
             徐媽媽冰鑽滷味
           </h1>
-          <p className="text-sm text-gray-500">
-            管理後台
-          </p>
+
         </div>
 
-        <LogoutButton />
+        {user ? (
+          <LogoutButton />
+        ) : (
+          <Link
+            href="/admin/login"
+            className="rounded-lg bg-orange-500 text-xl px-2 py-2 text-white hover:bg-orange-600"
+          >
+            登 入
+          </Link>
+        )}
+
       </div>
     </header>
   );

@@ -32,7 +32,7 @@ async function handleLogin() {
       <div className="space-y-6">
 
         <div>
-          <label className="block font-semibold mb-2">
+          <label className="block font-medium mb-2">
             Email
           </label>
 
@@ -40,7 +40,7 @@ async function handleLogin() {
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full border rounded-xl text-lg md:text-2xl px-4 py-3"
+            className="w-full border rounded-xl text-lg md:text-2xl px-4 py-2"
           />
         </div>
 
@@ -53,7 +53,7 @@ async function handleLogin() {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full border rounded-xl px-4 py-3 text-lg md:text-2xl"
+            className="w-full border rounded-xl px-4 py-2 text-lg md:text-2xl"
           />
         </div>
 

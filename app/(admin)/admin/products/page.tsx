@@ -90,7 +90,7 @@ export default function AdminProductsPage() {
   }
 
   return (
-    <main className="max-w-7xl mx-auto p-3 md:p-1">
+    <main className="max-w-7xl mx-auto p-2 md:p-1">
       <h1 className="text-3xl md:text-4xl font-bold mb-2 md:mb-2">
         商品管理
       </h1>
@@ -251,10 +251,10 @@ export default function AdminProductsPage() {
         {products.map((product) => (
           <div
             key={product.id}
-            className="rounded-2xl border bg-white p-3 shadow-sm"
+            className="rounded-2xl border bg-white p-2 shadow-sm"
           >
             {/* 商品基本資訊 */}
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2">
               <Image
                 src={product.image}
                 alt={product.name}
@@ -276,7 +276,7 @@ export default function AdminProductsPage() {
             </div>
 
             {/* 價格資訊 */}
-            <div className="grid grid-cols-2 gap-2 mt-2">
+            <div className="grid grid-cols-2 gap-2 mt-1">
               <div className="rounded-xl bg-gray-50 px-3 py-1.5">
                 <div className="text-xs text-gray-500">
                   市價
@@ -348,7 +348,7 @@ export default function AdminProductsPage() {
                 id={`sort-${product.id}`}
                 type="number"
                 defaultValue={product.sort_order}
-                className="w-20 border rounded-xl px-2 py-1.5 text-center"
+                className="w-20 border rounded-xl px-2 py-1 text-center"
                 onBlur={(e) =>
                   updateSortOrder(
                     product.id,
@@ -361,7 +361,7 @@ export default function AdminProductsPage() {
             {/* 編輯 */}
             <Link
               href={`/admin/products/${product.id}`}
-              className="mt-2 w-full bg-orange-600 hover:bg-orange-700 text-white font-medium py-2 rounded-xl transition flex items-center justify-center"
+              className="mt-2 w-full bg-orange-600 hover:bg-orange-700 text-white font-medium py-1 rounded-xl transition flex items-center justify-center"
             >
               ✏️ 編輯商品
             </Link>

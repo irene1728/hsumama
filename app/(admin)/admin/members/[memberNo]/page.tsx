@@ -35,7 +35,7 @@ export default async function MemberPage({
   if (profileError) {
     return (
       <main className="min-h-screen bg-[#F7FFE5]">
-        <div className="max-w-5xl mx-auto px-2 md:px-6 py-10">
+        <div className="max-w-5xl mx-auto px-6 md:px-6 py-10">
           <h1 className="text-3xl font-bold text-stone-800">
             會員資料
           </h1>
@@ -51,7 +51,7 @@ export default async function MemberPage({
   if (!profile) {
     return (
       <main className="min-h-screen bg-[#F7FFE5]">
-        <div className="max-w-5xl mx-auto px-2 md:px-6 py-10">
+        <div className="max-w-5xl mx-auto px-6 md:px-6 py-10">
           <h1 className="text-3xl font-bold text-stone-800">
             找不到會員
           </h1>
@@ -77,14 +77,14 @@ export default async function MemberPage({
 
   return (
     <main className="min-h-screen bg-[#F7FFE5]">
-      <div className="max-w-5xl mx-auto px-2 md:px-6 py-5">
+      <div className="max-w-5xl mx-auto px-3 md:px-6 py-4 md:py-5">
 
         {/* 會員資料 */}
         <h1 className="text-3xl font-bold text-stone-800 mb-2">
           會員資料
         </h1>
 
-        <div className="rounded-xl border border-gray-300 bg-white p-6 shadow-sm">
+        <div className="rounded-xl border border-gray-300 bg-white p-4 shadow-sm">
           <div className="space-y-2">
 
             <div>
