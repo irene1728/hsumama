@@ -17,6 +17,10 @@ const menus = [
     href: "/admin/orders",
   },
   {
+  name: "會員管理",
+  href: "/admin/members",
+  },
+  {
     name: "配送設定",
     href: "/admin/shipping",
   },

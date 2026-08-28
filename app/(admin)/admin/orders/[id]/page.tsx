@@ -129,7 +129,7 @@ export default function AdminOrderDetailPage() {
     try {
 
 console.error(
-  "========== 對帳單 DEBUG ==========",
+ 
   JSON.stringify(
     items.map((item) => ({
       id: item.id,
