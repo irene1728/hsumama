@@ -247,11 +247,11 @@ export default function AdminProductsPage() {
       {/* =========================
           Mobile：商品卡片
           ========================= */}
-      <div className="md:hidden px-2 p-4 space-y-2">
+      <div className="md:hidden px-2 space-y-4">
         {products.map((product) => (
           <div
             key={product.id}
-            className="rounded-2xl border bg-white p-4 shadow-sm"
+            className="rounded-2xl border bg-white p-3 shadow-sm"
           >
             {/* 商品基本資訊 */}
             <div className="flex items-center gap-4">
@@ -276,7 +276,7 @@ export default function AdminProductsPage() {
             </div>
 
             {/* 價格資訊 */}
-            <div className="grid grid-cols-2 gap-3 mt-4">
+            <div className="grid grid-cols-2 gap-3 mt-3">
               <div className="rounded-xl bg-gray-50 px-3 py-2">
                 <div className="text-xs text-gray-500">
                   市價
@@ -336,10 +336,10 @@ export default function AdminProductsPage() {
             </div>
 
             {/* 排序 */}
-            <div className="flex items-center justify-between mt-4">
+            <div className="flex items-center justify-between mt-3">
               <label
                 htmlFor={`sort-${product.id}`}
-                className="text-sm font-medium text-gray-700"
+                className="text-lg font-medium text-gray-700"
               >
                 排序
               </label>
@@ -348,7 +348,7 @@ export default function AdminProductsPage() {
                 id={`sort-${product.id}`}
                 type="number"
                 defaultValue={product.sort_order}
-                className="w-20 border rounded-xl px-3 py-2 text-center"
+                className="w-20 border rounded-xl px-2 py-2 text-center"
                 onBlur={(e) =>
                   updateSortOrder(
                     product.id,
@@ -361,7 +361,7 @@ export default function AdminProductsPage() {
             {/* 編輯 */}
             <Link
               href={`/admin/products/${product.id}`}
-              className="mt-4 w-full bg-orange-600 hover:bg-orange-700 text-white font-medium py-3 rounded-xl transition flex items-center justify-center"
+              className="mt-3 w-full bg-orange-600 hover:bg-orange-700 text-white font-medium py-3 rounded-xl transition flex items-center justify-center"
             >
               ✏️ 編輯商品
             </Link>
