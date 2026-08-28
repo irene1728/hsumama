@@ -221,7 +221,7 @@ export default function AdminOrdersPage() {
   }
 
   return (
-    <main className="max-w-6xl mx-auto px-3 py-3 md:p-1 overflow-x-hidden">
+    <main className="max-w-6xl mx-auto px-2 py-2 md:p-1 overflow-x-hidden">
       <h1 className="text-3xl md:text-4xl font-bold mb-2 md:mb-2">
         訂單管理
       </h1>
@@ -556,21 +556,21 @@ export default function AdminOrdersPage() {
               Mobile
               訂單列表 + 商品明細
               ================================================== */}
-          <div className="lg:hidden space-y-4">
+          <div className="lg:hidden space-y-3">
             {/* Mobile 訂單列表 */}
             <section>
-              <h2 className="text-xl font-bold mb-3">
+              <h2 className="text-xl font-bold mb-2">
                 訂單列表
               </h2>
 
-              <div className="px-4 space-y-3">
+              <div className="px-3 space-y-3">
                 {orders.map((order) => (
                <Link
   key={order.id}
   href={`/admin/orders/${order.id}`}
   className="block w-full text-left rounded-xl border p-4 transition bg-white hover:bg-orange-50"
 >
-                    <div className="flex items-center justify-between gap-3">
+                    <div className="flex items-center justify-between gap-2">
                       <span className="font-bold text-lg">
                         訂單 #{order.id}
                       </span>

@@ -254,13 +254,13 @@ export default function AdminProductsPage() {
             className="rounded-2xl border bg-white p-3 shadow-sm"
           >
             {/* 商品基本資訊 */}
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-3">
               <Image
                 src={product.image}
                 alt={product.name}
-                width={64}
-                height={64}
-                className="w-16 h-16 rounded-xl object-cover shrink-0"
+                width={56}
+                height={56}
+                className="w-14 h-14 rounded-xl object-cover shrink-0"
               />
 
               <div className="min-w-0 flex-1">
@@ -276,8 +276,8 @@ export default function AdminProductsPage() {
             </div>
 
             {/* 價格資訊 */}
-            <div className="grid grid-cols-2 gap-3 mt-3">
-              <div className="rounded-xl bg-gray-50 px-3 py-2">
+            <div className="grid grid-cols-2 gap-2 mt-2">
+              <div className="rounded-xl bg-gray-50 px-3 py-1.5">
                 <div className="text-xs text-gray-500">
                   市價
                 </div>
@@ -289,7 +289,7 @@ export default function AdminProductsPage() {
                 </div>
               </div>
 
-              <div className="rounded-xl bg-orange-50 px-3 py-2">
+              <div className="rounded-xl bg-orange-50 px-3 py-1.5">
                 <div className="text-xs text-gray-500">
                   批發價
                 </div>
@@ -303,7 +303,7 @@ export default function AdminProductsPage() {
             </div>
 
             {/* 狀態操作 */}
-            <div className="flex items-center gap-2 mt-4">
+            <div className="flex items-center gap-2 mt-2">
               <button
                 onClick={() =>
                   toggleFeatured(product)
@@ -323,7 +323,7 @@ export default function AdminProductsPage() {
                 onClick={() =>
                   toggleActive(product)
                 }
-                className={`flex-1 px-3 py-2 rounded-xl text-sm font-bold transition ${
+                className={`flex-1 px-3 py-1.5 rounded-xl text-sm font-bold transition ${
                   product.is_active
                     ? "bg-green-100 text-green-700 hover:bg-green-200"
                     : "bg-red-100 text-red-700 hover:bg-red-200"
@@ -336,7 +336,7 @@ export default function AdminProductsPage() {
             </div>
 
             {/* 排序 */}
-            <div className="flex items-center justify-between mt-3">
+            <div className="flex items-center justify-between mt-2">
               <label
                 htmlFor={`sort-${product.id}`}
                 className="text-lg font-medium text-gray-700"
@@ -348,7 +348,7 @@ export default function AdminProductsPage() {
                 id={`sort-${product.id}`}
                 type="number"
                 defaultValue={product.sort_order}
-                className="w-20 border rounded-xl px-2 py-2 text-center"
+                className="w-20 border rounded-xl px-2 py-1.5 text-center"
                 onBlur={(e) =>
                   updateSortOrder(
                     product.id,
@@ -361,7 +361,7 @@ export default function AdminProductsPage() {
             {/* 編輯 */}
             <Link
               href={`/admin/products/${product.id}`}
-              className="mt-3 w-full bg-orange-600 hover:bg-orange-700 text-white font-medium py-3 rounded-xl transition flex items-center justify-center"
+              className="mt-2 w-full bg-orange-600 hover:bg-orange-700 text-white font-medium py-2 rounded-xl transition flex items-center justify-center"
             >
               ✏️ 編輯商品
             </Link>
