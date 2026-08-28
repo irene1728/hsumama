@@ -24,7 +24,7 @@ async function handleLogin() {
 }
 
   return (
-    <main className="max-w-md mx-auto py-20">
+    <main className="max-w-md mx-auto px-2 md:px-2 py-20">
       <h1 className="text-5xl font-bold text-center mb-10">
         管理員登入
       </h1>
@@ -40,7 +40,7 @@ async function handleLogin() {
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full border rounded-xl px-4 py-3"
+            className="w-full border rounded-xl text-lg md:text-2xl px-4 py-3"
           />
         </div>
 
@@ -53,13 +53,13 @@ async function handleLogin() {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full border rounded-xl px-4 py-3"
+            className="w-full border rounded-xl px-4 py-3 text-lg md:text-2xl"
           />
         </div>
 
        <button
   onClick={handleLogin}
-  className="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 rounded-xl transition"
+  className="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 rounded-xl transition text-lg md:text-2xl"
 >
   登入
 </button>
