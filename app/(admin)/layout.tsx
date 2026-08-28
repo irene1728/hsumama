@@ -5,7 +5,7 @@ export default function AdminLayout({
 }) {
   return (
     <div>
-      <h1>後台管理系統</h1>
+      <h1 className="text-xl text-[#FF0000] text-center">後台管理系統</h1>
       {children}
     </div>
   );

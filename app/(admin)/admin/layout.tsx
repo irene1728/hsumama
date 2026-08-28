@@ -12,7 +12,7 @@ export default function AdminLayout({
 
       <AdminNav />
 
-      <main className="p-6">
+      <main className="p-0">
         {children}
       </main>
     </div>
