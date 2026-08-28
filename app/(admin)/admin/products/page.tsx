@@ -247,7 +247,7 @@ export default function AdminProductsPage() {
       {/* =========================
           Mobile：商品卡片
           ========================= */}
-      <div className="md:hidden px-4 space-y-4">
+      <div className="md:hidden px-2 p-4 space-y-2">
         {products.map((product) => (
           <div
             key={product.id}
