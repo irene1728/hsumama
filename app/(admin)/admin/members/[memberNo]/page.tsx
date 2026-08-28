@@ -77,7 +77,7 @@ export default async function MemberPage({
 
   return (
     <main className="min-h-screen bg-[#F7FFE5]">
-      <div className="max-w-5xl mx-auto px-3 md:px-10 py-5">
+      <div className="max-w-5xl mx-auto px-1 md:px-10 py-5">
 
         {/* 會員資料 */}
         <h1 className="text-3xl font-bold text-stone-800 mb-2">
@@ -125,7 +125,7 @@ export default async function MemberPage({
                 Email
               </p>
 
-              <p className="mt-1 text-xl">
+              <p className="mt-1 text-lg md:text-xl">
                 {profile.email}
               </p>
                <hr className="border-b border-gray-200"></hr>
@@ -136,7 +136,7 @@ export default async function MemberPage({
                 地址
               </p>
 
-              <p className="mt-1 text-xl">
+              <p className="mt-1 text-lg md:text-xl">
                 {profile.address}
               </p>
                <hr className="border-b border-gray-200"></hr>
@@ -147,7 +147,7 @@ export default async function MemberPage({
                 註冊時間
               </p>
 
-              <p className="mt-1 text-xl">
+              <p className="mt-1 text-lg md:text-xl">
                 {new Date(profile.created_at).toLocaleString("zh-TW")}
               </p>
                <hr className="border-b border-gray-200"></hr>
