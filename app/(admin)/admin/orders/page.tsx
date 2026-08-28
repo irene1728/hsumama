@@ -556,14 +556,14 @@ export default function AdminOrdersPage() {
               Mobile
               訂單列表 + 商品明細
               ================================================== */}
-          <div className="lg:hidden space-y-5">
+          <div className="lg:hidden space-y-4">
             {/* Mobile 訂單列表 */}
             <section>
               <h2 className="text-xl font-bold mb-3">
                 訂單列表
               </h2>
 
-              <div className="space-y-3">
+              <div className="px-4 space-y-3">
                 {orders.map((order) => (
                <Link
   key={order.id}
@@ -575,7 +575,7 @@ export default function AdminOrdersPage() {
                         訂單 #{order.id}
                       </span>
 
-                      <span className="text-sm text-gray-500 whitespace-nowrap">
+                      <span className="text-base text-gray-500 whitespace-nowrap">
                         點擊查看
                       </span>
                     </div>
