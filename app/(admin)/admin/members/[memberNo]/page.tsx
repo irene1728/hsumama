@@ -77,83 +77,89 @@ export default async function MemberPage({
 
   return (
     <main className="min-h-screen bg-[#F7FFE5]">
-      <div className="max-w-5xl mx-auto px-6 py-10">
+      <div className="max-w-5xl mx-auto px-6 py-5">
 
         {/* 會員資料 */}
-        <h1 className="text-3xl font-bold text-stone-800 mb-8">
+        <h1 className="text-3xl font-bold text-stone-800 mb-2">
           會員資料
         </h1>
 
         <div className="rounded-xl border border-gray-300 bg-white p-6 shadow-sm">
-          <div className="space-y-5">
+          <div className="space-y-2">
 
             <div>
-              <p className="text-sm text-gray-500">
+              <p className="text-lg text-gray-500">
                 會員編號
               </p>
 
-              <p className="mt-1 font-bold text-lg">
+              <p className="mt-1 font-bold text-xl">
                 {profile.member_no}
               </p>
+               <hr className="border-b border-gray-200"></hr>
             </div>
 
             <div>
-              <p className="text-sm text-gray-500">
+              <p className="text-lg text-gray-500">
                 姓名
               </p>
 
-              <p className="mt-1">
+              <p className="mt-1 text-xl">
                 {profile.name}
               </p>
+               <hr className="border-b border-gray-200"></hr>
             </div>
 
             <div>
-              <p className="text-sm text-gray-500">
+              <p className="text-lg text-gray-500">
                 電話
               </p>
 
-              <p className="mt-1">
+              <p className="mt-1 text-xl">
                 {profile.phone}
               </p>
+               <hr className="border-b border-gray-200"></hr>
             </div>
 
             <div>
-              <p className="text-sm text-gray-500">
+              <p className="text-lg text-gray-500">
                 Email
               </p>
 
-              <p className="mt-1">
+              <p className="mt-1 text-xl">
                 {profile.email}
               </p>
+               <hr className="border-b border-gray-200"></hr>
             </div>
 
             <div>
-              <p className="text-sm text-gray-500">
+              <p className="text-lg text-gray-500">
                 地址
               </p>
 
-              <p className="mt-1">
+              <p className="mt-1 text-xl">
                 {profile.address}
               </p>
+               <hr className="border-b border-gray-200"></hr>
             </div>
 
             <div>
-              <p className="text-sm text-gray-500">
+              <p className="text-lg text-gray-500">
                 註冊時間
               </p>
 
-              <p className="mt-1">
+              <p className="mt-1 text-xl">
                 {new Date(profile.created_at).toLocaleString("zh-TW")}
               </p>
+               <hr className="border-b border-gray-200"></hr>
             </div>
 
           </div>
         </div>
 
         {/* 歷史訂單 */}
-        <section className="mt-10">
+        <section className="mt-5">
 
-          <h2 className="text-2xl font-bold text-stone-800 mb-5">
+          <h2 className="text-2xl font-bold text-stone-800 mb-2">
             會員訂單
           </h2>
 
