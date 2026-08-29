@@ -17,7 +17,7 @@ type CartItem = Product & {
 type CartContextType = {
   cart: CartItem[];
 
-  addToCart: (product: Product) => void;
+  addToCart: (product: Product) => boolean;
 
   increaseQuantity: (slug: string) => void;
 
@@ -52,7 +52,30 @@ export function CartProvider({
   }, [cart]);
 
   // 加入購物車
-  function addToCart(product: Product) {
+  function addToCart(product: Product): boolean {
+    const currentItem = cart.find(
+      (item) => item.id === product.id
+    );
+
+    // 庫存為 0
+    if (product.stock_quantity <= 0) {
+      alert(
+        "目前存貨不足，無法購買。\n\n請選購其他商品。"
+      );
+      return false;
+    }
+
+    // 已經加入購物車，而且達到庫存上限
+    if (
+      currentItem &&
+      currentItem.quantity >= product.stock_quantity
+    ) {
+      alert(
+        `目前庫存只有 ${product.stock_quantity} 份，無法再增加。`
+      );
+      return false;
+    }
+
     setCart((prev) => {
       const exist = prev.find(
         (item) => item.id === product.id
@@ -77,19 +100,31 @@ export function CartProvider({
         },
       ];
     });
+
+    return true;
   }
 
   // 增加數量
   function increaseQuantity(slug: string) {
     setCart((prev) =>
-      prev.map((item) =>
-        item.slug === slug
-          ? {
-              ...item,
-              quantity: item.quantity + 1,
-            }
-          : item
-      )
+      prev.map((item) => {
+        if (item.slug !== slug) {
+          return item;
+        }
+
+        // 已達到庫存上限
+        if (item.quantity >= item.stock_quantity) {
+          alert(
+            `目前庫存只有 ${item.stock_quantity} 份，無法再增加。`
+          );
+          return item;
+        }
+
+        return {
+          ...item,
+          quantity: item.quantity + 1,
+        };
+      })
     );
   }
 

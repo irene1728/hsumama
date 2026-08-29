@@ -22,11 +22,16 @@ const [added, setAdded] = useState(false);
 const imageRef = useRef<HTMLDivElement>(null);
 
 function handleAddToCart() {
+  const success = addToCart(product);
+
+  if (!success) {
+    return;
+  }
+
   if (imageRef.current) {
     flyToCart(product.image, imageRef.current);
   }
-
-  addToCart(product);
+  
 
   setAdded(true);
 

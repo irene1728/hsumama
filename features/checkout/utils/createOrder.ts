@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/client";
 
 type OrderItem = {
+  id: number;
   name: string;
   quantity: number;
   price: number;
@@ -43,81 +44,57 @@ export async function createOrder({
 
   const supabase = createClient();
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  // 提供給資料庫 Function 的商品資料
+  const items = cart.map((item) => ({
+    product_id: item.id,
+    quantity: item.quantity,
+  }));
 
-  let memberNo: string | null = null;
+  // 呼叫資料庫 Function
+  const { data: orderId, error } = await supabase.rpc(
+    "create_order_with_stock",
+    {
+      p_customer_name: customerName,
+      p_phone: phone,
+      p_email: email,
+      p_address: address,
+      p_note: note,
+      p_payment: paymentMethod,
+      p_delivery_method: deliveryMethod,
 
-  if (user) {
-    const { data: profile } = await supabase
-      .from("profiles")
-      .select("member_no")
-      .eq("user_id", user.id)
-      .maybeSingle();
+      p_total_quantity: totalQuantity,
+      p_total_amount: totalAmount,
+      p_shipping_fee: shippingFee,
+      p_grand_total: grandTotal,
+      p_free_shipping_threshold: freeShippingThreshold,
 
-    memberNo = profile?.member_no ?? null;
+      p_items: items,
+    }
+  );
+
+  // 庫存不足、商品不存在、或其他資料庫錯誤
+  if (error) {
+    throw error;
   }
 
-  // 建立訂單
+  if (!orderId) {
+    throw new Error("訂單建立失敗：沒有取得訂單編號。");
+  }
+
+  // Function 回傳訂單 ID
+  // 再把完整訂單資料取回來，維持原本 createOrder() 的回傳格式
   const { data: order, error: orderError } = await supabase
     .from("orders")
-    .insert({
-        user_id: user?.id ?? null,
-        member_no: memberNo,
-  customer_name: customerName,
-  phone,
-  email,
-      address,
-      note,
-      payment: paymentMethod,
-      delivery_method: deliveryMethod,
-      total_quantity: totalQuantity,
-      total_amount: totalAmount,
-      shipping_fee: shippingFee,
-      grand_total: grandTotal,
-      free_shipping_threshold: freeShippingThreshold,
-    })
+
     .select()
+    .eq("id", orderId)
     .single();
 
   if (orderError) {
     throw orderError;
   }
 
-  // 建立訂單商品
-  const items = cart.map((item) => ({
-    order_id: order.id,
-
-    product_name: item.name,
-
-    quantity: item.quantity,
-
-    price: item.price,
-
-    subtotal: item.price * item.quantity,
-
-    wholesale_price: item.wholesale_price,
-
-    wholesale_subtotal:
-      item.wholesale_price !== null
-        ? item.wholesale_price * item.quantity
-        : null,
-
-    profit:
-      item.wholesale_price !== null
-      ? (item.price - item.wholesale_price) * item.quantity
-      : null,
-
-  }));
-
-  const { error: itemError } = await supabase
-    .from("order_items")
-    .insert(items);
-
-  if (itemError) {
-    throw itemError;
-  }
+  
 
   return order;
 }

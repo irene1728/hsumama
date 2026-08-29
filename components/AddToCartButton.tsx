@@ -14,6 +14,15 @@ export default function AddToCartButton({
   const { addToCart } = useCart();
 
   function handleAddToCart() {
+
+    // 庫存不足
+    if (product.stock_quantity <= 0) {
+      alert(
+        "目前存貨不足，無法購買。\n\n請選購其他商品。"
+      );
+      return;
+    }
+
     const productImage = document.querySelector(
       "[data-product-image]"
     ) as HTMLElement | null;
