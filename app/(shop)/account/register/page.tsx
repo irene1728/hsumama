@@ -60,14 +60,14 @@ const [showSuccessModal, setShowSuccessModal] = useState(false);
   }
 
   return (
-    <main className="min-h-screen bg-white px-6 py-12">
+    <main className="min-h-screen bg-white px-6 py-20 md:py-28">
       <div className="max-w-md mx-auto">
 
-        <h1 className="text-3xl font-bold text-stone-800 text-center mb-8">
+        <h1 className="text-2xl md:text-3xl font-bold text-stone-800 text-center mb-2 md:mb-4">
           會員註冊
         </h1>
 
-        <div className="space-y-5">
+        <div className="space-y-4 md:space-y-5">
 
           {/* 姓名 */}
           <div>
@@ -149,7 +149,7 @@ const [showSuccessModal, setShowSuccessModal] = useState(false);
             type="button"
             onClick={handleRegister}
             disabled={loading}
-            className="w-full rounded-lg bg-orange-600 py-3 text-lg font-bold text-white transition hover:bg-orange-700 disabled:bg-gray-400"
+            className="w-full rounded-lg bg-orange-600 py-2 text-lg font-bold text-white transition hover:bg-orange-700 disabled:bg-gray-400"
           >
             {loading ? "註冊中..." : "註冊"}
           </button>
