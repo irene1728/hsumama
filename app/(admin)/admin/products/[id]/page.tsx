@@ -30,9 +30,9 @@ const { data: product, error } = await supabase
 }
 
   return (
-    <main className="max-w-3xl mx-auto py-3">
+    <main className="max-w-3xl mx-auto py-1">
 
-      <h1 className="text-2xl font-bold text-orange-600">
+      <h1 className="ml-1 text-2xl font-bold text-orange-600">
         編輯商品
       </h1>
 <hr></hr>

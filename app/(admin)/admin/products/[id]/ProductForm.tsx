@@ -157,21 +157,21 @@ description,
 }
 
   return (
-    <div className="max-w-3xl space-y-4">
+  <div className="max-w-3xl mx-auto px-4 md:px-0 space-y-2 md:space-y-4">
 
       <div>
-        <label className="block font-semibold mb-2">
+        <label className="block font-semibold mb-1 md:mb-2">
           商品名稱
         </label>
 
         <input
           value={name}
 onChange={(e) => setName(e.target.value)}
-          className="w-full border rounded-xl px-4 py-3"
+          className="w-full border rounded-xl px-4 py-2 md:py-3"
         />
       </div>
 <div>
-  <label className="block font-semibold mb-2">
+  <label className="block font-semibold mb-1 md:mb-2">
     商品網址 (Slug)
   </label>
 
@@ -179,12 +179,12 @@ onChange={(e) => setName(e.target.value)}
     value={slug}
     onChange={(e) => setSlug(e.target.value)}
     placeholder="例如：pork-ring"
-    className="w-full border rounded-xl px-4 py-3"
+    className="w-full border rounded-xl px-4 py-2 md:py-3"
   />
 </div>
 
 <div>
-  <label className="block font-semibold mb-2">
+  <label className="block font-semibold mb-1 md:mb-2">
     商品圖片
   </label>
 
@@ -192,7 +192,7 @@ onChange={(e) => setName(e.target.value)}
     <img
       src={imagePreview}
       alt="商品圖片"
-      className="w-48 h-48 object-cover rounded-xl border mb-4"
+      className="w-40 h-40 md:w-48 md:h-48 object-cover rounded-xl border mb-2"
     />
   )}
 
@@ -200,14 +200,14 @@ onChange={(e) => setName(e.target.value)}
   type="file"
   accept="image/*"
   onChange={handleImageChange}
-  className="w-full border rounded-xl px-4 py-3"
+  className="w-full border rounded-xl px-4 py-2 md:py-3"
 />
 </div>
 
 
 
       <div>
-        <label className="block font-semibold mb-2">
+        <label className="block font-semibold mb-1 md:mb-2">
           價格
         </label>
 
@@ -215,12 +215,12 @@ onChange={(e) => setName(e.target.value)}
           type="number"
           value={price}
 onChange={(e) => setPrice(Number(e.target.value))}
-          className="w-full border rounded-xl px-4 py-3"
+          className="w-full border rounded-xl px-4 py-2 md:py-3"
         />
       </div>
 
 <div>
-  <label className="block font-semibold mb-2">
+  <label className="block font-semibold mb-1 md:mb-2">
     批發價
   </label>
 
@@ -228,12 +228,12 @@ onChange={(e) => setPrice(Number(e.target.value))}
     type="number"
     value={wholesalePrice}
     onChange={(e) => setWholesalePrice(Number(e.target.value))}
-    className="w-full border rounded-xl px-4 py-3"
+    className="w-full border rounded-xl px-4 py-2 md:py-3"
   />
 </div>
 
       <div>
-        <label className="block font-semibold mb-2">
+        <label className="block font-semibold mb-1 md:mb-2">
           商品介紹
         </label>
 
@@ -241,19 +241,19 @@ onChange={(e) => setPrice(Number(e.target.value))}
          value={description}
 onChange={(e) => setDescription(e.target.value)}
           rows={3}
-          className="w-full border rounded-xl px-4 py-3"
+          className="w-full border rounded-xl px-4 py-2 md:py-3"
         />
       </div>
 
 <div>
-  <label className="block font-semibold mb-2">
+  <label className="block font-semibold mb-1 md:mb-2">
     分類
   </label>
 
   <select
     value={category}
 onChange={(e) => setCategory(e.target.value)}
-    className="w-full border rounded-xl px-4 py-3"
+    className="w-full border rounded-xl px-4 py-2 md:py-3"
   >
     <option value="pork">豬肉</option>
     <option value="chicken">雞肉</option>
@@ -266,42 +266,42 @@ onChange={(e) => setCategory(e.target.value)}
 </div>
 
 <div>
-  <label className="block font-semibold mb-2">
+  <label className="block font-semibold mb-1 md:mb-2">
     重量
   </label>
 
   <input
    value={weight}
 onChange={(e) => setWeight(e.target.value)}
-    className="w-full border rounded-xl px-4 py-3"
+    className="w-full border rounded-xl px-4 py-2 md:py-3"
   />
 </div>
 
 <div>
-  <label className="block font-semibold mb-2">
+  <label className="block font-semibold mb-1 md:mb-2">
     保存方式
   </label>
 
   <input
    value={storage}
 onChange={(e) => setStorage(e.target.value)}
-    className="w-full border rounded-xl px-4 py-3"
+    className="w-full border rounded-xl px-4 py-2 md:py-3"
   />
 </div>
 
 <div>
-  <label className="block font-semibold mb-2">
+  <label className="block font-semibold mb-1 md:mb-2">
     配送方式
   </label>
 
   <input
     value={delivery}
 onChange={(e) => setDelivery(e.target.value)}
-    className="w-full border rounded-xl px-4 py-3"
+    className="w-full border rounded-xl px-4 py-2 md:py-3"
   />
 </div>
 
-<div className="flex gap-10">
+<div className="flex gap-10 text-xl">
 
   <label className="flex items-center gap-2">
     <input
@@ -322,11 +322,11 @@ onChange={(e) => setDelivery(e.target.value)}
   </label>
 
 </div>
-<div className="pt-8 flex justify-between">
+<div className="pt-1 md:pt-2 flex justify-between">
 
   <Link
     href="/admin/products"
-    className="px-6 py-3 rounded-xl border border-gray-300 hover:bg-gray-100 transition"
+    className="px-6 py-2 md:py-3 rounded-xl border border-gray-300 hover:bg-gray-100 transition"
   >
     ← 返回商品管理
   </Link>
@@ -334,7 +334,7 @@ onChange={(e) => setDelivery(e.target.value)}
   <button
     onClick={saveProduct}
     disabled={loading}
-    className="bg-orange-600 hover:bg-orange-700 disabled:bg-gray-400 text-white font-bold px-8 py-3 rounded-xl transition"
+    className="bg-orange-600 hover:bg-orange-700 disabled:bg-gray-400 text-white font-bold px-8 py-2 md:py-3 rounded-xl transition"
   >
     {
   loading
