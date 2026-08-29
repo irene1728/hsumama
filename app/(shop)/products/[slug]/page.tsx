@@ -122,6 +122,14 @@ return (
             {product.weight ?? "待補"}
           </p>
 
+<p>
+  <span className="font-bold">
+    存貨：
+  </span>
+
+  {product.stock_quantity}
+</p>
+
         </div>
 
         <AddToCartButton product={product} />

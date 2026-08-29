@@ -14,7 +14,8 @@ type ProductFormData = {
   category: string;
   price: number | null;
 wholesale_price: number | null;
-  description: string | null;
+stock_quantity: number;
+description: string | null;
   weight: string | null;
 
   storage: string | null;
@@ -37,6 +38,7 @@ const [imagePreview, setImagePreview] = useState(product.image);
 const [name, setName] = useState(product.name);
 const [price, setPrice] = useState(product.price ?? 0);
 const [wholesalePrice, setWholesalePrice] = useState(product.wholesale_price ?? 0);
+const [stockQuantity, setStockQuantity] = useState(product.stock_quantity ?? 0);
 const [description, setDescription] = useState(product.description ?? "");
 const [category, setCategory] = useState(product.category);
 const [weight, setWeight] = useState(product.weight ?? "");
@@ -92,7 +94,7 @@ async function saveProduct() {
   let error;
 
   if (product.id === 0) {
-
+// 新增商品
     const result = await supabase
       .from("products")
      .insert({
@@ -103,6 +105,7 @@ async function saveProduct() {
   category,
 price,
 wholesale_price: wholesalePrice,
+stock_quantity: stockQuantity,
 description,
   weight,
   storage,
@@ -116,7 +119,7 @@ description,
     error = result.error;
 
   } else {
-
+// 修改商品
     const result = await supabase
       .from("products")
   .update({
@@ -127,6 +130,7 @@ description,
   category,
  price,
 wholesale_price: wholesalePrice,
+stock_quantity: stockQuantity,
 description,
   weight,
   storage,
@@ -228,6 +232,19 @@ onChange={(e) => setPrice(Number(e.target.value))}
     type="number"
     value={wholesalePrice}
     onChange={(e) => setWholesalePrice(Number(e.target.value))}
+    className="w-full border rounded-xl px-4 py-2 md:py-3"
+  />
+</div>
+<div>
+  <label className="block font-semibold mb-1 md:mb-2">
+    存貨數量
+  </label>
+
+  <input
+    type="number"
+    min="0"
+    value={stockQuantity}
+    onChange={(e) => setStockQuantity(Number(e.target.value))}
     className="w-full border rounded-xl px-4 py-2 md:py-3"
   />
 </div>
