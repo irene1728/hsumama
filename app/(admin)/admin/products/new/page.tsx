@@ -10,8 +10,9 @@ export default function NewProductPage() {
 
   name: "",
   category: "pork",
-  price: null,
-wholesale_price: null,
+ price: null,
+  wholesale_price: null,
+  stock_quantity: 0,
   description: "",
   weight: "",
 
