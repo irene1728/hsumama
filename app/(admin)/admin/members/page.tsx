@@ -11,15 +11,42 @@ type Member = {
   created_at: string;
 };
 
-export default async function MembersPage() {
+type MembersPageProps = {
+  searchParams: Promise<{
+    search?: string;
+  }>;
+};
+
+export default async function MembersPage({
+  searchParams,
+}: MembersPageProps) {
   const supabase = await createClient();
 
-  const { data: members, error } = await supabase
+  const params = await searchParams;
+  const search = params.search?.trim() ?? "";
+
+  let query = supabase
     .from("profiles")
     .select(
       "user_id, member_no, name, phone, email, address, created_at"
     )
     .order("created_at", { ascending: false });
+
+  // 搜尋會員編號／姓名／電話／Email／地址
+  if (search) {
+    const safeSearch = search
+      .replace(/\\/g, "\\\\")
+      .replace(/,/g, "\\,")
+      .replace(/\./g, "\\.")
+      .replace(/%/g, "\\%")
+      .replace(/_/g, "\\_");
+
+    query = query.or(
+      `member_no.ilike.%${safeSearch}%,name.ilike.%${safeSearch}%,phone.ilike.%${safeSearch}%,email.ilike.%${safeSearch}%,address.ilike.%${safeSearch}%`
+    );
+  }
+
+  const { data: members, error } = await query;
 
   if (error) {
     return (
@@ -52,15 +79,69 @@ export default async function MembersPage() {
           </h1>
 
           <p className="mt-1 text-gray-600">
-            共 {memberList.length} 位會員
+            {search
+              ? `搜尋「${search}」：找到 ${memberList.length} 位會員`
+              : `共 ${memberList.length} 位會員`}
           </p>
         </div>
 
-        {/* 沒有會員 */}
+        {/* ==================== */}
+        {/* 搜尋 */}
+        {/* ==================== */}
+        <form
+          method="GET"
+          className="mb-5 rounded-xl border border-gray-300 bg-white p-4 shadow-sm"
+        >
+          <div className="flex flex-col gap-3 sm:flex-row">
+            <div className="flex-1">
+              <label
+                htmlFor="member-search"
+                className="mb-1.5 block text-sm font-bold text-stone-700"
+              >
+                搜尋會員
+              </label>
+
+              <input
+                id="member-search"
+                name="search"
+                type="text"
+                defaultValue={search}
+                placeholder="輸入會員編號、姓名、電話、Email 或地址"
+                className="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-base text-stone-800 outline-none transition placeholder:text-gray-400 focus:border-orange-400 focus:ring-2 focus:ring-orange-100"
+              />
+            </div>
+
+            <div className="flex items-end gap-2">
+              <button
+                type="submit"
+                className="rounded-lg bg-orange-500 px-5 py-2.5 font-bold text-white transition hover:bg-orange-600"
+              >
+                搜尋
+              </button>
+
+              {search && (
+                <Link
+                  href="/admin/members"
+                  className="rounded-lg border border-gray-300 bg-white px-5 py-2.5 font-bold text-stone-700 transition hover:bg-gray-50"
+                >
+                  清除
+                </Link>
+              )}
+            </div>
+          </div>
+
+          <p className="mt-2 text-sm text-gray-500">
+            可搜尋：會員編號、姓名、電話、Email、地址
+          </p>
+        </form>
+
+        {/* 沒有會員／沒有搜尋結果 */}
         {memberList.length === 0 ? (
           <div className="rounded-xl border border-gray-300 bg-white p-6">
             <p className="text-gray-500">
-              目前沒有會員資料。
+              {search
+                ? `找不到符合「${search}」的會員。`
+                : "目前沒有會員資料。"}
             </p>
           </div>
         ) : (
