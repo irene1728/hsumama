@@ -23,7 +23,7 @@ import { supabase } from "@/lib/supabase";
 export default function CheckoutPage() {
 
   const router = useRouter();
-
+const [stockError, setStockError] = useState<string | null>(null);
   const { cart, clearCart } = useCart();
 
 type ShippingSetting = {
@@ -162,10 +162,18 @@ catch (error) {
 
   console.error("Supabase Error:", error);
 
-  alert(JSON.stringify(error, null, 2));
+  const message =
+    error &&
+    typeof error === "object" &&
+    "message" in error &&
+    typeof error.message === "string"
+      ? error.message
+      : "目前庫存不足，無法購買。";
+
+  setStockError(message);
 
 }
-  
+
   finally {
 
     setLoading(false);
@@ -174,7 +182,8 @@ catch (error) {
 
 }
 
-  return (
+return (
+  <>
     <main className="max-w-7xl mx-auto px-8 py-20 md:py-28">
 
       <h1 className="text-4xl font-bold text-stone-800 mb-2">
@@ -235,6 +244,42 @@ catch (error) {
 
 
 </div>
-    </main>
-  );
+        </main>
+
+    {stockError && (
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-6">
+        <div className="w-full max-w-md rounded-2xl bg-white p-7 shadow-2xl">
+
+          <h2 className="text-2xl font-bold text-stone-800 text-center">
+            徐媽媽冰鑽滷味
+          </h2>
+
+          <div className="mt-5 text-center text-gray-700 leading-relaxed">
+            <p className="text-xl font-bold text-orange-600">
+              目前庫存不足
+            </p>
+
+            <p className="mt-4">
+              {stockError}
+            </p>
+
+            <p className="mt-4">
+              請調整商品數量後再試。
+            </p>
+          </div>
+
+          <button
+            type="button"
+            onClick={() => setStockError(null)}
+            className="mt-6 w-full rounded-xl bg-orange-600 py-3 font-bold text-white transition hover:bg-orange-700"
+          >
+            確定
+          </button>
+
+        </div>
+      </div>
+    )}
+  </>
+);
+  
 }
