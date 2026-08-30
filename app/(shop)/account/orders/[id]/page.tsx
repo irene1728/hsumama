@@ -154,15 +154,33 @@ export default async function AccountOrderPage({
   return (
     <main className="max-w-4xl mx-auto px-4 md:px-6 py-20 md:py-25">
 
-      {/* 返回會員中心 */}
-      <div className="text-right">
-        <Link
-          href="/account"
-          className="inline-block mb-2 text-orange-600 font-bold text-xl hover:text-orange-700"
-        >
-          ← 返回會員中心
-        </Link>
-      </div>
+{/* 返回會員中心 + LINE 聯絡取消訂單 */}
+<div className="flex items-start justify-between gap-3 mb-2">
+  <Link
+    href="/account"
+    className="text-orange-600 font-bold text-xl hover:text-orange-700"
+  >
+    ← 返回會員中心
+  </Link>
+
+  {(order.status === "待處理" ||
+    order.status === "處理中") && (
+    <div className="flex flex-col items-end">
+      <a
+        href="https://lin.ee/q8kagIG"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="inline-flex items-center rounded-xl bg-green-500 px-1 py-1 text-sm md:text-base font-bold text-white transition hover:bg-green-600 whitespace-nowrap"
+      >
+        🟢 聯絡我們取消訂單
+      </a>
+
+      <p className="text-xs md:text-sm text-red-500 whitespace-nowrap">
+        ※ 訂單出貨後恕無法取消
+      </p>
+    </div>
+  )}
+</div>
 
       {/* =========================
           訂單標題
