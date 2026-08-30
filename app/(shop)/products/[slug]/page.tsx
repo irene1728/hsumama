@@ -30,10 +30,10 @@ export default async function ProductDetailPage({ params }: Props) {
 
 
 return (
-  <main className="max-w-6xl mx-auto py-16 px-8">
+  <main className="max-w-6xl mx-auto px-8 py-20 md:py-26">
 
     {/* 麵包屑 */}
-    <div className="mb-8 text-sm text-gray-500">
+    <div className="mb-2 text-base text-gray-500">
 
       <Link
         href="/"
@@ -60,16 +60,17 @@ return (
     </div>
 
 
-    <div className="grid md:grid-cols-2 gap-16 items-start">
+    <div className="grid md:grid-cols-2 gap-2 md:gap-16 items-start">
 
       {/* 商品圖片 */}
-      <div className="bg-white rounded-3xl shadow p-8 flex justify-center">
+      <div className="bg-white rounded-3xl shadow p-1 flex justify-center w-82 h-64 md:w-130 md:h-130">
 
         <Image
           src={product.image}
           alt={product.name}
-          width={500}
+          width={500} 
           height={500}
+          loading="eager"
           data-product-image
           className="object-contain"
         />
@@ -79,26 +80,26 @@ return (
       {/* 商品資訊 */}
       <div>
 
-        <h1 className="text-4xl font-bold text-stone-800">
+        <h1 className="text-3xl md:text-4xl font-bold text-stone-800">
           {product.name}
         </h1>
 
-        <p className="text-orange-600 text-3xl font-bold mt-6">
+        <p className="text-orange-600 text-3xl font-bold mt-2">
   {product.price
     ? `NT$ ${product.price.toLocaleString("zh-TW")}`
     : "價格請洽詢"}
 </p>
-        <div className="mt-10 space-y-5 text-lg">
-
-          <p>
-            <span className="font-bold">
-              商品介紹：
-            </span>
-
-            {product.description || "商品介紹即將更新"}
-          </p>
-
-          <p>
+        <div className="mt-2 space-y md:space-y-3 text-lg">
+<p>
+  <span className="font-bold">
+    商品介紹：
+  </span>
+<br/>
+  <span className="whitespace-pre-line">
+    {product.description || "商品介紹即將更新"}
+  </span>
+</p>   
+ <p>
             <span className="font-bold">
               保存方式：
             </span>
