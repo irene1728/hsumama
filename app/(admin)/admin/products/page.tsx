@@ -90,7 +90,7 @@ export default function AdminProductsPage() {
   }
 
   return (
-    <main className="max-w-7xl mx-auto p-2 md:p-1">
+    <main className="max-w-6xl mx-auto p-2 md:p-1">
       <h1 className="text-3xl md:text-4xl font-bold mb-2 md:mb-2">
         商品管理
       </h1>
@@ -102,13 +102,13 @@ export default function AdminProductsPage() {
         <table className="w-full table-fixed">
           <thead className="bg-orange-100">
             <tr>
-              <th className="w-28 px-4 py-3">圖片</th>
+              <th className="w-26 px-4 py-3">圖片</th>
 
-              <th className="w-74 text-left px-4">
+              <th className="w-76 text-left px-4">
                 商品
               </th>
 
-              <th className="w-32 px-4 text-center">
+              <th className="w-20 px-4 text-center">
                 分類
               </th>
 

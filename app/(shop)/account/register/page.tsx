@@ -80,7 +80,7 @@ const [showSuccessModal, setShowSuccessModal] = useState(false);
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="請輸入姓名"
-              className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-orange-500"
+              className="w-full rounded-lg border border-gray-500 px-4 py-3 outline-none focus:border-orange-500"
             />
           </div>
 
@@ -95,7 +95,7 @@ const [showSuccessModal, setShowSuccessModal] = useState(false);
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               placeholder="請輸入電話"
-              className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-orange-500"
+              className="w-full rounded-lg border border-gray-500 px-4 py-3 outline-none focus:border-orange-500"
             />
           </div>
 
@@ -110,7 +110,7 @@ const [showSuccessModal, setShowSuccessModal] = useState(false);
               value={address}
               onChange={(e) => setAddress(e.target.value)}
               placeholder="請輸入地址"
-              className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-orange-500"
+              className="w-full rounded-lg border border-gray-500 px-4 py-3 outline-none focus:border-orange-500"
             />
           </div>
 
@@ -125,7 +125,7 @@ const [showSuccessModal, setShowSuccessModal] = useState(false);
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="請輸入 Email"
-              className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-orange-500"
+              className="w-full rounded-lg border border-gray-500 px-4 py-3 outline-none focus:border-orange-500"
             />
           </div>
 
@@ -140,7 +140,7 @@ const [showSuccessModal, setShowSuccessModal] = useState(false);
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="請輸入密碼（至少 8 個字元）"
-              className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-orange-500"
+              className="w-full rounded-lg border border-gray-500 px-4 py-3 outline-none focus:border-orange-500"
             />
           </div>
 

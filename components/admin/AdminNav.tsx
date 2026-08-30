@@ -13,12 +13,16 @@ const menus = [
     href: "/admin/products",
   },
   {
+    name: "庫存管理",
+    href: "/admin/inventory",
+  },
+  {
     name: "訂單管理",
     href: "/admin/orders",
   },
   {
-  name: "會員管理",
-  href: "/admin/members",
+    name: "會員管理",
+    href: "/admin/members",
   },
   {
     name: "配送設定",
@@ -35,7 +39,8 @@ export default function AdminNav() {
         {menus.map((menu) => {
           const active =
             pathname === menu.href ||
-            (menu.href !== "/admin" && pathname.startsWith(menu.href));
+            (menu.href !== "/admin" &&
+              pathname.startsWith(menu.href));
 
           return (
             <Link

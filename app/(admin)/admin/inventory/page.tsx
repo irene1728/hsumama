@@ -22,8 +22,8 @@ export default async function InventoryPage() {
   }
 
   return (
-    <main className="max-w-6xl mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold text-stone-800 mb-8">
+    <main className="max-w-6xl mx-auto px-4 py-2">
+      <h1 className="text-3xl font-bold text-stone-800 mb-1">
         📦 商品存貨
       </h1>
 

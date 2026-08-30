@@ -78,78 +78,75 @@ export default function AdminOrdersPage() {
     setItems(data ?? []);
   }
 
-async function saveStatus() {
-  if (!selectedOrderId) return;
+  async function saveStatus() {
+    if (!selectedOrderId) return;
 
-  // ==========================================
-  // 已取消 → 自動退回庫存
-  // ==========================================
+    // ==========================================
+    // 已取消 → 自動退回庫存
+    // ==========================================
 
-  if (
-    status === "已取消" &&
-    selectedOrder?.status !== "已取消"
-  ) {
-    const { error } = await supabase.rpc(
-      "cancel_order_with_stock",
-      {
-        p_order_id: selectedOrderId,
+    if (
+      status === "已取消" &&
+      selectedOrder?.status !== "已取消"
+    ) {
+      const { error } = await supabase.rpc(
+        "cancel_order_with_stock",
+        {
+          p_order_id: selectedOrderId,
+        }
+      );
+
+      if (error) {
+        alert(error.message);
+        console.error(error);
+        return;
       }
-    );
 
-    if (error) {
-      alert(error.message);
-      console.error(error);
+      // 取消成功後，再更新付款狀態
+      const { error: paymentError } = await supabase
+        .from("orders")
+        .update({
+          payment_status: paymentStatus,
+        })
+        .eq("id", selectedOrderId);
+
+      if (paymentError) {
+        alert("訂單已取消，但付款狀態更新失敗");
+        console.error(paymentError);
+        return;
+      }
+
+      alert("訂單已取消，庫存已退回。");
+
+      await loadOrders();
+      await loadItems(selectedOrderId);
+
       return;
     }
 
-    // 取消成功後，再更新付款狀態
-    const { error: paymentError } = await supabase
+    // ==========================================
+    // 一般狀態更新
+    // ==========================================
+
+    const { error } = await supabase
       .from("orders")
       .update({
+        status,
         payment_status: paymentStatus,
       })
       .eq("id", selectedOrderId);
 
-    if (paymentError) {
-      alert("訂單已取消，但付款狀態更新失敗");
-      console.error(paymentError);
+    if (error) {
+      alert("更新失敗");
+      console.error(error);
       return;
     }
 
-    alert("訂單已取消，庫存已退回。");
+    alert("狀態已更新");
 
     await loadOrders();
-
     await loadItems(selectedOrderId);
-
-    return;
   }
-
-
-  // ==========================================
-  // 一般狀態更新
-  // ==========================================
-
-  const { error } = await supabase
-    .from("orders")
-    .update({
-      status,
-      payment_status: paymentStatus,
-    })
-    .eq("id", selectedOrderId);
-
-  if (error) {
-    alert("更新失敗");
-    console.error(error);
-    return;
-  }
-
-  alert("狀態已更新");
-
-  await loadOrders();
-
-  await loadItems(selectedOrderId);
-}
 
   async function downloadShippingPdf() {
     if (!selectedOrder) {
@@ -244,12 +241,11 @@ async function saveStatus() {
               ? Number(item.wholesale_subtotal)
               : null,
 
-              profit:
-  item.profit !== null &&
-  item.profit !== undefined
-    ? Number(item.profit)
-    : null,
-    
+          profit:
+            item.profit !== null &&
+            item.profit !== undefined
+              ? Number(item.profit)
+              : null,
         })),
       });
 
@@ -267,6 +263,22 @@ async function saveStatus() {
     }
   }
 
+  // ==========================================
+  // 建立時間格式
+  // 讓 Desktop 第 6 欄比較容易完整顯示
+  // ==========================================
+
+  function formatOrderDate(date: string) {
+    return new Date(date).toLocaleString("zh-TW", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    });
+  }
+
   return (
     <main className="max-w-6xl mx-auto px-2 py-2 md:p-1 overflow-x-hidden">
       <h1 className="text-3xl md:text-4xl font-bold mb-2 md:mb-2">
@@ -282,33 +294,57 @@ async function saveStatus() {
               左邊：訂單列表
               右邊：商品明細
               ================================================== */}
-          <div className="hidden lg:grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* 左邊：訂單列表 */}
-            <div className="overflow-x-auto rounded-xl border">
-              <table className="min-w-full">
+<div className="hidden lg:grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-8">
+            {/* ==================================================
+                左邊：訂單列表
+                6 個欄位固定比例
+                ================================================== */}
+
+            <div className="rounded-xl border overflow-hidden">
+              <table className="w-full table-fixed">
+                <colgroup>
+                  {/* 訂單 */}
+                  <col className="w-[12%]" />
+
+                  {/* 會員 */}
+                  <col className="w-[20%]" />
+
+                  {/* 收件人 */}
+                  <col className="w-[14%]" />
+
+                  {/* 電話 */}
+                  <col className="w-[18%]" />
+
+                  {/* 狀態 */}
+                  <col className="w-[16%]" />
+
+                  {/* 建立時間 */}
+                  <col className="w-[20%]" />
+                </colgroup>
+
                 <thead className="bg-gray-100">
                   <tr>
-                    <th className="px-4 py-3 text-left">
+                    <th className="px-2 py-3 text-left whitespace-nowrap text-sm">
                       訂單
                     </th>
 
-<th className="px-4 py-3 text-left">
-  會員
-</th>
+                    <th className="px-2 py-3 text-left whitespace-nowrap text-sm">
+                      會員
+                    </th>
 
-                    <th className="px-4 py-3 text-left">
+                    <th className="px-2 py-3 text-left whitespace-nowrap text-sm">
                       收件人
                     </th>
 
-                    <th className="px-4 py-3 text-left">
+                    <th className="px-2 py-3 text-left whitespace-nowrap text-sm">
                       電話
                     </th>
 
-                    <th className="px-4 py-3 text-left">
+                    <th className="px-2 py-3 text-left whitespace-nowrap text-sm">
                       狀態
                     </th>
 
-                    <th className="px-4 py-3 text-left">
+                    <th className="px-2 py-3 text-left whitespace-nowrap text-sm">
                       建立時間
                     </th>
                   </tr>
@@ -325,54 +361,69 @@ async function saveStatus() {
                           : ""
                       }`}
                     >
-
-
-                      <td className="px-4 py-3">
-  #{order.id}
-</td>
-
-<td className="px-4 py-3">
-{order.member_no ? (
-  <button
-    type="button"
-    onClick={(e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      window.location.href = `/admin/members/${order.member_no}`;
-    }}
-    className="text-blue-600 hover:text-blue-800 hover:underline font-semibold"
-  >
-    {order.member_no}
-  </button>
-) : (
-  "訪客"
-)}
-</td>
-
-<td className="px-4 py-3">
-  {order.customer_name}
-</td>
-
-                      <td className="px-4 py-3">
-                        {order.phone}
+                      {/* 訂單 */}
+                      <td className="px-2 py-3 whitespace-nowrap overflow-hidden">
+                        #{order.id}
                       </td>
 
-                      <td className="px-4 py-3">
+                      {/* 會員 */}
+                      <td className="px-2 py-3 whitespace-nowrap overflow-hidden">
+                        {order.member_no ? (
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+
+                              window.location.href = `/admin/members/${order.member_no}`;
+                            }}
+                            className="text-blue-600 hover:text-blue-800 hover:underline font-semibold"
+                          >
+                            {order.member_no}
+                          </button>
+                        ) : (
+                          "訪客"
+                        )}
+                      </td>
+
+                      {/* 收件人 */}
+                      <td className="px-2 py-3 overflow-hidden">
+                        <span className="block truncate">
+                          {order.customer_name}
+                        </span>
+                      </td>
+
+                      {/* 電話 */}
+                      <td className="px-2 py-3 overflow-hidden">
+                        <span
+                          className="block truncate"
+                          title={order.phone}
+                        >
+                          {order.phone}
+                        </span>
+                      </td>
+
+                      {/* 狀態 */}
+                      <td className="px-2 py-3 overflow-hidden">
                         <div className="space-y-1 text-sm">
-                          <div>
+                          <div className="whitespace-nowrap">
                             💰 {order.payment_status}
                           </div>
 
-                          <div>
+                          <div className="whitespace-nowrap">
                             📦 {order.status}
                           </div>
                         </div>
                       </td>
 
-                      <td className="px-4 py-3 whitespace-nowrap">
-                        {new Date(
-                          order.created_at
-                        ).toLocaleString("zh-TW")}
+                      {/* 建立時間 */}
+                      <td className="px-2 py-3 overflow-hidden">
+                        <span
+                          className="block truncate whitespace-nowrap text-sm"
+                          title={formatOrderDate(order.created_at)}
+                        >
+                          {formatOrderDate(order.created_at)}
+                        </span>
                       </td>
                     </tr>
                   ))}
@@ -380,7 +431,10 @@ async function saveStatus() {
               </table>
             </div>
 
-            {/* 右邊：商品明細 */}
+            {/* ==================================================
+                右邊：商品明細
+                ================================================== */}
+
             <div className="border rounded-xl p-6 min-w-0">
               <div className="flex items-center justify-between gap-3 mb-4">
                 <h2 className="text-2xl font-bold">
@@ -572,8 +626,8 @@ async function saveStatus() {
                       <option value="處理中">
                         處理中
                       </option>
-  
-                     <option value="已出貨">
+
+                      <option value="已出貨">
                         已出貨
                       </option>
 
@@ -603,8 +657,10 @@ async function saveStatus() {
               Mobile
               訂單列表 + 商品明細
               ================================================== */}
+
           <div className="lg:hidden space-y-3">
             {/* Mobile 訂單列表 */}
+
             <section>
               <h2 className="text-xl font-bold mb-2">
                 訂單列表
@@ -612,11 +668,11 @@ async function saveStatus() {
 
               <div className="px-3 space-y-3">
                 {orders.map((order) => (
-               <Link
-  key={order.id}
-  href={`/admin/orders/${order.id}`}
-  className="block w-full text-left rounded-xl border p-4 transition bg-white hover:bg-orange-50"
->
+                  <Link
+                    key={order.id}
+                    href={`/admin/orders/${order.id}`}
+                    className="block w-full text-left rounded-xl border p-4 transition bg-white hover:bg-orange-50"
+                  >
                     <div className="flex items-center justify-between gap-2">
                       <span className="font-bold text-lg">
                         訂單 #{order.id}
@@ -627,29 +683,30 @@ async function saveStatus() {
                       </span>
                     </div>
 
-<div className="flex items-start gap-2">
-  <span className="shrink-0">
-    🆔
-  </span>
+                    <div className="flex items-start gap-2">
+                      <span className="shrink-0">
+                        🆔
+                      </span>
 
-  <span className="break-words font-semibold">
-{order.member_no ? (
-  <button
-    type="button"
-    onClick={(e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      window.location.href = `/admin/members/${order.member_no}`;
-    }}
-    className="text-blue-600 hover:text-blue-800 hover:underline font-semibold"
-  >
-    {order.member_no}
-  </button>
-) : (
-  "訪客"
-)}
-  </span>
-</div>
+                      <span className="break-words font-semibold">
+                        {order.member_no ? (
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+
+                              window.location.href = `/admin/members/${order.member_no}`;
+                            }}
+                            className="text-blue-600 hover:text-blue-800 hover:underline font-semibold"
+                          >
+                            {order.member_no}
+                          </button>
+                        ) : (
+                          "訪客"
+                        )}
+                      </span>
+                    </div>
 
                     <div className="mt-3 space-y-2">
                       <div className="flex items-start gap-2">
@@ -707,12 +764,10 @@ async function saveStatus() {
               </div>
             </section>
 
-            
-         
           </div>
         </>
       )}
-      
+
     </main>
   );
 }
