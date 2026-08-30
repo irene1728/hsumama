@@ -14,10 +14,12 @@ export default async function AdminHeader() {
       <div className="max-w-7xl mx-auto flex h-12 md:h-12 items-center justify-between px-6">
 
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">
+          <Link
+            href="https://hsumama.bestlife.tw"
+            className="text-3xl font-bold text-gray-900 hover:text-orange-600 transition-colors"
+          >
             徐媽媽冰鑽滷味
-          </h1>
-
+          </Link>
         </div>
 
         {user ? (
