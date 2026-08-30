@@ -104,7 +104,7 @@ export default function InventoryList({ products }: Props) {
 
     // 如果已經載入過，就不用重新查詢
     if (logs[productId]) {
-        
+
       return;
     }
 
@@ -282,7 +282,7 @@ export default function InventoryList({ products }: Props) {
             </div>
 
             {/* 查看紀錄 */}
-            <div className="mt-4 border-t pt-4">
+            <div className="mt-2 border-t pt-2">
               <button
                 type="button"
                 onClick={() => {
@@ -312,15 +312,18 @@ export default function InventoryList({ products }: Props) {
             {isExpanded && (
               <div
                 className="
-                  mt-4
+                  mt-2
                   grid
                   md:grid-cols-2
                   gap-4
                 "
               >
+                {/* ====================================== */}
                 {/* 左：庫存異動 */}
+                {/* ====================================== */}
+
                 <div className="bg-gray-50 rounded-xl p-4">
-                  <h3 className="font-bold text-lg text-stone-800 mb-3">
+                  <h3 className="font-bold text-lg text-stone-800 mb-2">
                     📦 庫存異動紀錄
                   </h3>
 
@@ -329,7 +332,14 @@ export default function InventoryList({ products }: Props) {
                       目前沒有庫存異動紀錄。
                     </p>
                   ) : (
-                    <div className="space-y-3">
+                    <div
+                      className="
+                        space-y-2
+                        max-h-[560px]
+                        overflow-y-auto
+                        pr-2
+                      "
+                    >
                       {productLogs.map((log) => (
                         <div
                           key={log.id}
@@ -345,11 +355,11 @@ export default function InventoryList({ products }: Props) {
                             {formatDate(log.created_at)}
                           </p>
 
-                          <p className="font-bold mt-1">
+                          <p className="font-bold">
                             {log.reason}
                           </p>
 
-                          <p className="mt-1">
+                          <p className="text-base">
                             {log.quantity_before} →{" "}
                             <span
                               className={
@@ -366,13 +376,13 @@ export default function InventoryList({ products }: Props) {
                           </p>
 
                           {log.order_id !== null && (
-                            <p className="text-sm text-gray-600 mt-1">
+                            <p className="text-sm text-gray-600">
                               訂單：#{log.order_id}
                             </p>
                           )}
 
                           {log.note && (
-                            <p className="text-sm text-gray-600 mt-1">
+                            <p className="text-sm text-gray-600">
                               備註：{log.note}
                             </p>
                           )}
@@ -382,9 +392,12 @@ export default function InventoryList({ products }: Props) {
                   )}
                 </div>
 
+                {/* ====================================== */}
                 {/* 右：購買記錄 */}
+                {/* ====================================== */}
+
                 <div className="bg-gray-50 rounded-xl p-4">
-                  <h3 className="font-bold text-lg text-stone-800 mb-3">
+                  <h3 className="font-bold text-lg text-stone-800 mb-2">
                     🛒 購買記錄
                   </h3>
 
@@ -397,7 +410,14 @@ export default function InventoryList({ products }: Props) {
                       目前沒有購買記錄。
                     </p>
                   ) : (
-                    <div className="space-y-3">
+                    <div
+                      className="
+                        space-y-2
+                        max-h-[560px]
+                        overflow-y-auto
+                        pr-2
+                      "
+                    >
                       {productPurchases.map((purchase) => (
                         <div
                           key={purchase.id}
@@ -413,18 +433,18 @@ export default function InventoryList({ products }: Props) {
                             {formatDate(purchase.created_at)}
                           </p>
 
-                          <p className="font-bold mt-1">
+                          <p className="font-bold">
                             訂單 #{purchase.order_id}
                           </p>
 
-                          <p className="mt-1">
+                          <p className="text-base">
                             購買數量：
                             <span className="font-bold">
                               {purchase.quantity} 份
                             </span>
                           </p>
 
-                          <p className="text-sm text-gray-600 mt-1">
+                          <p className="text-sm text-gray-600">
                             單價：NT${" "}
                             {purchase.price.toLocaleString("zh-TW")}
                           </p>

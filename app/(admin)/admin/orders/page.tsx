@@ -78,31 +78,78 @@ export default function AdminOrdersPage() {
     setItems(data ?? []);
   }
 
-  async function saveStatus() {
-    if (!selectedOrderId) return;
+async function saveStatus() {
+  if (!selectedOrderId) return;
 
-    const { error } = await supabase
-      .from("orders")
-      .update({
-        status,
-        payment_status: paymentStatus,
-      })
-      .eq("id", selectedOrderId);
+  // ==========================================
+  // 已取消 → 自動退回庫存
+  // ==========================================
+
+  if (
+    status === "已取消" &&
+    selectedOrder?.status !== "已取消"
+  ) {
+    const { error } = await supabase.rpc(
+      "cancel_order_with_stock",
+      {
+        p_order_id: selectedOrderId,
+      }
+    );
 
     if (error) {
-      alert("更新失敗");
+      alert(error.message);
       console.error(error);
       return;
     }
 
-    alert("狀態已更新");
+    // 取消成功後，再更新付款狀態
+    const { error: paymentError } = await supabase
+      .from("orders")
+      .update({
+        payment_status: paymentStatus,
+      })
+      .eq("id", selectedOrderId);
+
+    if (paymentError) {
+      alert("訂單已取消，但付款狀態更新失敗");
+      console.error(paymentError);
+      return;
+    }
+
+    alert("訂單已取消，庫存已退回。");
 
     await loadOrders();
 
-    if (selectedOrderId) {
-      await loadItems(selectedOrderId);
-    }
+    await loadItems(selectedOrderId);
+
+    return;
   }
+
+
+  // ==========================================
+  // 一般狀態更新
+  // ==========================================
+
+  const { error } = await supabase
+    .from("orders")
+    .update({
+      status,
+      payment_status: paymentStatus,
+    })
+    .eq("id", selectedOrderId);
+
+  if (error) {
+    alert("更新失敗");
+    console.error(error);
+    return;
+  }
+
+  alert("狀態已更新");
+
+  await loadOrders();
+
+  await loadItems(selectedOrderId);
+}
 
   async function downloadShippingPdf() {
     if (!selectedOrder) {
