@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 
 const menus = [
   {
-    name: "Dashboard",
+    name: "系統總覽",
     href: "/admin",
   },
   {
