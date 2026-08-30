@@ -21,6 +21,15 @@ type InventoryLog = {
   created_at: string;
 };
 
+type PurchaseRecord = {
+  id: number;
+  order_id: number;
+  quantity: number;
+  price: number;
+  subtotal: number;
+  created_at: string;
+};
+
 type Props = {
   products: Product[];
 };
@@ -36,7 +45,14 @@ export default function InventoryList({ products }: Props) {
     Record<number, InventoryLog[]>
   >({});
 
+  const [purchases, setPurchases] = useState<
+    Record<number, PurchaseRecord[]>
+  >({});
+
   const [expandedId, setExpandedId] = useState<number | null>(null);
+
+  const [loadingPurchaseId, setLoadingPurchaseId] =
+    useState<number | null>(null);
 
   const supabase = createClient();
 
@@ -84,9 +100,11 @@ export default function InventoryList({ products }: Props) {
       return;
     }
 
-    // 已經載入過，就直接展開
+    setExpandedId(productId);
+
+    // 如果已經載入過，就不用重新查詢
     if (logs[productId]) {
-      setExpandedId(productId);
+        
       return;
     }
 
@@ -118,8 +136,42 @@ export default function InventoryList({ products }: Props) {
       ...prev,
       [productId]: data ?? [],
     }));
+  }
 
-    setExpandedId(productId);
+  async function handleShowPurchases(productId: number) {
+    if (purchases[productId]) {
+      return;
+    }
+
+    setLoadingPurchaseId(productId);
+
+    const { data, error } = await supabase
+      .from("order_items")
+      .select(
+        `
+        id,
+        order_id,
+        quantity,
+        price,
+        subtotal,
+        created_at
+        `
+      )
+      .eq("product_id", productId)
+      .order("created_at", { ascending: false });
+
+    setLoadingPurchaseId(null);
+
+    if (error) {
+      console.error(error);
+      alert("載入購買記錄失敗");
+      return;
+    }
+
+    setPurchases((prev) => ({
+      ...prev,
+      [productId]: data ?? [],
+    }));
   }
 
   function formatDate(dateString: string) {
@@ -136,6 +188,8 @@ export default function InventoryList({ products }: Props) {
     <div className="space-y-4">
       {products.map((product) => {
         const productLogs = logs[product.id] ?? [];
+        const productPurchases = purchases[product.id] ?? [];
+
         const isExpanded = expandedId === product.id;
 
         return (
@@ -150,6 +204,7 @@ export default function InventoryList({ products }: Props) {
               shadow-sm
             "
           >
+            {/* 商品 / 庫存 / 補貨 */}
             <div
               className="
                 flex
@@ -226,11 +281,21 @@ export default function InventoryList({ products }: Props) {
               </div>
             </div>
 
-            {/* 查看異動紀錄 */}
+            {/* 查看紀錄 */}
             <div className="mt-4 border-t pt-4">
               <button
                 type="button"
-                onClick={() => handleShowLogs(product.id)}
+                onClick={() => {
+                  if (isExpanded) {
+                    setExpandedId(null);
+                    return;
+                  }
+
+                  setExpandedId(product.id);
+
+                  handleShowLogs(product.id);
+                  handleShowPurchases(product.id);
+                }}
                 className="
                   text-orange-600
                   font-semibold
@@ -238,74 +303,143 @@ export default function InventoryList({ products }: Props) {
                 "
               >
                 {isExpanded
-                  ? "▲ 隱藏異動紀錄"
-                  : "▼ 查看異動紀錄"}
+                  ? "▲ 隱藏紀錄"
+                  : "▼ 查看異動／購買紀錄"}
               </button>
             </div>
 
-            {/* 異動紀錄 */}
+            {/* 左右兩欄 */}
             {isExpanded && (
-              <div className="mt-4 bg-gray-50 rounded-xl p-4">
-                <h3 className="font-bold text-lg text-stone-800 mb-3">
-                  庫存異動紀錄
-                </h3>
+              <div
+                className="
+                  mt-4
+                  grid
+                  md:grid-cols-2
+                  gap-4
+                "
+              >
+                {/* 左：庫存異動 */}
+                <div className="bg-gray-50 rounded-xl p-4">
+                  <h3 className="font-bold text-lg text-stone-800 mb-3">
+                    📦 庫存異動紀錄
+                  </h3>
 
-                {productLogs.length === 0 ? (
-                  <p className="text-gray-500">
-                    目前沒有庫存異動紀錄。
-                  </p>
-                ) : (
-                  <div className="space-y-3">
-                    {productLogs.map((log) => (
-                      <div
-                        key={log.id}
-                        className="
-                          bg-white
-                          border
-                          border-gray-200
-                          rounded-xl
-                          p-3
-                        "
-                      >
-                        <p className="text-sm text-gray-500">
-                          {formatDate(log.created_at)}
-                        </p>
-
-                        <p className="font-bold mt-1">
-                          {log.reason}
-                        </p>
-
-                        <p className="mt-1">
-                          {log.quantity_before} →{" "}
-                          <span
-                            className={
-                              log.quantity_change >= 0
-                                ? "text-green-600 font-bold"
-                                : "text-red-600 font-bold"
-                            }
-                          >
-                            {log.quantity_change >= 0
-                              ? `+${log.quantity_change}`
-                              : log.quantity_change}
-                          </span>{" "}
-                          → {log.quantity_after}
-                        </p>
-
-                        {log.order_id !== null && (
-                          <p className="text-sm text-gray-600 mt-1">
-                            訂單：#{log.order_id}
+                  {productLogs.length === 0 ? (
+                    <p className="text-gray-500">
+                      目前沒有庫存異動紀錄。
+                    </p>
+                  ) : (
+                    <div className="space-y-3">
+                      {productLogs.map((log) => (
+                        <div
+                          key={log.id}
+                          className="
+                            bg-white
+                            border
+                            border-gray-200
+                            rounded-xl
+                            p-3
+                          "
+                        >
+                          <p className="text-sm text-gray-500">
+                            {formatDate(log.created_at)}
                           </p>
-                        )}
 
-                        {log.note && (
-                          <p className="text-sm text-gray-600 mt-1">
-                            備註：{log.note}
+                          <p className="font-bold mt-1">
+                            {log.reason}
                           </p>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                )}
+
+                          <p className="mt-1">
+                            {log.quantity_before} →{" "}
+                            <span
+                              className={
+                                log.quantity_change >= 0
+                                  ? "text-green-600 font-bold"
+                                  : "text-red-600 font-bold"
+                              }
+                            >
+                              {log.quantity_change >= 0
+                                ? `+${log.quantity_change}`
+                                : log.quantity_change}
+                            </span>{" "}
+                            → {log.quantity_after}
+                          </p>
+
+                          {log.order_id !== null && (
+                            <p className="text-sm text-gray-600 mt-1">
+                              訂單：#{log.order_id}
+                            </p>
+                          )}
+
+                          {log.note && (
+                            <p className="text-sm text-gray-600 mt-1">
+                              備註：{log.note}
+                            </p>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* 右：購買記錄 */}
+                <div className="bg-gray-50 rounded-xl p-4">
+                  <h3 className="font-bold text-lg text-stone-800 mb-3">
+                    🛒 購買記錄
+                  </h3>
+
+                  {loadingPurchaseId === product.id ? (
+                    <p className="text-gray-500">
+                      載入購買記錄中...
+                    </p>
+                  ) : productPurchases.length === 0 ? (
+                    <p className="text-gray-500">
+                      目前沒有購買記錄。
+                    </p>
+                  ) : (
+                    <div className="space-y-3">
+                      {productPurchases.map((purchase) => (
+                        <div
+                          key={purchase.id}
+                          className="
+                            bg-white
+                            border
+                            border-gray-200
+                            rounded-xl
+                            p-3
+                          "
+                        >
+                          <p className="text-sm text-gray-500">
+                            {formatDate(purchase.created_at)}
+                          </p>
+
+                          <p className="font-bold mt-1">
+                            訂單 #{purchase.order_id}
+                          </p>
+
+                          <p className="mt-1">
+                            購買數量：
+                            <span className="font-bold">
+                              {purchase.quantity} 份
+                            </span>
+                          </p>
+
+                          <p className="text-sm text-gray-600 mt-1">
+                            單價：NT${" "}
+                            {purchase.price.toLocaleString("zh-TW")}
+                          </p>
+
+                          <p className="text-sm text-gray-600">
+                            小計：NT${" "}
+                            {purchase.subtotal.toLocaleString(
+                              "zh-TW"
+                            )}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
             )}
           </div>
