@@ -14,7 +14,7 @@ export default function ShippingPolicyPage() {
           </h1>
 
           <p className="text-gray-500 mt-5">
-            冷凍宅配，讓美味安心送到您手中
+            保鮮真空包裝，冷凍宅配送到您家。
           </p>
         </div>
       </section>

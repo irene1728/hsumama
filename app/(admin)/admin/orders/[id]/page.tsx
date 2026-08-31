@@ -143,8 +143,7 @@ console.error(
 );
 
 
-      const paymentMethod: "ATM" | "COD" =
-        order.payment.includes("ATM") ? "ATM" : "COD";
+     const paymentMethod = "ATM" as const;
 
       const shippingOrder = {
         orderNo: String(order.id),

@@ -155,8 +155,10 @@ export default function AdminOrdersPage() {
     }
 
     try {
-      const paymentMethod: "ATM" | "COD" =
-        selectedOrder.payment.includes("ATM") ? "ATM" : "COD";
+      // ==========================================
+      // 正式付款方式固定為 ATM／線上轉帳
+      // ==========================================
+const paymentMethod = "ATM" as const;
 
       const shippingOrder = {
         orderNo: String(selectedOrder.id),
@@ -294,7 +296,9 @@ export default function AdminOrdersPage() {
               左邊：訂單列表
               右邊：商品明細
               ================================================== */}
-<div className="hidden lg:grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-8">
+
+          <div className="hidden lg:grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-8">
+
             {/* ==================================================
                 左邊：訂單列表
                 6 個欄位固定比例
@@ -601,9 +605,7 @@ export default function AdminOrdersPage() {
                         已付款
                       </option>
 
-                      <option value="待收款">
-                        待收款
-                      </option>
+
                     </select>
                   </div>
 
@@ -659,6 +661,7 @@ export default function AdminOrdersPage() {
               ================================================== */}
 
           <div className="lg:hidden space-y-3">
+
             {/* Mobile 訂單列表 */}
 
             <section>

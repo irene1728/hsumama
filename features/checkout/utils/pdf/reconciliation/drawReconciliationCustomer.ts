@@ -92,7 +92,6 @@ export function drawReconciliationCustomer({
     y + rowHeight * 3
   );
 
-
   //------------------------------------------
   // 第一、二列中線
   //------------------------------------------
@@ -123,11 +122,7 @@ export function drawReconciliationCustomer({
   );
 
   doc.text(
-    `付款方式：${
-      order.paymentMethod === "ATM"
-        ? "ATM轉帳"
-        : "貨到付款"
-    }`,
+    "付款方式：ATM／線上轉帳",
     x + leftWidth + 2,
     y + textOffset
   );
@@ -158,10 +153,6 @@ export function drawReconciliationCustomer({
     x + 2,
     y + rowHeight * 2 + textOffset
   );
-
-
-
-
 
   //------------------------------------------
   // 回傳表格底部位置

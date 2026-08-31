@@ -3,51 +3,48 @@ export default function OrderInfoPage() {
     {
       icon: "🛒",
       title: "挑選商品",
-      text: "瀏覽商品，選擇喜歡的滷味與數量。",
+      text: "瀏覽商品.選擇喜歡的美食。",
     },
     {
       icon: "🧺",
       title: "加入購物車",
-      text: "確認商品、數量與訂單金額後進入結帳。",
+      text: "確認商品.數量.金額後進入結帳。",
     },
-    {
-      icon: "💳",
-      title: "完成付款",
-      text: "選擇適合您的付款方式，完成訂單。",
-    },
+  {
+  icon: "💳",
+  title: "完成付款",
+  text: "下訂單後.請盡快完成轉帳付款。",
+},
 {
   icon: "🚚",
   title: "冷凍宅配到府",
-  text: "商品完成出貨後，以冷凍宅配方式送到您家。",
+  text: "商品以冷凍宅配方式送到您家。",
 },
   ];
 
   return (
-    <main className="min-h-screen bg-white pt-28">
+    <main className="min-h-screen bg-white pt-16 md:pt-24">
       {/* 訂購流程 */}
-      <section className="bg-[#FFF8F0] py-12 md:py-16">
-        <div className="max-w-7xl mx-auto px-6 md:px-8">
-          <div className="text-center mb-10">
-            <p className="text-orange-600 font-semibold tracking-widest">
-              ORDER PROCESS
-            </p>
-
-            <h1 className="text-4xl md:text-5xl font-bold text-stone-800 mt-2">
+      <section className="bg-[#FFF8F0] py-4 md:py-10">
+        <div className="max-w-7xl mx-auto px-4 md:px-5">
+          <div className="text-center mb:-3 md:mb-5">
+           
+            <h1 className="text-2xl md:text-5xl md:font-bold text-red-600 mt-1 md:mt-2">
               訂購方式
             </h1>
 
-            <p className="text-gray-500 mt-5">
+            <p className="text-gray-500 md:mt-3">
               四個步驟，輕鬆把美味帶回家
             </p>
           </div>
 
-          <div className="grid md:grid-cols-4 gap-6 md:gap-8">
+          <div className="grid md:grid-cols-4 gap-2 md:gap-8">
             {steps.map((step, index) => (
               <div
                 key={index}
-                className="relative bg-white rounded-3xl shadow-sm border border-orange-100 p-8 md:p-10 text-center hover:shadow-lg transition"
+                className="relative bg-white rounded-3xl shadow-sm border border-orange-100 p-4 md:p-5 text-center hover:shadow-lg transition"
               >
-                <div className="text-5xl md:text-6xl mb-5">
+                <div className="text-4xl md:text-4xl mb-4">
                   {step.icon}
                 </div>
 
@@ -65,71 +62,51 @@ export default function OrderInfoPage() {
       </section>
 
       {/* 付款方式 */}
-      <section className="py-12 md:py-16">
-        <div className="max-w-5xl mx-auto px-6 md:px-8">
-          <div className="text-center mb-10">
-            <p className="text-orange-600 font-semibold tracking-widest">
-              PAYMENT
-            </p>
+      <section className="py-4 md:py-10">
+        <div className="max-w-5xl mx-auto px-4 md:px-8 text-center">
+          
+          
 
-            <h2 className="text-3xl md:text-4xl font-bold text-stone-800 mt-2">
+            <h2 className="text-2xl md:text-5xl md:font-bold text-red-600 mt-1 md:mt-4">
               付款方式
             </h2>
-          </div>
+          
 
-          <div className="grid md:grid-cols-2 gap-6">
-            <div className="rounded-3xl border border-orange-100 bg-[#FFF8F0] p-8">
-              <div className="text-4xl mb-4">🏦</div>
+       <div className="rounded-3xl border border-orange-100 bg-[#FFF8F0] p-4 md:p-10 mt-2 md:mt-5">
+  <div className="text-4xl mb-4">🏦</div>
 
-              <h3 className="text-2xl font-bold text-stone-800 mb-4">
-                ATM 轉帳
-              </h3>
+  <h3 className="text-2xl font-bold text-stone-800 mb-4">
+    ATM/線上轉帳
+  </h3>
 
-              <p className="text-gray-600 leading-8">
-                下單時選擇 ATM 轉帳付款方式，
-                完成轉帳後依網站流程提供付款資訊，
-                方便我們確認您的訂單。
-              </p>
-            </div>
-
-            <div className="rounded-3xl border border-orange-100 bg-[#FFF8F0] p-8">
-              <div className="text-4xl mb-4">📦</div>
-
-              <h3 className="text-2xl font-bold text-stone-800 mb-4">
-                貨到付款
-              </h3>
-
-              <p className="text-gray-600 leading-8">
-                下單時選擇貨到付款，
-                商品配送到府時再支付訂單款項，
-                讓您購買更加方便。
-              </p>
-            </div>
-          </div>
+  <p className="text-gray-600 leading-8">
+    訂單成立後.請盡快完成付款並LINE通知。
+  </p>
+</div>
         </div>
       </section>
 
       {/* 配送方式 */}
-      <section className="bg-[#FFF8F0] py-12 md:py-16">
-        <div className="max-w-5xl mx-auto px-6 md:px-8 text-center">
-          <p className="text-orange-600 font-semibold tracking-widest">
-            DELIVERY
-          </p>
-
-          <h2 className="text-3xl md:text-4xl font-bold text-stone-800 mt-2 mb-8">
+      <section className="bg-[#FFF8F0] py-4 md:py-10">
+        <div className="max-w-5xl mx-auto px-4 md:px-8 text-center">
+         
+          <h2 className="text-2xl md:text-5xl md:font-bold text-red-600 mt-1 md:mt-4">
             配送方式
           </h2>
 
-          <div className="bg-white rounded-3xl border border-orange-100 p-8 md:p-10">
-            <div className="text-5xl mb-5">🚚</div>
+          <div className="bg-white rounded-3xl border border-orange-100 p-4 md:p-10 mt-2 md:mt-5">
+            <div className="text-4xl mb-4">🚚</div>
 
-         <h3 className="text-2xl font-bold text-stone-800 mb-4">
+         <h3 className="text-2xl font-bold text-stone-800 mb-2 md:mb-4">
   新竹貨運冷凍宅配到府
 </h3>
 
-<p className="text-gray-600 leading-8 max-w-3xl mx-auto">
+<p className="text-gray-600 leading-6 md:leading-8 max-w-3xl mx-auto">
   <span className="block">
-    商品完成備貨後，將由新竹貨運以冷凍宅配方式配送，
+    商品完成備貨後，
+    </span>
+     <span className="block">
+    將由新竹貨運以冷凍宅配方式配送，
   </span>
   <span className="block">
     讓食品在適當的保存條件下送到您手中。
@@ -140,14 +117,12 @@ export default function OrderInfoPage() {
       </section>
 
       {/* 下單提醒 */}
-      <section className="py-12 md:py-16">
+      <section className="py-4 md:py-10">
         <div className="max-w-5xl mx-auto px-6 md:px-8">
           <div className="rounded-3xl bg-[#FFF8F0] border border-orange-100 p-8 md:p-10">
-            <p className="text-orange-600 font-semibold tracking-widest mb-2">
-              NOTICE
-            </p>
+           
 
-            <h2 className="text-3xl font-bold text-stone-800 mb-6">
+            <h2 className="text-3xl font-bold text-red-600 mb-6">
               下單前小提醒
             </h2>
 
@@ -161,7 +136,7 @@ export default function OrderInfoPage() {
               </p>
 
               <p>
-                • ATM 轉帳訂單請依網站提供的付款資訊完成付款。
+                • ATM/線上轉帳訂單請依網站提供的付款資訊完成付款。
               </p>
 
               <p>

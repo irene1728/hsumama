@@ -62,10 +62,7 @@ export function orderToPdf(order: OrderRow): PdfOrder {
     total: order.grand_total,
 
     // 付款方式
-    paymentMethod:
-      order.payment === "ATM轉帳"
-        ? "ATM"
-        : "COD",
+    paymentMethod: "ATM",
 
     // 配送方式
     shippingMethod: order.delivery_method,

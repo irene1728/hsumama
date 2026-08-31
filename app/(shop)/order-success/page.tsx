@@ -165,7 +165,7 @@ const pdfOrder = orderToPdf(order);
 
 
 {/* ATM 轉帳 */}
-{order.payment === "ATM轉帳" && (
+{order.payment === "ATM／線上轉帳" && (
   <div className="mt-8 rounded-2xl border border-green-200 bg-green-50 p-5">
     <h3 className="text-xl font-bold text-orange-700 mb-2">
       🏦 ATM 匯款資訊
@@ -205,7 +205,7 @@ const pdfOrder = orderToPdf(order);
 <div className="mt-4 rounded-2xl border border-green-200 bg-green-50 p-4">
 
   <h3 className="text-xl font-bold text-green-700 mb-2">
-    💚 訂單完成後，請加入LINE官方帳號
+    💚訂單成立後，請加入LINE官方帳號
   </h3>
 
   <p className="text-gray-700 leading-6">
@@ -229,56 +229,11 @@ const pdfOrder = orderToPdf(order);
     href="https://lin.ee/q8kagIG"
     target="_blank"
     rel="noopener noreferrer"
-    className="inline-block mt-4 bg-green-600 hover:bg-green-700 text-white text-xl font-bold px-7 py-2 rounded-xl transition"
+    className="inline-block mt-2 md:mt-4 bg-green-600 hover:bg-green-700 text-white text-xl font-bold px-7 py-2 rounded-xl transition"
   >
     加入LINE官方帳號
   </a>
 </div>
-
-  </div>
-
-)}
-
-{/* 貨到付款 */}
-{order.payment === "貨到付款" && (
-  <div className="mt-8 rounded-2xl border border-green-200 bg-green-50 p-6">
-    <h3 className="text-xl font-bold text-green-700 mb-4">
-      🚚 配送付款說明
-    </h3>
-
-    <p className="text-gray-700">
-      商品將由新竹物流冷凍宅配配送，請於收貨時付款給配送人員。
-    </p>
- <hr className="my-6" />
-
- <div className="mt-6 rounded-2xl border border-blue-200 bg-blue-50 p-6">
-    <h3 className="text-xl font-bold text-green-700 mb-4">
-      💚 訂單完成後，請加入 LINE 官方帳號。
-    </h3>
-
-    <p className="text-gray-700 leading-8">
-      並提供：
-    </p>
-
-    <ul className="mt-4 space-y-2 text-gray-700">
-      <li>✅ 訂單編號</li>
-    </ul>
-
-    <p className="mt-5 text-gray-700 leading-8">
-      我們會盡快確認訂單並安排出貨。
-      <br />
-      感謝您的支持～❤️
-    </p>
-
-    <a
-      href="https://lin.ee/q8kagIG"
-      target="_blank"
-      rel="noopener noreferrer"
-      className="inline-block mt-6 bg-green-600 hover:bg-green-700 text-white font-bold px-6 py-3 rounded-xl transition"
-    >
-      加入 LINE 官方帳號
-    </a>
-  </div>
 
   </div>
 )}

@@ -181,33 +181,19 @@ export default function ReturnPolicyPage() {
             退款方式
           </h2>
 
-          <div className="grid md:grid-cols-2 gap-6">
-            <div className="bg-white rounded-3xl border border-orange-100 p-6 md:p-8">
-              <div className="text-4xl mb-4">🏦</div>
+    <div className="max-w-3xl">
+  <div className="bg-white rounded-3xl border border-orange-100 p-6 md:p-8">
+    <div className="text-4xl mb-4">🏦</div>
 
-              <h3 className="text-xl font-bold text-stone-800 mb-4">
-                ATM 轉帳
-              </h3>
+    <h3 className="text-xl font-bold text-stone-800 mb-4">
+      ATM/線上轉帳
+    </h3>
 
-              <p className="text-gray-600 leading-8">
-                若原訂單採 ATM 轉帳付款，
-                確認退貨完成後，將由本店依顧客提供之銀行帳戶辦理退款。
-              </p>
-            </div>
-
-            <div className="bg-white rounded-3xl border border-orange-100 p-6 md:p-8">
-              <div className="text-4xl mb-4">📦</div>
-
-              <h3 className="text-xl font-bold text-stone-800 mb-4">
-                貨到付款
-              </h3>
-
-              <p className="text-gray-600 leading-8">
-                若原訂單採貨到付款方式，
-                確認退貨完成後，將由本店依顧客提供之銀行帳戶辦理退款。
-              </p>
-            </div>
-          </div>
+    <p className="text-gray-600 leading-8">
+      確認退貨.商品無誤完成後，將由本店依顧客提供之銀行帳戶辦理退款。
+    </p>
+  </div>
+</div>
 
           <div className="mt-6 bg-white rounded-3xl border border-orange-100 p-6 md:p-8">
             <h3 className="text-xl font-bold text-stone-800 mb-4">

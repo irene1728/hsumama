@@ -16,7 +16,7 @@ export function useCheckout() {
   const [deliveryMethod, setDeliveryMethod] = useState("新竹物流冷凍宅配");
 
   const [paymentMethod, setPaymentMethod] =
-    useState("ATM轉帳/貨到付款");
+      useState("ATM／線上轉帳");
 
   const [loading, setLoading] = useState(false);
 

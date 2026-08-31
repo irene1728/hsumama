@@ -4,8 +4,7 @@ export type DeliveryMethod =
   | "family";
 
 export type PaymentMethod =
-  | "ATM轉帳"
-  | "貨到付款";
+  | "ATM／線上轉帳";
 
 export type CheckoutFormData = {
   customerName: string;

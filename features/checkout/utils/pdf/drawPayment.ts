@@ -11,7 +11,7 @@ import {
  *
  * 職責：
  * - 顯示付款資訊
- * - ATM 與 COD 分開顯示
+ * - 固定使用 ATM／線上轉帳
  * - 不處理付款邏輯
  */
 interface DrawPaymentProps extends PdfContext {
@@ -30,18 +30,18 @@ export function drawPayment({
 
   setHeadingFont(doc);
 
-doc.text(
-  "付款資訊",
-  PDF.page.margin,
-  startY
-);
+  doc.text(
+    "付款資訊",
+    PDF.page.margin,
+    startY
+  );
 
-doc.line(
-  PDF.page.margin,
-  startY + 2,
-  PDF.page.width - PDF.page.margin,
-  startY + 2
-);
+  doc.line(
+    PDF.page.margin,
+    startY + 2,
+    PDF.page.width - PDF.page.margin,
+    startY + 2
+  );
 
   //------------------------------------------
   // 內容
@@ -52,47 +52,51 @@ doc.line(
   const y = startY + PDF.spacing.line;
 
   doc.text(
-    `付款方式：${order.paymentMethod === "ATM" ? "ATM 轉帳" : "貨到付款"}`,
+    "付款方式：ATM／線上轉帳",
     PDF.payment.leftX,
     y
   );
 
   doc.text(
-    `付款狀態：${order.paymentMethod === "ATM" ? "未付款" : "待收款"}`,
+    "付款狀態：未付款",
     PDF.payment.rightX,
     y
   );
 
   //------------------------------------------
-  // ATM
+  // ATM／線上轉帳付款資訊
   //------------------------------------------
 
-  if (order.paymentMethod === "ATM") {
+  doc.text(
+    "銀行：台灣銀行",
+    PDF.payment.leftX,
+    y + PDF.payment.line
+  );
 
-    doc.text(
-      "銀行代碼：822",
-      PDF.payment.leftX,
-      y + PDF.payment.line
-    );
-    
-    doc.text(
-      "帳號：123456789012",
-      PDF.payment.rightX,
-      y + PDF.payment.line
-    );
+  doc.text(
+    "銀行代碼：004",
+    PDF.payment.rightX,
+    y + PDF.payment.line
+  );
 
-    doc.text(
-      "※ 請於三日內完成付款。",
-      PDF.payment.leftX,
-      y + PDF.payment.line * 2
-    );
-  }
+  doc.text(
+    "帳號：170001010083",
+    PDF.payment.leftX,
+    y + PDF.payment.line * 2
+  );
 
-const endY =
-  order.paymentMethod === "ATM"
-    ? y + PDF.payment.line * 2
-    : y;
+  doc.text(
+    "※ 請於三日內完成付款。",
+    PDF.payment.leftX,
+    y + PDF.payment.line * 3
+  );
 
-return endY;
+  //------------------------------------------
+  // 結束位置
+  //------------------------------------------
 
+  const endY =
+    y + PDF.payment.line * 3;
+
+  return endY;
 }

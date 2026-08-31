@@ -16,13 +16,13 @@ type ShippingSummaryProps = {
 };
 
 /**
- * 出貨單 PDF｜金額摘要＋付款資訊
+ * 出貨單 PDF｜金額摘要
  *
  * 出貨單使用「顧客市價」。
  *
- * subtotal   → 商品金額
+ * subtotal    → 商品金額
  * shippingFee → 運費
- * total      → 顧客應付總額
+ * total       → 顧客應付總額
  *
  * 批發價不在出貨單顯示。
  */
@@ -32,15 +32,15 @@ export function drawShippingSummary({
   startY,
 }: ShippingSummaryProps): number {
 
-
-
   //------------------------------------------
   // 商品金額
   //------------------------------------------
 
   const labelX = SHIPPING_PDF.summary.labelX;
   const valueX = SHIPPING_PDF.summary.valueX;
-doc.setFontSize(12);
+
+  doc.setFontSize(12);
+
   doc.text(
     "商品金額",
     labelX,
@@ -48,6 +48,7 @@ doc.setFontSize(12);
   );
 
   doc.setFontSize(12);
+
   doc.text(
     `NT$ ${order.subtotal}`,
     valueX,
@@ -60,7 +61,9 @@ doc.setFontSize(12);
   //------------------------------------------
   // 運費
   //------------------------------------------
-doc.setFontSize(12);
+
+  doc.setFontSize(12);
+
   doc.text(
     "運費",
     labelX,
@@ -68,6 +71,7 @@ doc.setFontSize(12);
   );
 
   doc.setFontSize(12);
+
   doc.text(
     `NT$ ${order.shippingFee}`,
     valueX,
@@ -83,8 +87,8 @@ doc.setFontSize(12);
 
   const totalY =
     startY +
-     3+
-    SHIPPING_PDF.summary.lineHeight ;
+    3 +
+    SHIPPING_PDF.summary.lineHeight;
 
   drawDivider(
     doc,
@@ -98,12 +102,12 @@ doc.setFontSize(12);
   //------------------------------------------
 
   setTitleFont(doc);
-doc.setFontSize(12);
+  doc.setFontSize(12);
+
   doc.text(
     "應付總額",
     labelX,
     totalY + 5
-
   );
 
   doc.text(
@@ -116,32 +120,10 @@ doc.setFontSize(12);
   );
 
   //------------------------------------------
-  // 貨到付款提醒
+  // 結束位置
   //------------------------------------------
 
-  let bottomY = totalY + 5;
-
-  if (order.paymentMethod === "COD") {
-
-    const noticeY = bottomY + 10;
-
-    setTitleFont(doc);
-doc.setFontSize(14);
-    doc.text(
-      "貨到付款",
-      SHIPPING_PDF.page.margin,
-      noticeY
-    );
-
-    doc.setFontSize(14);
-    doc.text(
-      `應收金額：NT$ ${order.total}`,
-      SHIPPING_PDF.page.margin,
-      noticeY + 5
-    );
-
-    bottomY = noticeY ;
-  }
+  const bottomY = totalY + 5;
 
   return bottomY;
 }

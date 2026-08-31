@@ -56,8 +56,7 @@ export interface ReconciliationOrderRow {
 export function orderToReconciliationPdf(
   order: ReconciliationOrderRow
 ): PdfOrder {
-
-
+  
 
   const result: PdfOrder = {
     // ==========================================
@@ -67,10 +66,10 @@ export function orderToReconciliationPdf(
     orderNo: String(order.id),
 
     orderDate: new Date(
-  order.created_at
-).toLocaleDateString("zh-TW", {
-  timeZone: "Asia/Taipei",
-}),
+      order.created_at
+    ).toLocaleDateString("zh-TW", {
+      timeZone: "Asia/Taipei",
+    }),
 
     // ==========================================
     // 客戶資料
@@ -129,18 +128,14 @@ export function orderToReconciliationPdf(
     // 付款方式
     // ==========================================
 
-    paymentMethod:
-      order.payment === "ATM轉帳"
-        ? "ATM"
-        : "COD",
+    paymentMethod: "ATM",
 
     // ==========================================
     // 配送方式
     // ==========================================
 
     shippingMethod: order.delivery_method,
-
-      };
+  };
 
   return result;
 }

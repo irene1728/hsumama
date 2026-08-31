@@ -40,7 +40,8 @@ export function drawShippingCustomer({
   //------------------------------------------
 
   setTitleFont(doc);
-doc.setFontSize(16);
+  doc.setFontSize(16);
+
   doc.text(
     "客戶資訊",
     SHIPPING_PDF.page.margin,
@@ -122,11 +123,7 @@ doc.setFontSize(16);
   );
 
   doc.text(
-    `付款方式：${
-      order.paymentMethod === "ATM"
-        ? "ATM轉帳"
-        : "貨到付款"
-    }`,
+    "付款方式：ATM／線上轉帳",
     x + leftWidth + 2,
     y + textOffset
   );

@@ -1,4 +1,5 @@
 export interface OrderItem {
+
   id: string;
 
   name: string;
@@ -14,26 +15,35 @@ export interface OrderItem {
   wholesaleSubtotal?: number | null;
 
   profit?: number | null;
+
 }
 
 export interface Order {
+
   orderNo: string;
 
   orderDate: string;
 
   customerName: string;
+
   phone: string;
+
   email: string;
+
   address: string;
+
   note: string;
-    
-  paymentMethod: "ATM" | "COD";
+
+  paymentMethod: "ATM";
 
   shippingMethod: string;
 
   items: OrderItem[];
 
   subtotal: number;
+
   shippingFee: number;
+
   total: number;
+
 }

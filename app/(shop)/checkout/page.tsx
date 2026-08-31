@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import CheckoutForm from "@/features/checkout/components/CheckoutForm";
 import DeliveryMethod from "@/features/checkout/components/DeliveryMethod";
 import OrderSummary from "@/features/checkout/components/OrderSummary";
-import PaymentMethod from "@/features/checkout/components/PaymentMethod";
+
 
 import { useCheckout } from "@/features/checkout/hooks/useCheckout";
 import { validateCheckout } from "@/features/checkout/utils/validateCheckout";
@@ -227,11 +227,6 @@ return (
   deliveryMethod={deliveryMethod}
   paymentMethod={paymentMethod}
 />
-
-  <PaymentMethod
-    paymentMethod={paymentMethod}
-    onPaymentMethodChange={setPaymentMethod}
-  />
 
   <button
     onClick={handleSubmit}
