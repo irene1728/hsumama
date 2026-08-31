@@ -19,10 +19,14 @@ export const metadata: Metadata = {
   description:
     "徐媽媽冰鑽滷味，嚴選食材製作的古早味滷味，提供線上購物與冷凍宅配，讓您在家也能輕鬆享受經典美食。",
 
+  verification: {
+    google: "ZwgtWJ3T_lBCLpwGv7anpCMp0-SebQnADueRMTl6YCs",
+  },
+
   openGraph: {
     title: "徐媽媽冰鑽滷味｜古早味滷味・餐桌美食",
     description:
-    "徐媽媽冰鑽滷味，嚴選食材製作的古早味滷味，提供線上購物與冷凍宅配，讓您在家也能輕鬆享受經典美食。",
+      "徐媽媽冰鑽滷味，嚴選食材製作的古早味滷味，提供線上購物與冷凍宅配，讓您在家也能輕鬆享受經典美食。",
     url: "https://hsumama.bestlife.tw",
     siteName: "徐媽媽冰鑽滷味",
     locale: "zh_TW",
@@ -37,18 +41,14 @@ export default function RootLayout({
 }>) {
   return (
     <html
-  lang="zh-TW"
+      lang="zh-TW"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="...">
-
-  <CartProvider>
-  {children}
-</CartProvider>
-
-</body>
-
-
+        <CartProvider>
+          {children}
+        </CartProvider>
+      </body>
     </html>
   );
 }
