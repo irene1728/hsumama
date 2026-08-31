@@ -20,6 +20,8 @@ type ShippingCustomerProps = {
  *
  * 保留出貨單原本的文字排列，
  * 框線方式參考顧客訂單 PDF。
+ *
+ * 付款狀態直接使用後台訂單資料。
  */
 export function drawShippingCustomer({
   doc,
@@ -94,14 +96,14 @@ export function drawShippingCustomer({
   );
 
   //------------------------------------------
-  // 第一列中線
+  // 第一～三列右側中線
   //------------------------------------------
 
   doc.line(
     x + leftWidth,
     y,
     x + leftWidth,
-    y + rowHeight * 2
+    y + rowHeight * 3
   );
 
   //------------------------------------------
@@ -139,7 +141,7 @@ export function drawShippingCustomer({
   );
 
   doc.text(
-    `配送方式：${order.shippingMethod}`,
+    `付款狀態：${order.paymentStatus || "未付款"}`,
     x + leftWidth + 2,
     y + rowHeight + textOffset
   );
@@ -151,6 +153,12 @@ export function drawShippingCustomer({
   doc.text(
     `Email：${order.email}`,
     x + 2,
+    y + rowHeight * 2 + textOffset
+  );
+
+  doc.text(
+    `配送方式：${order.shippingMethod}`,
+    x + leftWidth + 2,
     y + rowHeight * 2 + textOffset
   );
 

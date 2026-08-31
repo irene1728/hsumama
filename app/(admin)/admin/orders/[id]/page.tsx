@@ -162,9 +162,11 @@ console.error(
 
         note: order.note ?? "",
 
-        paymentMethod,
+      paymentMethod,
 
-        shippingMethod: order.delivery_method,
+paymentStatus: order.payment_status,
+
+shippingMethod: order.delivery_method,
 
         items: items.map((item) => ({
           id: String(item.id),

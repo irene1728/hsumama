@@ -177,9 +177,11 @@ const paymentMethod = "ATM" as const;
 
         note: selectedOrder.note ?? "",
 
-        paymentMethod,
+     paymentMethod,
 
-        shippingMethod: selectedOrder.delivery_method,
+paymentStatus: selectedOrder.payment_status,
+
+shippingMethod: selectedOrder.delivery_method,
 
         items: items.map((item) => ({
           id: String(item.id),

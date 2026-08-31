@@ -93,7 +93,7 @@ if (!order) return null;
 const pdfOrder = orderToPdf(order);
 
   return (
-    <main className="max-w-3xl mx-auto px-8 py-6">
+    <main className="max-w-3xl mx-auto px-2 py-6">
 
       <div className="bg-white border border-gray-200 rounded-3xl shadow-lg p-4
 
@@ -106,7 +106,7 @@ const pdfOrder = orderToPdf(order);
             🎉訂單已成立🎉
           </h1>
 
-            <p className="mt-1 text-gray-600 leading-7">
+            <p className="md:mt-1 text-gray-600 leading-4 md:leading-7">
     <span className="block">感謝您的訂購，</span>
     <span className="block">我們已收到您的訂單。</span>
   </p>
@@ -114,7 +114,7 @@ const pdfOrder = orderToPdf(order);
 
         {order && (
 
-          <div className="mt-4 space-y-4 border-t pt-4">
+          <div className="mt-2 md:mt-4 space-y-1 md:space-y-2 border-t pt-2 md:pt-4">
 
             <div className="flex justify-between">
               <span>訂單編號</span>
@@ -166,7 +166,7 @@ const pdfOrder = orderToPdf(order);
 
 {/* ATM 轉帳 */}
 {order.payment === "ATM／線上轉帳" && (
-  <div className="mt-8 rounded-2xl border border-green-200 bg-green-50 p-5">
+  <div className="mt-2 md:mt-4 rounded-2xl border border-green-200 bg-green-50 p-3">
     <h3 className="text-xl font-bold text-orange-700 mb-2">
       🏦 ATM 匯款資訊
     </h3>
@@ -181,10 +181,10 @@ const pdfOrder = orderToPdf(order);
     170001010083
   </p>
 
-  
+
 <button
   onClick={copyAccount}
-  className={`text-sm text-white px-4 py-2 rounded-xl font-semibold transition-all duration-300 shadow
+  className={`text-sm text-white px-2 py-1 rounded-xl font-semibold transition-all duration-300 shadow
     ${
       copied
         ? "bg-green-600 hover:bg-green-700"
@@ -194,15 +194,16 @@ const pdfOrder = orderToPdf(order);
   {copied ? "✅ 已複製" : "📋 複製帳號"}
 </button>
 
+
 </div>
      
     </div>
 
-    <p className="mt-4 text-base text-red-600">
+    <p className="mt-1 md:mt-2 text-base text-red-600">
       ※ 請於 3 日內完成匯款，完成後請提供訂單編號及帳號後五碼。
      </p>
-<hr className="my-4" />
-<div className="mt-4 rounded-2xl border border-green-200 bg-green-50 p-4">
+<hr className="my-1 md:my-3" />
+<div className="mt-2 md:mt-4 rounded-2xl border border-green-200 bg-green-50 p-2 md:p-4">
 
   <h3 className="text-xl font-bold text-green-700 mb-2">
     💚訂單成立後，請加入LINE官方帳號
@@ -212,12 +213,12 @@ const pdfOrder = orderToPdf(order);
     並提供：
   </p>
 
-  <ul className="mt-2 space-y-1 text-gray-700">
+  <ul className="mt-2 space-y-1 text-red-700">
     <li>✅ 訂單編號</li>
     <li>✅ 匯款帳號後五碼</li>
   </ul>
 
-  <p className="mt-2 text-gray-700 leading-6">
+  <p className="mt-2 text-sm md:text-lg text-gray-700 leading-4 md:leading-6">
     收到您的訊息後，
     <br />
     我們會盡快確認款項，並且為您安排出貨。

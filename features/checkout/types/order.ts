@@ -5,7 +5,7 @@ export interface OrderItem {
   name: string;
 
   quantity: number;
-
+  
   price: number;
 
   subtotal: number;
@@ -35,6 +35,7 @@ export interface Order {
   note: string;
 
   paymentMethod: "ATM";
+  paymentStatus?: string;
 
   shippingMethod: string;
 
