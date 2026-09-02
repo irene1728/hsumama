@@ -57,7 +57,7 @@ export default function EmailPage() {
       }
 
       alert(
-        "Email 變更驗證信已寄出，請依照 Supabase Auth 信件完成驗證。"
+        "Email 變更驗證信已寄出，請依照 徐媽媽冰鑽滷味 信件完成驗證。"
       );
 
       router.push("/account");
@@ -115,9 +115,9 @@ export default function EmailPage() {
           />
 
         <p className="mt-2 text-lg text-gray-800 leading-relaxed">
-  提交後，系統會寄出 Supabase Email 驗證信。
+  提交後，系統會寄出 徐媽媽冰鑽滷味 驗證信。
   <br />
-  請依照 Supabase Auth 信件完成驗證後，新的 Email 才會正式生效。
+  請依照 徐媽媽冰鑽滷味 信件完成驗證後，新的 Email 才會正式生效。
         </p>
         </div>
 

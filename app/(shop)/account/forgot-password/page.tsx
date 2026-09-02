@@ -34,7 +34,7 @@ export default function ForgotPasswordPage() {
         return;
       }
 
-      alert("重設密碼信已寄出，請到您的信箱查收 SupabaseAuth 寄出的信件。");
+      alert("重設密碼信已寄出，請到您的信箱查收 徐媽媽冰鑽滷味 寄出的信件。");
       router.push("/account/login");
     } catch (error) {
       console.error("Forgot password error:", error);

@@ -178,7 +178,7 @@ const [showSuccessModal, setShowSuccessModal] = useState(false);
 
       <div className="mt-5 text-center text-gray-700 leading-relaxed">
         <p>
-          我們已透過 Supabase 發送 Email 驗證信。
+          我們已經發送 Email 驗證信。
         </p>
 
         <p className="mt-2">
