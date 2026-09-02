@@ -1,4 +1,5 @@
 import Link from "next/link";
+import VisitorCounter from "@/components/VisitorCounter";
 
 export default function Footer() {
   return (
@@ -201,8 +202,8 @@ export default function Footer() {
             每一口滷香，都是一份傳承；<br className="md:hidden" />
             每一次相聚，都值得一道好味道。
           </p>
-
-          <p className="text-sm mt-6 text-orange-200">
+<VisitorCounter />
+          <p className="text-sm mt-2 text-orange-200">
 
             © 2026 徐媽媽冰鑽滷味 All Rights Reserved.
 
