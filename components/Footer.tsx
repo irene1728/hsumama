@@ -176,7 +176,12 @@ export default function Footer() {
               <p>
                 工廠登記編號：66012039
               </p>
-
+  <p className="text-xs">
+      食品業者登錄字號：B-125085954-00000-7
+    </p>
+     <p className="text-xs">
+      投保產品責任險：南山產物產品責任險22A0070482
+    </p>
               <p className="text-xs">
                 臺中市太平區中興里永義路139巷20號1樓
               </p>
