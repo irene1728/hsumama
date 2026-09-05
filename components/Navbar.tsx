@@ -92,7 +92,7 @@ async function loadMarqueeAnnouncements() {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isHome
-          ? "bg-white/30 backdrop-blur-xl border-b border-white/30"
+          ? "bg-white/40 md:bg-black/18 backdrop-blur-xl border-b border-white/30"
           : "bg-white/90 backdrop-blur-md border-b border-gray-200 shadow-sm"
       }`}
     >
@@ -102,10 +102,10 @@ async function loadMarqueeAnnouncements() {
        <div className="order-2 flex-1 text-left md:order-none md:flex-none md:text-left md:justify-self-start">
           <Link href="/">
             <h1
-              className={`text-3xl md:text-4xl font-bold cursor-pointer transition ${
+              className={`text-3xl md:text-4xl md:font-bold cursor-pointer transition ${
                 isHome
-  ? "text-[#4E342E]"
-  : "text-[#4E342E]"
+  ? "text-[#BB5500] md:text-[#BB5500]"
+  : "text-[#8B4513]"
               }`}
             >
               徐媽媽冰鑽滷味
@@ -114,7 +114,7 @@ async function loadMarqueeAnnouncements() {
 
           <p
           className={`text-sm md:text-xl mt-1 transition ${
-              isHome ? "text-[#C56A2D]" : "text-orange-600"
+              isHome ? "text-[#FFCC22]" : "text-orange-600"
             }`}
           >
             獨家祕方．傳承三代
