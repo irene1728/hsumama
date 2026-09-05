@@ -407,63 +407,26 @@ export default async function AdminDashboardPage() {
             快速操作
           </h2>
 
-          <div className="grid grid-cols-2 gap-3">
-            {/* 新增商品 */}
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+          
+   {/* 跑馬燈管理 */}
 
-            <Link
-              href="/admin/products/new"
-              className="rounded-xl border px-4 py-2 text-center font-bold text-gray-700 hover:bg-orange-50 hover:border-orange-300 transition h-[70px] flex flex-col items-center justify-center"
-            >
-              <div className="text-2xl leading-none mb-1">
-                ➕
-              </div>
+<Link
+  href="/admin/marquee"
+  className="rounded-xl border px-4 py-2 text-center font-bold text-gray-700 hover:bg-orange-50 hover:border-orange-300 transition h-[66px] flex flex-col items-center justify-center"
+>
+  <div className="text-2xl leading-none mb-1">
+    📢
+  </div>
 
-              <span>新增商品</span>
-            </Link>
+  <span>跑馬燈管理</span>
+</Link>
 
-            {/* 商品管理 */}
-
-            <Link
-              href="/admin/products"
-              className="rounded-xl border px-4 py-2 text-center font-bold text-gray-700 hover:bg-orange-50 hover:border-orange-300 transition h-[70px] flex flex-col items-center justify-center"
-            >
-              <div className="text-2xl leading-none mb-1">
-                📦
-              </div>
-
-              <span>商品管理</span>
-            </Link>
-
-            {/* 配送設定 */}
-
-            <Link
-              href="/admin/shipping"
-              className="rounded-xl border px-4 py-2 text-center font-bold text-gray-700 hover:bg-orange-50 hover:border-orange-300 transition h-[70px] flex flex-col items-center justify-center"
-            >
-              <div className="text-2xl leading-none mb-1">
-                🚚
-              </div>
-
-              <span>配送設定</span>
-            </Link>
-
-            {/* 庫存管理 */}
-
-            <Link
-              href="/admin/inventory"
-              className="rounded-xl border px-4 py-2 text-center font-bold text-gray-700 hover:bg-orange-50 hover:border-orange-300 transition h-[70px] flex flex-col items-center justify-center"
-            >
-              <div className="text-2xl leading-none mb-1">
-                📦
-              </div>
-
-              <span>庫存管理</span>
-            </Link>
 
             {/* 今月營業額 */}
 
             <div
-              className="rounded-xl border px-4 py-2 text-center font-bold text-gray-700 h-[70px] flex flex-col items-center justify-center"
+              className="rounded-xl border px-4 py-2 text-center font-bold text-gray-700 h-[66px] flex flex-col items-center justify-center"
             >
               <div className="text-sm leading-none mb-1">
                 今月營業額
@@ -477,7 +440,7 @@ export default async function AdminDashboardPage() {
             {/* 今月批發額 */}
 
             <div
-              className="rounded-xl border px-4 py-2 text-center font-bold text-gray-700 h-[70px] flex flex-col items-center justify-center"
+              className="rounded-xl border px-4 py-2 text-center font-bold text-gray-700 h-[66px] flex flex-col items-center justify-center"
             >
               <div className="text-sm leading-none mb-1">
                 今月批發額
@@ -487,6 +450,59 @@ export default async function AdminDashboardPage() {
                 ${monthWholesaleRevenue.toLocaleString("zh-TW")}
               </div>
             </div>
+
+           {/* 新增商品 */}
+
+            <Link
+              href="/admin/products/new"
+              className="rounded-xl border px-4 py-2 text-center font-bold text-gray-700 hover:bg-orange-50 hover:border-orange-300 transition h-[66px] flex flex-col items-center justify-center"
+            >
+              <div className="text-2xl leading-none mb-1">
+                ➕
+              </div>
+
+              <span>新增商品</span>
+            </Link>
+
+            {/* 商品管理 */}
+            
+            <Link
+              href="/admin/products"
+              className="rounded-xl border px-4 py-2 text-center font-bold text-gray-700 hover:bg-orange-50 hover:border-orange-300 transition h-[66px] flex flex-col items-center justify-center"
+            >
+              <div className="text-2xl leading-none mb-1">
+                📦
+              </div>
+
+              <span>商品管理</span>
+            </Link>
+
+
+            {/* 庫存管理 */}
+
+            <Link
+              href="/admin/inventory"
+              className="rounded-xl border px-4 py-2 text-center font-bold text-gray-700 hover:bg-orange-50 hover:border-orange-300 transition h-[66px] flex flex-col items-center justify-center"
+            >
+              <div className="text-2xl leading-none mb-1">
+                📦
+              </div>
+
+              <span>庫存管理</span>
+            </Link>
+
+            {/* 配送設定 */}
+            <Link
+              href="/admin/shipping"
+              className="rounded-xl border px-4 py-2 text-center font-bold text-gray-700 hover:bg-orange-50 hover:border-orange-300 transition h-[66px] flex flex-col items-center justify-center"
+            >
+              <div className="text-2xl leading-none mb-1">
+                🚚
+              </div>
+
+              <span>配送設定</span>
+            </Link>
+
           </div>
         </div>
       </section>
