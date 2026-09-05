@@ -6,12 +6,27 @@ import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useCart } from "@/cart/CartContext";
 
+type MarqueeAnnouncement = {
+  id: string;
+  content: string;
+  sort_order: number;
+};
+type MarqueeSettings = {
+  speed_seconds: number;
+};
+
 export default function Navbar() {
   const pathname = usePathname();
   const isHome = pathname === "/";
   const { cart } = useCart();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 const [isLoggedIn, setIsLoggedIn] = useState(false);
+const [marqueeAnnouncements, setMarqueeAnnouncements] = useState<
+  MarqueeAnnouncement[]
+>([]);
+
+const [marqueeSpeed, setMarqueeSpeed] = useState(24);
+
 const supabase = createClient();
 
 useEffect(() => {
@@ -23,7 +38,38 @@ useEffect(() => {
     setIsLoggedIn(!!user);
   }
 
+async function loadMarqueeAnnouncements() {
+  const { data, error } = await supabase
+    .from("marquee_announcements")
+    .select("id, content, sort_order")
+    .eq("is_active", true)
+    .order("sort_order", { ascending: true });
+
+  if (error) {
+    console.error("讀取跑馬燈失敗：", error);
+  } else {
+    setMarqueeAnnouncements(data ?? []);
+  }
+
+  const { data: settings, error: settingsError } =
+    await supabase
+      .from("marquee_settings")
+      .select("speed_seconds")
+      .eq("id", 1)
+      .maybeSingle();
+
+  if (settingsError) {
+    console.error("讀取跑馬燈速度失敗：", settingsError);
+    return;
+  }
+
+  setMarqueeSpeed(
+    settings?.speed_seconds ?? 24
+  );
+}
+
   checkUser();
+  loadMarqueeAnnouncements();
 
   const {
     data: { subscription },
@@ -50,10 +96,10 @@ useEffect(() => {
           : "bg-white/90 backdrop-blur-md border-b border-gray-200 shadow-sm"
       }`}
     >
-      <div className="max-w-7xl mx-auto flex items-center justify-between px-3 py-2 md:grid md:grid-cols-3 md:px-8 md:py-3">
+      <div className="max-w-7xl mx-auto flex items-center justify-between px-1 py-2 md:grid md:grid-cols-[26%_48%_26%] md:px-4 md:py-2">
 
         {/* Logo */}
-       <div className="order-2 flex-1 text-center md:order-none md:flex-none md:text-left md:justify-self-start">
+       <div className="order-2 flex-1 text-left md:order-none md:flex-none md:text-left md:justify-self-start">
           <Link href="/">
             <h1
               className={`text-3xl md:text-4xl font-bold cursor-pointer transition ${
@@ -79,58 +125,94 @@ useEffect(() => {
 <button
   type="button"
   onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-  className="order-1 md:order-none md:hidden shrink-0 text-3xl leading-none text-[#4E342E]"
+  className="order-1 md:order-none md:hidden shrink-0 text-4xl leading-none text-[#4E342E]"
   aria-label="開啟選單"
 >
   ☰
 </button>
 
-        {/* 中間選單 */}
-        <nav className="hidden md:flex justify-center items-center gap-8 font-medium">
+       {/* 中間選單 + 跑馬燈 */}
+<div className="hidden md:flex flex-col items-center justify-center">
 
-          <Link
-            href="/"
-            className={`transition ${
-              isHome
-                ? "text-[#FF8800] text-[22px] hover:text-amber-300"
-                : "text-[#AA7700] text-[22px] hover:text-orange-600"
-            }`}
-          >
-            首頁
-          </Link>
+  {/* 中間選單 */}
+  <nav className="flex justify-center items-center gap-8 font-medium">
 
-          <Link
-            href="/products"
-            className={`transition ${
-              isHome
-                ? "text-[#FF8800] text-[22px] hover:text-amber-300"
-                : "text-[#AA7700] text-[22px] hover:text-orange-600"
-            }`}
-          >
-            全部商品
-          </Link>
+    <Link
+      href="/"
+      className={`transition ${
+        isHome
+          ? "text-[#FF8800] text-[22px] hover:text-amber-300"
+          : "text-[#AA7700] text-[22px] hover:text-orange-600"
+      }`}
+    >
+      首頁
+    </Link>
 
-          <Link href="/about"
-            className={`transition ${
-              isHome
-                ? "text-[#EEEE00] text-[22px] hover:text-amber-300"
-                : "text-[#AA7700] text-[22px] hover:text-orange-600"
-            }`}
-          >
-            關於我們
-          </Link>
+    <Link
+      href="/products"
+      className={`transition ${
+        isHome
+          ? "text-[#FF8800] text-[22px] hover:text-amber-300"
+          : "text-[#AA7700] text-[22px] hover:text-orange-600"
+      }`}
+    >
+      全部商品
+    </Link>
 
-          <Link href="/order-info"
-            className={`transition ${
-              isHome
-                ? "text-[#EEEE00] text-[22px] hover:text-amber-300"
-                : "text-[#AA7700] text-[22px] hover:text-orange-600"
-            }`}
-          >
-            訂購方式
-         </Link>
+    <Link
+      href="/about"
+      className={`transition ${
+        isHome
+          ? "text-[#EEEE00] text-[22px] hover:text-amber-300"
+          : "text-[#AA7700] text-[22px] hover:text-orange-600"
+      }`}
+    >
+      關於我們
+    </Link>
 
-        </nav>
+    <Link
+      href="/order-info"
+      className={`transition ${
+        isHome
+          ? "text-[#EEEE00] text-[22px] hover:text-amber-300"
+          : "text-[#AA7700] text-[22px] hover:text-orange-600"
+      }`}
+    >
+      訂購方式
+    </Link>
+
+  </nav>
+
+  {/* 跑馬燈 */}
+  {marqueeAnnouncements.length > 0 && (
+    <div className="mt-1 w-full max-w-[560px] overflow-hidden">
+      <div className="relative h-6 overflow-hidden">
+       <div
+  className="marquee-track"
+  style={{
+    animationDuration: `${marqueeSpeed}s`,
+  }}
+>
+          {[...marqueeAnnouncements, ...marqueeAnnouncements].map(
+            (item, index) => (
+              <span
+                key={`${item.id}-${index}`}
+                  className={`inline-block whitespace-nowrap text-lg mr-16 ${
+    isHome
+      ? "text-[#FFFFFF]"
+      : "text-[#9900FF]"
+  }`}
+              >
+                {item.content}
+              </span>
+            )
+          )}
+        </div>
+      </div>
+    </div>
+  )}
+
+</div>
 
 {/* 手機版下拉選單 */}
 {mobileMenuOpen && (
@@ -184,13 +266,13 @@ useEffect(() => {
   {/* 會員登入 */}
 <Link
   href={isLoggedIn ? "/account" : "/account/login"}
-className={`flex items-center gap-1 font-semibold text-sm md:gap-1.5 md:text-xl transition ${
+className={`flex items-center gap-1 font-semibold text-base md:gap-1.5 md:text-xl transition ${
     isHome
-      ? "text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)] hover:text-amber-200"
+      ? "text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)] hover:text-amber-200 mr-2"
       : "text-[#4E342E] hover:text-orange-600"
   }`}
 >
-<span className="text-base md:text-xl">👤</span>
+<span className="text-lg md:text-xl">👤</span>
   <span>{isLoggedIn ? "會員中心" : "會員登入"}</span>
 </Link>
 
