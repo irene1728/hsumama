@@ -92,7 +92,7 @@ async function loadMarqueeAnnouncements() {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isHome
-          ? "bg-white/40 md:bg-black/18 backdrop-blur-xl border-b border-white/30"
+          ? "bg-white/40 md:bg-white/30 backdrop-blur-xl border-b border-white/30"
           : "bg-white/90 backdrop-blur-md border-b border-gray-200 shadow-sm"
       }`}
     >
@@ -113,8 +113,8 @@ async function loadMarqueeAnnouncements() {
           </Link>
 
           <p
-          className={`text-sm md:text-xl mt-1 transition ${
-              isHome ? "text-[#FFCC22]" : "text-orange-600"
+          className={`text-sm md:text-xl mt-1 transition ml-7 ${
+              isHome ? "text-[#AA7700]" : "text-orange-600"
             }`}
           >
             獨家祕方．傳承三代
@@ -163,7 +163,7 @@ async function loadMarqueeAnnouncements() {
       href="/about"
       className={`transition ${
         isHome
-          ? "text-[#EEEE00] text-[22px] hover:text-amber-300"
+          ? "text-[#FFBB66] text-[22px] hover:text-amber-300"
           : "text-[#AA7700] text-[22px] hover:text-orange-600"
       }`}
     >
@@ -174,7 +174,7 @@ async function loadMarqueeAnnouncements() {
       href="/order-info"
       className={`transition ${
         isHome
-          ? "text-[#EEEE00] text-[22px] hover:text-amber-300"
+          ? "text-[#FFBB66] text-[22px] hover:text-amber-300"
           : "text-[#AA7700] text-[22px] hover:text-orange-600"
       }`}
     >
@@ -199,8 +199,8 @@ async function loadMarqueeAnnouncements() {
                 key={`${item.id}-${index}`}
                   className={`inline-block whitespace-nowrap text-lg mr-16 ${
     isHome
-      ? "text-[#FFFFFF]"
-      : "text-[#9900FF]"
+      ? "text-[#FFFF00] drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)]"
+      : "text-[#FFFF00] drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]"
   }`}
               >
                 {item.content}
