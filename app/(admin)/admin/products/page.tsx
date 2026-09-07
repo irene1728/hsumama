@@ -69,6 +69,21 @@ export default function AdminProductsPage() {
 
     loadProducts();
   }
+async function toggleBBQ(product: any) {
+  const { error } = await supabase
+    .from("products")
+    .update({
+      is_bbq: !product.is_bbq,
+    })
+    .eq("id", product.id);
+
+  if (error) {
+    alert("更新失敗");
+    return;
+  }
+
+  loadProducts();
+}
 
   async function updateSortOrder(
     productId: number,
@@ -102,37 +117,42 @@ export default function AdminProductsPage() {
         <table className="w-full table-fixed">
           <thead className="bg-orange-100">
             <tr>
-              <th className="w-26 px-4 py-3">圖片</th>
+             
+<th className="w-16 px-2 py-3">圖片</th>
 
-              <th className="w-76 text-left px-4">
-                商品
-              </th>
+<th className="w-70 text-left px-2">
+  商品
+</th>
 
-              <th className="w-20 px-4 text-center">
-                分類
-              </th>
+<th className="w-16 px-2 text-center">
+  分類
+</th>
 
-              <th className="w-32 px-4 text-center">
-                價格
-              </th>
+<th className="w-24 px-2 text-center">
+  價格
+</th>
 
-              <th className="w-32 px-4 text-center">
-                批發價
-              </th>
+<th className="w-24 px-2 text-center">
+  批發價
+</th>
 
               <th className="w-20 px-4 text-center">
                 人氣
               </th>
 
+<th className="w-20 px-2 text-center">
+  🔥 烤肉
+</th>
+
               <th className="w-20 px-4 text-center">
                 上架
               </th>
 
-              <th className="w-20 px-4 text-center">
+              <th className="w-16 px-4 text-center">
                 排序
               </th>
 
-              <th className="w-32 px-4 text-center">
+              <th className="w-26 px-4 text-center">
                 操作
               </th>
             </tr>
@@ -195,6 +215,21 @@ export default function AdminProductsPage() {
                   </button>
                 </td>
 
+<td className="text-center">
+  <button
+    onClick={() => toggleBBQ(product)}
+    className={`px-2 py-1 rounded-full text-sm font-bold transition ${
+      product.is_bbq
+        ? "bg-orange-100 text-orange-700 hover:bg-orange-200"
+        : "bg-gray-100 text-gray-500 hover:bg-gray-200"
+    }`}
+  >
+    {product.is_bbq
+      ? "🔥 烤肉"
+      : "☆ 一般"}
+  </button>
+</td>
+
                 <td className="text-center">
                   <button
                     onClick={() =>
@@ -216,7 +251,7 @@ export default function AdminProductsPage() {
                   <input
                     type="number"
                     defaultValue={product.sort_order}
-                    className="w-16 border rounded-lg px-2 py-1 text-center"
+                    className="w-14 border rounded-lg px-2 py-1 text-center"
                     onBlur={(e) =>
                       updateSortOrder(
                         product.id,
@@ -318,6 +353,19 @@ export default function AdminProductsPage() {
                   ? "⭐ 人氣"
                   : "☆ 一般"}
               </button>
+
+<button
+  onClick={() => toggleBBQ(product)}
+  className={`flex-1 px-3 py-2 rounded-xl text-sm font-bold transition ${
+    product.is_bbq
+      ? "bg-orange-100 text-orange-700 hover:bg-orange-200"
+      : "bg-gray-100 text-gray-500 hover:bg-gray-200"
+  }`}
+>
+  {product.is_bbq
+    ? "🔥 烤肉"
+    : "☆ 一般"}
+</button>
 
               <button
                 onClick={() =>

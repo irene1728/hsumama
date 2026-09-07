@@ -61,7 +61,7 @@ className="
       >
         <div
          ref={imageRef}
-        className="h-[180px] flex items-center justify-center bg-white p-5 overflow-hidden">
+       className="h-[150px] md:h-[180px] flex items-center justify-center bg-white p-2 md:p-5 overflow-hidden">
           <Image
             src={product.image}
             alt={product.name}
@@ -80,7 +80,7 @@ className="
       </Link>
 
       {/* 商品資訊 */}
-      <div className="px-5 pb-5 pt-2">
+     <div className="px-4 md:px-5 pb-4 md:pb-5 pt-1 md:pt-2">
         <Link
           href={`/products/${product.slug}`}
           className="
@@ -94,11 +94,12 @@ className="
         >
           <h3
             className="
-              text-2xl
+             text-xl md:text-2xl
               font-bold
               text-stone-800
               line-clamp-2
-              min-h-[46px]
+              min-h-[5px]
+              md:min-h-[46px]
             "
           >
             {product.name}
@@ -106,7 +107,7 @@ className="
         </Link>
 
         {/* 商品價格 */}
-        <p className="mt-1 text-2xl font-bold text-orange-600">
+        <p className="md:mt-1 text-2xl font-bold text-orange-600">
           {formatPrice(product.price)}
         </p>
 
@@ -121,9 +122,7 @@ className="
               justify-center
               rounded-full
               bg-orange-500
-              px-4
-              py-2.5
-              text-xl
+              px-3 md:px-4 py-2 md:py-2.5 text-lg md:text-xl
               font-semibold
               text-white
               transition-all
@@ -149,8 +148,7 @@ className="
     rounded-full
     border
     border-orange-500
-    px-5
-    py-2.5
+    px-4 md:px-5 py-2 md:py-2.5
     text-[17px]
     font-semibold
     text-orange-600
