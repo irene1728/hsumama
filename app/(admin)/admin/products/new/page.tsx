@@ -21,7 +21,13 @@ export default function NewProductPage() {
 
   featured: false,
   is_active: true,
-
+ 
+    promotion_enabled: false,
+  promotion_type: null,
+  promotion_price: null,
+  promotion_discount: null,
+  promotion_start_at: null,
+  promotion_end_at: null,
   sort_order: 999,
 };
 
