@@ -9,9 +9,14 @@ import {
 } from "react";
 
 import type { Product } from "@/types/product";
+import { getEffectivePrice } from "@/lib/promotion";
+
 
 type CartItem = Product & {
   quantity: number;
+
+  // 加入購物車當下的原價
+  original_price: number;
 };
 
 type CartContextType = {
@@ -53,6 +58,7 @@ export function CartProvider({
 
   // 加入購物車
   function addToCart(product: Product): boolean {
+    const effectivePrice = getEffectivePrice(product);
     const currentItem = cart.find(
       (item) => item.id === product.id
     );
@@ -96,6 +102,13 @@ export function CartProvider({
         ...prev,
         {
           ...product,
+
+    // 加入購物車時鎖定實際售價
+    price: effectivePrice,
+
+    // 保存商品原始價格
+    original_price: product.price,
+
           quantity: 1,
         },
       ];

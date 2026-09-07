@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { supabase } from "@/lib/supabase";
+import { getEffectivePrice } from "@/lib/promotion";
 
 const categoryMap: Record<string, string> = {
   pork: "豬肉",
@@ -105,7 +106,7 @@ async function toggleBBQ(product: any) {
   }
 
   return (
-    <main className="max-w-6xl mx-auto p-2 md:p-1">
+   <main className="max-w-7xl mx-auto p-2 md:p-1">
       <h1 className="text-3xl md:text-4xl font-bold mb-2 md:mb-2">
         商品管理
       </h1>
@@ -118,43 +119,28 @@ async function toggleBBQ(product: any) {
           <thead className="bg-orange-100">
             <tr>
              
-<th className="w-16 px-2 py-3">圖片</th>
+           <th className="w-16 px-2 py-3">圖片</th>
 
-<th className="w-70 text-left px-2">
-  商品
-</th>
+           <th className="w-70 text-left px-2">商品</th>
 
-<th className="w-16 px-2 text-center">
-  分類
-</th>
+           <th className="w-18 px-2 text-center">分類</th>
 
-<th className="w-24 px-2 text-center">
-  價格
-</th>
+           <th className="w-22 px-2 text-center">價格</th>
 
-<th className="w-24 px-2 text-center">
-  批發價
-</th>
+           <th className="w-22 px-2 text-center">優惠價</th>
 
-              <th className="w-20 px-4 text-center">
-                人氣
-              </th>
+           <th className="w-22 px-2 text-center">批發價</th>
 
-<th className="w-20 px-2 text-center">
-  🔥 烤肉
-</th>
+           <th className="w-18 px-4 text-center">人氣</th>
 
-              <th className="w-20 px-4 text-center">
-                上架
-              </th>
+           <th className="w-18 px-2 text-center">🔥烤肉</th>
 
-              <th className="w-16 px-4 text-center">
-                排序
-              </th>
+           <th className="w-16 px-4 text-center">上架</th>
 
-              <th className="w-26 px-4 text-center">
-                操作
-              </th>
+           <th className="w-14 px-4 text-center">排序</th>
+
+           <th className="w-22 px-4 text-center">操作</th>
+
             </tr>
 
           </thead>
@@ -177,7 +163,7 @@ async function toggleBBQ(product: any) {
                   />
                 </td>
 
-                <td className="w-74 px-4">
+                <td className="w-68 px-4">
                   {product.name}
                 </td>
 
@@ -186,17 +172,35 @@ async function toggleBBQ(product: any) {
                     product.category}
                 </td>
 
-                <td className="px-4 text-center">
-                  {product.price
-                    ? `NT$ ${product.price}`
-                    : "-"}
-                </td>
+          <td className="px-4 text-center">
+  {product.price
+    ? `NT$ ${product.price}`
+    : "-"}
+</td>
 
-                <td className="px-4 text-center">
-                  {product.wholesale_price != null
-                    ? `NT$ ${product.wholesale_price}`
-                    : "尚未設定"}
-                </td>
+<td className="px-4 text-center">
+  {product.promotion_enabled ? (
+    (() => {
+      const effectivePrice = getEffectivePrice(product);
+
+      return effectivePrice !== product.price ? (
+        <span className="font-bold text-orange-600">
+          NT$ {effectivePrice}
+        </span>
+      ) : (
+        "-"
+      );
+    })()
+  ) : (
+    "-"
+  )}
+</td>
+
+<td className="px-4 text-center">
+  {product.wholesale_price != null
+    ? `NT$ ${product.wholesale_price}`
+    : "尚未設定"}
+</td>
 
                 <td className="text-center">
                   <button
@@ -310,32 +314,55 @@ async function toggleBBQ(product: any) {
               </div>
             </div>
 
-            {/* 價格資訊 */}
-            <div className="grid grid-cols-2 gap-2 mt-1">
-              <div className="rounded-xl bg-gray-50 px-3 py-1.5">
-                <div className="text-xs text-gray-500">
-                  市價
-                </div>
+ {/* 價格資訊 */}
+<div className="grid grid-cols-3 gap-2 mt-1">
 
-                <div className="font-bold text-gray-800 mt-1">
-                  {product.price
-                    ? `NT$ ${product.price}`
-                    : "-"}
-                </div>
-              </div>
+  <div className="rounded-xl bg-gray-50 px-2 py-1.5">
+    <div className="text-xs text-gray-500">
+      市價
+    </div>
 
-              <div className="rounded-xl bg-orange-50 px-3 py-1.5">
-                <div className="text-xs text-gray-500">
-                  批發價
-                </div>
+    <div className="font-bold text-gray-800 mt-1">
+      {product.price
+        ? `NT$ ${product.price}`
+        : "-"}
+    </div>
+  </div>
 
-                <div className="font-bold text-orange-700 mt-1">
-                  {product.wholesale_price != null
-                    ? `NT$ ${product.wholesale_price}`
-                    : "尚未設定"}
-                </div>
-              </div>
-            </div>
+  <div className="rounded-xl bg-orange-50 px-2 py-1.5">
+    <div className="text-xs text-gray-500">
+      優惠價
+    </div>
+
+    <div className="font-bold text-orange-700 mt-1">
+      {product.promotion_enabled ? (
+        (() => {
+          const effectivePrice =
+            getEffectivePrice(product);
+
+          return effectivePrice !== product.price
+            ? `NT$ ${effectivePrice}`
+            : "-";
+        })()
+      ) : (
+        "-"
+      )}
+    </div>
+  </div>
+
+  <div className="rounded-xl bg-gray-50 px-2 py-1.5">
+    <div className="text-xs text-gray-500">
+      批發價
+    </div>
+
+    <div className="font-bold text-gray-800 mt-1">
+      {product.wholesale_price != null
+        ? `NT$ ${product.wholesale_price}`
+        : "尚未設定"}
+    </div>
+  </div>
+
+</div>
 
             {/* 狀態操作 */}
             <div className="flex items-center gap-2 mt-2">
@@ -396,7 +423,7 @@ async function toggleBBQ(product: any) {
                 id={`sort-${product.id}`}
                 type="number"
                 defaultValue={product.sort_order}
-                className="w-20 border rounded-xl px-2 py-1 text-center"
+                className="w-18 border rounded-xl px-2 py-1 text-center"
                 onBlur={(e) =>
                   updateSortOrder(
                     product.id,

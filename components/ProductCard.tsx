@@ -8,6 +8,7 @@ import { useCart } from "@/cart/CartContext";
 import { Check, ShoppingCart } from "lucide-react";
 import { useRef, useState } from "react";
 import { flyToCart } from "@/lib/flyToCart";
+import { getEffectivePrice } from "@/lib/promotion";
 
 type ProductCardProps = {
   product: Product;
@@ -18,6 +19,10 @@ export default function ProductCard({ product }: ProductCardProps) {
 
 const { addToCart } = useCart();
 const [added, setAdded] = useState(false);
+
+const effectivePrice = getEffectivePrice(product);
+const hasPromotion = effectivePrice !== product.price;
+
 
 const imageRef = useRef<HTMLDivElement>(null);
 
@@ -107,9 +112,17 @@ className="
         </Link>
 
         {/* 商品價格 */}
-        <p className="md:mt-1 text-2xl font-bold text-orange-600">
-          {formatPrice(product.price)}
-        </p>
+       <div className="md:mt-1 flex items-baseline gap-2">
+  {hasPromotion && (
+    <span className="text-lg text-gray-400 line-through">
+      {formatPrice(product.price)}
+    </span>
+  )}
+
+  <span className="text-2xl font-bold text-orange-600">
+    {formatPrice(effectivePrice)}
+  </span>
+</div>
 
         {/* 按鈕 */}
         <div className="mt-2 flex gap-2">

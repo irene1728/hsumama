@@ -2,7 +2,7 @@ import AddToCartButton from "@/components/AddToCartButton";
 import Image from "next/image";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
-
+import { getEffectivePrice } from "@/lib/promotion";
 type Props = {
   params: Promise<{
     slug: string;
@@ -28,6 +28,9 @@ export default async function ProductDetailPage({ params }: Props) {
       </main>
     );
   }
+
+  const effectivePrice = getEffectivePrice(product);
+const hasPromotion = effectivePrice !== product.price;
 
   // 取得所有上架商品，依照商品排序
   const { data: products } = await supabase
@@ -108,11 +111,19 @@ export default async function ProductDetailPage({ params }: Props) {
             {product.name}
           </h1>
 
-          <p className="text-orange-600 text-3xl font-bold mt-2">
-            {product.price
-              ? `NT$ ${product.price.toLocaleString("zh-TW")}`
-              : "價格請洽詢"}
-          </p>
+      <div className="mt-2 flex items-baseline gap-3">
+  {hasPromotion && (
+    <span className="text-xl text-gray-400 line-through">
+      NT$ {product.price.toLocaleString("zh-TW")}
+    </span>
+  )}
+
+  <span className="text-orange-600 text-3xl font-bold">
+    {effectivePrice
+      ? `NT$ ${effectivePrice.toLocaleString("zh-TW")}`
+      : "價格請洽詢"}
+  </span>
+</div>
 
           <div className="mt-2 space-y md:space-y-3 text-lg">
 
