@@ -149,7 +149,7 @@ className="
     border
     border-orange-500
     px-4 md:px-5 py-2 md:py-2.5
-    text-[17px]
+    text-lg
     font-semibold
     text-orange-600
     transition-all
@@ -158,18 +158,19 @@ className="
     hover:border-orange-600
     hover:text-orange-700
     active:scale-95
+    ml-auto
   "
 >
   
   <>
   {added ? (
     <>
-      <Check size={18} />
+      <Check size={16} />
       <span>已加入</span>
     </>
   ) : (
     <>
-      <ShoppingCart size={18} />
+      <ShoppingCart size={16} />
       <span>加 入</span>
     </>
   )}
