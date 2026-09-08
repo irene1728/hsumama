@@ -96,7 +96,7 @@ async function loadMarqueeAnnouncements() {
           : "bg-white/90 backdrop-blur-md border-b border-gray-200 shadow-sm"
       }`}
     >
-      <div className="max-w-7xl mx-auto flex items-center justify-between px-1 py-1 md:grid md:grid-cols-[26%_48%_26%] md:px-4 md:py-1 mt-1">
+      <div className="max-w-7xl mx-auto flex items-center justify-between px-1 py-1 md:grid md:grid-cols-[28%_44%_28%] md:px-4 md:py-1 mt-1">
 
         {/* Logo */}
        <div className="order-2 flex-1 text-left md:order-none md:flex-none md:text-left md:justify-self-start">
@@ -141,7 +141,7 @@ async function loadMarqueeAnnouncements() {
       href="/"
       className={`transition ${
         isHome
-          ? "text-[#FF8800] text-[22px] hover:text-amber-300"
+          ? "text-[#FFBB66] text-[22px] hover:text-amber-300"
           : "text-[#AA7700] text-[22px] hover:text-orange-600"
       }`}
     >
@@ -152,7 +152,7 @@ async function loadMarqueeAnnouncements() {
       href="/products"
       className={`transition ${
         isHome
-          ? "text-[#FF8800] text-[22px] hover:text-amber-300"
+          ? "text-[#FFBB66] text-[22px] hover:text-amber-300"
           : "text-[#AA7700] text-[22px] hover:text-orange-600"
       }`}
     >
@@ -266,26 +266,26 @@ async function loadMarqueeAnnouncements() {
   {/* 會員登入 */}
 <Link
   href={isLoggedIn ? "/account" : "/account/login"}
-className={`flex items-center gap-1 font-semibold text-base md:gap-1.5 md:text-xl transition mr-2 ${
+className={`flex items-center gap-1 text-base md:gap-1.5 md:text-xl transition mr-2 ${
     isHome
-      ? "text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)] hover:text-amber-200 mr-2"
+      ? "text-[#4682B4] hover:text-amber-200 mr-2"
       : "text-[#4E342E] hover:text-orange-600"
   }`}
 >
-<span className="text-lg md:text-xl">👤</span>
-  <span className="text-lg md:text-xl">{isLoggedIn ? "會員中心" : "會員登入"}</span>
+<span className="text-xl md:text-xl">👤</span>
+  <span className="text-xl md:text-xl">{isLoggedIn ? "會員中心" : "會員登入"}</span>
 </Link>
 
   {/* 購物車 */}
   <Link
     href="/cart"
     data-cart-target
-    className="flex items-center gap-1 rounded-full bg-orange-600 px-2 py-1 md:gap-2 md:px-5 md:py-3 text-white font-semibold
+    className="flex items-center gap-1 rounded-full bg-orange-600 px-2 py-1 md:gap-2 md:px-4 md:py-3 text-white font-semibold
       hover:bg-orange-800 transition hover:scale-105 hover:shadow-lg"
   >
    <span className="text-base md:text-2xl">🛒</span>
 
-   <span className="text-sm md:text-lg">購物車</span>
+   <span className="text-base md:text-lg">購物車</span>
 
     <span className="bg-white text-orange-600 transition-all
   duration-300 rounded-full min-w-5 h-5 md:min-w-8 md:h-8 flex items-center justify-center text-sm md:text-lg font-bold px-1 md:px-2"
