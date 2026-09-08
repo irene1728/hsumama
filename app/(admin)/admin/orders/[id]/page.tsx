@@ -10,19 +10,24 @@ import { orderToReconciliationPdf } from "@/features/checkout/mapper/orderToReco
 
 type Order = {
   id: number;
+  order_no: string | null;
+
   customer_name: string;
   phone: string;
   email: string;
   address: string;
   note: string;
+
   payment: string;
   payment_status: string;
   delivery_method: string;
+
   total_quantity: number;
   total_amount: number;
   shipping_fee: number;
   grand_total: number;
   free_shipping_threshold: number;
+
   status: string;
   created_at: string;
 };
@@ -33,6 +38,7 @@ type OrderItem = {
   quantity: number;
   price: number;
   subtotal: number;
+
   wholesale_price: number | null;
   wholesale_subtotal: number | null;
   profit: number | null;
@@ -58,7 +64,7 @@ export default function AdminOrderDetailPage() {
   }, [orderId]);
 
   async function loadOrder() {
-
+    
     setLoading(true);
 
     const { data: orderData, error: orderError } = await supabase
@@ -73,20 +79,19 @@ export default function AdminOrderDetailPage() {
       return;
     }
 
- const { data: itemData, error: itemError } = await supabase
-  .from("order_items")
-  .select(`
-    id,
-    product_name,
-    quantity,
-    price,
-    subtotal,
-    wholesale_price,
-    wholesale_subtotal,
-    profit
-  `)
-  .eq("order_id", orderId);
-
+    const { data: itemData, error: itemError } = await supabase
+      .from("order_items")
+      .select(`
+        id,
+        product_name,
+        quantity,
+        price,
+        subtotal,
+        wholesale_price,
+        wholesale_subtotal,
+        profit
+      `)
+      .eq("order_id", orderId);
 
     if (itemError) {
       console.error(itemError);
@@ -123,30 +128,21 @@ export default function AdminOrderDetailPage() {
     await loadOrder();
   }
 
+  // ==================================================
+  // 出貨單 PDF
+  // ==================================================
+
   async function downloadShippingPdf() {
     if (!order) return;
 
     try {
+      const paymentMethod = "ATM" as const;
 
-console.error(
- 
-  JSON.stringify(
-    items.map((item) => ({
-      id: item.id,
-      product_name: item.product_name,
-      wholesale_subtotal: item.wholesale_subtotal,
-      profit: item.profit,
-    })),
-    null,
-    2
-  )
-);
-
-
-     const paymentMethod = "ATM" as const;
+      const displayOrderNo =
+        order.order_no ?? String(order.id);
 
       const shippingOrder = {
-        orderNo: String(order.id),
+        orderNo: displayOrderNo,
 
         orderDate: new Date(
           order.created_at
@@ -162,11 +158,11 @@ console.error(
 
         note: order.note ?? "",
 
-      paymentMethod,
+        paymentMethod,
 
-paymentStatus: order.payment_status,
+        paymentStatus: order.payment_status,
 
-shippingMethod: order.delivery_method,
+        shippingMethod: order.delivery_method,
 
         items: items.map((item) => ({
           id: String(item.id),
@@ -187,10 +183,12 @@ shippingMethod: order.delivery_method,
         total: Number(order.grand_total),
       };
 
-      const doc = await generateShippingPdf(shippingOrder);
+      const doc = await generateShippingPdf(
+        shippingOrder
+      );
 
       doc.save(
-        `徐媽媽冰鑽滷味_出貨單_訂單${order.id}.pdf`
+        `徐媽媽冰鑽滷味_出貨單_訂單${displayOrderNo}.pdf`
       );
     } catch (error) {
       console.error(error);
@@ -199,13 +197,22 @@ shippingMethod: order.delivery_method,
     }
   }
 
+  // ==================================================
+  // 對帳單 PDF
+  // ==================================================
+
   async function downloadReconciliationPdf() {
     if (!order) return;
 
     try {
+      const displayOrderNo =
+        order.order_no ?? String(order.id);
+
       const reconciliationOrder =
         orderToReconciliationPdf({
           ...order,
+
+          order_no: displayOrderNo,
 
           items: items.map((item) => ({
             product_name: item.product_name,
@@ -231,17 +238,18 @@ shippingMethod: order.delivery_method,
             profit:
               item.profit !== null &&
               item.profit !== undefined
-              ? Number(item.profit)
-              : null, 
+                ? Number(item.profit)
+                : null,
           })),
         });
 
-      const doc = await generateReconciliationPdf(
-        reconciliationOrder
-      );
+      const doc =
+        await generateReconciliationPdf(
+          reconciliationOrder
+        );
 
       doc.save(
-        `徐媽媽冰鑽滷味_對帳單_訂單${order.id}.pdf`
+        `徐媽媽冰鑽滷味_對帳單_訂單${displayOrderNo}.pdf`
       );
     } catch (error) {
       console.error(error);
@@ -250,6 +258,10 @@ shippingMethod: order.delivery_method,
     }
   }
 
+  // ==================================================
+  // Loading
+  // ==================================================
+
   if (loading) {
     return (
       <main className="max-w-3xl mx-auto px-4 py-8">
@@ -257,6 +269,10 @@ shippingMethod: order.delivery_method,
       </main>
     );
   }
+
+  // ==================================================
+  // 找不到訂單
+  // ==================================================
 
   if (!order) {
     return (
@@ -275,18 +291,26 @@ shippingMethod: order.delivery_method,
     );
   }
 
+  const displayOrderNo =
+    order.order_no ?? `#${order.id}`;
+
   return (
     <main className="max-w-3xl mx-auto px-4 py-6">
       <section className="border rounded-xl bg-gray-50 p-4">
 
-        {/* 標題＋PDF */}
+        {/* ==================================================
+            標題＋PDF
+            ================================================== */}
+
         <div className="mb-5">
           <div className="flex items-center justify-between gap-3">
+
             <h1 className="text-xl font-bold text-gray-800">
               商品明細
             </h1>
 
             <div className="flex items-center gap-2 shrink-0">
+
               <button
                 onClick={downloadShippingPdf}
                 className="bg-orange-500 hover:bg-orange-600 text-white font-medium px-3 py-2 rounded-lg text-sm"
@@ -300,22 +324,31 @@ shippingMethod: order.delivery_method,
               >
                 📋 對帳單
               </button>
+
             </div>
+
           </div>
         </div>
 
-        {/* 訂單編號 */}
+        {/* ==================================================
+            訂單編號
+            ================================================== */}
+
         <p className="font-bold text-lg mb-4">
-          訂單 #{order.id}
+          訂單 {displayOrderNo}
         </p>
 
-        {/* 客戶資料 */}
+        {/* ==================================================
+            客戶資料
+            ================================================== */}
+
         <div className="space-y-3 mb-6 min-w-0">
 
           <p className="break-words">
             <span className="font-semibold">
               👤 收件人：
             </span>
+
             {order.customer_name}
           </p>
 
@@ -323,6 +356,7 @@ shippingMethod: order.delivery_method,
             <span className="font-semibold">
               📞 電話：
             </span>
+
             {order.phone}
           </p>
 
@@ -330,6 +364,7 @@ shippingMethod: order.delivery_method,
             <span className="font-semibold">
               📧 Email：
             </span>
+
             {order.email}
           </p>
 
@@ -337,6 +372,7 @@ shippingMethod: order.delivery_method,
             <span className="font-semibold">
               📍 地址：
             </span>
+
             {order.address}
           </p>
 
@@ -344,6 +380,7 @@ shippingMethod: order.delivery_method,
             <span className="font-semibold">
               📝 備註：
             </span>
+
             {order.note || "無"}
           </p>
 
@@ -351,6 +388,7 @@ shippingMethod: order.delivery_method,
             <span className="font-semibold">
               💳 付款方式：
             </span>
+
             {order.payment}
           </p>
 
@@ -358,6 +396,7 @@ shippingMethod: order.delivery_method,
             <span className="font-semibold">
               💰 付款狀態：
             </span>
+
             {order.payment_status}
           </p>
 
@@ -404,17 +443,22 @@ shippingMethod: order.delivery_method,
           </div>
         </div>
 
-        {/* 商品內容 */}
+        {/* ==================================================
+            商品內容
+            ================================================== */}
+
         <h2 className="font-bold text-lg mb-3">
           商品內容
         </h2>
 
         <ul className="space-y-3 mb-6">
+
           {items.map((item) => (
             <li
               key={item.id}
               className="flex justify-between gap-4 border-b pb-2 min-w-0"
             >
+
               <span className="break-words min-w-0">
                 {item.product_name}
               </span>
@@ -422,12 +466,18 @@ shippingMethod: order.delivery_method,
               <span className="shrink-0">
                 x {item.quantity}
               </span>
+
             </li>
           ))}
+
         </ul>
 
-        {/* 付款狀態 */}
+        {/* ==================================================
+            付款狀態
+            ================================================== */}
+
         <div className="mt-6">
+
           <label className="block font-semibold mb-2">
             付款狀態
           </label>
@@ -439,6 +489,7 @@ shippingMethod: order.delivery_method,
             }
             className="border rounded-lg px-3 py-3 w-full bg-white"
           >
+
             <option value="未付款">
               未付款
             </option>
@@ -450,11 +501,17 @@ shippingMethod: order.delivery_method,
             <option value="待收款">
               待收款
             </option>
+
           </select>
+
         </div>
 
-        {/* 訂單狀態 */}
+        {/* ==================================================
+            訂單狀態
+            ================================================== */}
+
         <div className="mt-8 border-t pt-6">
+
           <h2 className="font-bold text-lg mb-3">
             訂單狀態
           </h2>
@@ -466,6 +523,7 @@ shippingMethod: order.delivery_method,
             }
             className="border rounded-lg px-3 py-3 w-full bg-white"
           >
+
             <option value="待處理">
               待處理
             </option>
@@ -485,6 +543,7 @@ shippingMethod: order.delivery_method,
             <option value="已取消">
               已取消
             </option>
+
           </select>
 
           <button
@@ -493,9 +552,13 @@ shippingMethod: order.delivery_method,
           >
             儲存
           </button>
+
         </div>
 
-        {/* 返回 */}
+        {/* ==================================================
+            返回
+            ================================================== */}
+
         <button
           onClick={() => router.back()}
           className="mt-4 w-full border border-gray-300 bg-white text-gray-700 px-5 py-3 rounded-lg font-medium"
