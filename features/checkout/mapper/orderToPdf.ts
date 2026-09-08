@@ -13,6 +13,7 @@ interface OrderItemRow {
 
 export interface OrderRow {
   id: number;
+  order_no: string | null;
 
   customer_name: string;
   phone: string;
@@ -34,10 +35,10 @@ export interface OrderRow {
  * Database Model -> PDF Model
  */
 export function orderToPdf(order: OrderRow): PdfOrder {
-
+  
   return {
     // Header
-    orderNo: String(order.id),
+    orderNo: order.order_no ?? String(order.id),
     orderDate: new Date().toLocaleDateString("zh-TW"),
 
     // 客戶資料

@@ -26,6 +26,7 @@ interface ReconciliationOrderItemRow {
  */
 export interface ReconciliationOrderRow {
   id: number;
+  order_no: string | null;
   created_at: string;
 
   customer_name: string;
@@ -57,13 +58,12 @@ export function orderToReconciliationPdf(
   order: ReconciliationOrderRow
 ): PdfOrder {
   
-
   const result: PdfOrder = {
     // ==========================================
     // Header
     // ==========================================
 
-    orderNo: String(order.id),
+    orderNo: order.order_no ?? String(order.id),
 
     orderDate: new Date(
       order.created_at

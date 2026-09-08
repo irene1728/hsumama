@@ -3,6 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 
 type Order = {
   id: number;
+  order_no: string | null;
   member_no: string | null;
   customer_name: string;
   grand_total: number;
@@ -245,7 +246,7 @@ export default async function AdminDashboardPage() {
   const { data: recentOrders } = await supabase
     .from("orders")
     .select(
-      "id, member_no, customer_name, grand_total, status, payment_status, created_at"
+      "id, order_no, member_no, customer_name, grand_total, status, payment_status, created_at"
     )
     .order("created_at", { ascending: false })
     .limit(5);
@@ -274,7 +275,6 @@ export default async function AdminDashboardPage() {
         <h1 className="text-3xl md:text-4xl font-bold text-stone-800">
           後台首頁總覽
         </h1>
-        
       </div>
 
       {/* ==================================================
@@ -357,9 +357,7 @@ export default async function AdminDashboardPage() {
           ================================================== */}
 
       <section className="mt-3 md:mt-5 grid grid-cols-1 lg:grid-cols-2 gap-3 md:gap-5">
-        {/* ==================================================
-            訂單狀態
-            ================================================== */}
+        {/* 訂單狀態 */}
 
         <div className="rounded-xl border bg-white p-4 md:p-5 shadow-sm">
           <div className="flex items-center justify-between mb-4">
@@ -398,9 +396,7 @@ export default async function AdminDashboardPage() {
           </div>
         </div>
 
-        {/* ==================================================
-            快速操作
-            ================================================== */}
+        {/* 快速操作 */}
 
         <div className="rounded-xl border bg-white p-4 md:p-5 shadow-sm">
           <h2 className="text-xl md:text-2xl font-bold text-stone-800 mb-4">
@@ -408,20 +404,19 @@ export default async function AdminDashboardPage() {
           </h2>
 
           <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-          
-   {/* 跑馬燈管理 */}
 
-<Link
-  href="/admin/marquee"
-  className="rounded-xl border px-4 py-2 text-center font-bold text-gray-700 hover:bg-orange-50 hover:border-orange-300 transition h-[66px] flex flex-col items-center justify-center"
->
-  <div className="text-2xl leading-none mb-1">
-    📢
-  </div>
+            {/* 跑馬燈管理 */}
 
-  <span>跑馬燈管理</span>
-</Link>
+            <Link
+              href="/admin/marquee"
+              className="rounded-xl border px-4 py-2 text-center font-bold text-gray-700 hover:bg-orange-50 hover:border-orange-300 transition h-[66px] flex flex-col items-center justify-center"
+            >
+              <div className="text-2xl leading-none mb-1">
+                📢
+              </div>
 
+              <span>跑馬燈管理</span>
+            </Link>
 
             {/* 今月營業額 */}
 
@@ -451,7 +446,7 @@ export default async function AdminDashboardPage() {
               </div>
             </div>
 
-           {/* 新增商品 */}
+            {/* 新增商品 */}
 
             <Link
               href="/admin/products/new"
@@ -465,7 +460,7 @@ export default async function AdminDashboardPage() {
             </Link>
 
             {/* 商品管理 */}
-            
+
             <Link
               href="/admin/products"
               className="rounded-xl border px-4 py-2 text-center font-bold text-gray-700 hover:bg-orange-50 hover:border-orange-300 transition h-[66px] flex flex-col items-center justify-center"
@@ -476,7 +471,6 @@ export default async function AdminDashboardPage() {
 
               <span>商品管理</span>
             </Link>
-
 
             {/* 庫存管理 */}
 
@@ -492,6 +486,7 @@ export default async function AdminDashboardPage() {
             </Link>
 
             {/* 配送設定 */}
+
             <Link
               href="/admin/shipping"
               className="rounded-xl border px-4 py-2 text-center font-bold text-gray-700 hover:bg-orange-50 hover:border-orange-300 transition h-[66px] flex flex-col items-center justify-center"
@@ -512,9 +507,8 @@ export default async function AdminDashboardPage() {
           ================================================== */}
 
       <section className="mt-3 md:mt-5 grid grid-cols-1 lg:grid-cols-2 gap-3 md:gap-5">
-        {/* ==================================================
-            最近訂單
-            ================================================== */}
+
+        {/* 最近訂單 */}
 
         <div className="rounded-xl border bg-white shadow-sm overflow-hidden">
           <div className="flex items-center justify-between p-4 md:p-5 border-b">
@@ -543,9 +537,13 @@ export default async function AdminDashboardPage() {
                   className="block p-4 border-b last:border-b-0 hover:bg-orange-50 transition"
                 >
                   <div className="flex items-start justify-between gap-3">
+
                     <div className="min-w-0">
+
+                      {/* ★ 改為新的會員可見訂單編號 */}
+
                       <p className="font-bold text-stone-800">
-                        訂單 #{order.id}
+                        訂單 {order.order_no ?? `#${order.id}`}
                       </p>
 
                       <p className="mt-1 text-sm text-gray-500 truncate">
@@ -558,9 +556,11 @@ export default async function AdminDashboardPage() {
                       <p className="mt-1 text-xs text-gray-400">
                         {formatDate(order.created_at)}
                       </p>
+
                     </div>
 
                     <div className="shrink-0 text-right">
+
                       <p className="font-bold text-orange-600">
                         NT$ {Number(order.grand_total).toLocaleString("zh-TW")}
                       </p>
@@ -572,7 +572,9 @@ export default async function AdminDashboardPage() {
                       >
                         {order.status ?? "—"}
                       </span>
+
                     </div>
+
                   </div>
                 </Link>
               ))}
@@ -580,9 +582,7 @@ export default async function AdminDashboardPage() {
           )}
         </div>
 
-        {/* ==================================================
-            最新會員
-            ================================================== */}
+        {/* 最新會員 */}
 
         <div className="rounded-xl border bg-white shadow-sm overflow-hidden">
           <div className="flex items-center justify-between p-4 md:p-5 border-b">
@@ -616,6 +616,7 @@ export default async function AdminDashboardPage() {
                 >
                   <div className="flex items-center justify-between gap-3">
                     <div className="min-w-0">
+
                       <p className="font-bold text-stone-800">
                         {member.member_no ?? "—"}
                       </p>
@@ -623,6 +624,7 @@ export default async function AdminDashboardPage() {
                       <p className="mt-1 text-gray-600">
                         {member.name ?? "未提供姓名"}
                       </p>
+
                     </div>
 
                     <p className="shrink-0 text-xs text-gray-400">
@@ -634,6 +636,7 @@ export default async function AdminDashboardPage() {
             </div>
           )}
         </div>
+
       </section>
     </main>
   );

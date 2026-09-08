@@ -10,6 +10,7 @@ import { orderToReconciliationPdf } from "@/features/checkout/mapper/orderToReco
 
 type Order = {
   id: number;
+  order_no: string | null;
   user_id: string | null;
   member_no: string | null;
   customer_name: string;
@@ -158,10 +159,12 @@ export default function AdminOrdersPage() {
       // ==========================================
       // 正式付款方式固定為 ATM／線上轉帳
       // ==========================================
-const paymentMethod = "ATM" as const;
+
+      const paymentMethod = "ATM" as const;
 
       const shippingOrder = {
-        orderNo: String(selectedOrder.id),
+        orderNo:
+          selectedOrder.order_no ?? String(selectedOrder.id),
 
         orderDate: new Date(
           selectedOrder.created_at
@@ -177,11 +180,11 @@ const paymentMethod = "ATM" as const;
 
         note: selectedOrder.note ?? "",
 
-     paymentMethod,
+        paymentMethod,
 
-paymentStatus: selectedOrder.payment_status,
+        paymentStatus: selectedOrder.payment_status,
 
-shippingMethod: selectedOrder.delivery_method,
+        shippingMethod: selectedOrder.delivery_method,
 
         items: items.map((item) => ({
           id: String(item.id),
@@ -205,7 +208,9 @@ shippingMethod: selectedOrder.delivery_method,
       const doc = await generateShippingPdf(shippingOrder);
 
       doc.save(
-        `徐媽媽冰鑽滷味_出貨單_訂單${selectedOrder.id}.pdf`
+        `徐媽媽冰鑽滷味_出貨單_訂單${
+          selectedOrder.order_no ?? selectedOrder.id
+        }.pdf`
       );
     } catch (error) {
       console.error(error);
@@ -258,7 +263,9 @@ shippingMethod: selectedOrder.delivery_method,
       );
 
       doc.save(
-        `徐媽媽冰鑽滷味_對帳單_訂單${selectedOrder.id}.pdf`
+        `徐媽媽冰鑽滷味_對帳單_訂單${
+          selectedOrder.order_no ?? selectedOrder.id
+        }.pdf`
       );
     } catch (error) {
       console.error(error);
@@ -284,7 +291,7 @@ shippingMethod: selectedOrder.delivery_method,
   }
 
   return (
-    <main className="max-w-6xl mx-auto px-2 py-2 md:p-1 overflow-x-hidden">
+    <main className="max-w-7xl mx-auto px-2 py-2 md:p-1 overflow-x-hidden">
       <h1 className="text-3xl md:text-4xl font-bold mb-2 md:mb-2">
         訂單管理
       </h1>
@@ -310,10 +317,10 @@ shippingMethod: selectedOrder.delivery_method,
               <table className="w-full table-fixed">
                 <colgroup>
                   {/* 訂單 */}
-                  <col className="w-[12%]" />
+                  <col className="w-[18%]" />
 
                   {/* 會員 */}
-                  <col className="w-[20%]" />
+                  <col className="w-[16%]" />
 
                   {/* 收件人 */}
                   <col className="w-[14%]" />
@@ -325,32 +332,32 @@ shippingMethod: selectedOrder.delivery_method,
                   <col className="w-[16%]" />
 
                   {/* 建立時間 */}
-                  <col className="w-[20%]" />
+                  <col className="w-[18%]" />
                 </colgroup>
 
                 <thead className="bg-gray-100">
                   <tr>
-                    <th className="px-2 py-3 text-left whitespace-nowrap text-sm">
+                    <th className="px-2 py-3 text-center whitespace-nowrap text-sm">
                       訂單
                     </th>
 
-                    <th className="px-2 py-3 text-left whitespace-nowrap text-sm">
+                    <th className="px-2 py-3 text-center whitespace-nowrap text-sm">
                       會員
                     </th>
 
-                    <th className="px-2 py-3 text-left whitespace-nowrap text-sm">
+                    <th className="px-2 py-3 text-center whitespace-nowrap text-sm">
                       收件人
                     </th>
 
-                    <th className="px-2 py-3 text-left whitespace-nowrap text-sm">
+                    <th className="px-2 py-3 text-center whitespace-nowrap text-sm">
                       電話
                     </th>
 
-                    <th className="px-2 py-3 text-left whitespace-nowrap text-sm">
+                    <th className="px-2 py-3 text-center whitespace-nowrap text-sm">
                       狀態
                     </th>
 
-                    <th className="px-2 py-3 text-left whitespace-nowrap text-sm">
+                    <th className="px-2 py-3 text-center whitespace-nowrap text-sm">
                       建立時間
                     </th>
                   </tr>
@@ -368,12 +375,12 @@ shippingMethod: selectedOrder.delivery_method,
                       }`}
                     >
                       {/* 訂單 */}
-                      <td className="px-2 py-3 whitespace-nowrap overflow-hidden">
-                        #{order.id}
+                      <td className="px-2 py-3 whitespace-nowrap overflow-hidden text-center">
+                        {order.order_no ?? `#${order.id}`}
                       </td>
 
                       {/* 會員 */}
-                      <td className="px-2 py-3 whitespace-nowrap overflow-hidden">
+                      <td className="px-2 py-3 whitespace-nowrap overflow-hidden text-center">
                         {order.member_no ? (
                           <button
                             type="button"
@@ -393,14 +400,14 @@ shippingMethod: selectedOrder.delivery_method,
                       </td>
 
                       {/* 收件人 */}
-                      <td className="px-2 py-3 overflow-hidden">
+                      <td className="px-2 py-3 overflow-hidden text-center">
                         <span className="block truncate">
                           {order.customer_name}
                         </span>
                       </td>
 
                       {/* 電話 */}
-                      <td className="px-2 py-3 overflow-hidden">
+                      <td className="px-2 py-3 overflow-hidden text-center">
                         <span
                           className="block truncate"
                           title={order.phone}
@@ -410,7 +417,7 @@ shippingMethod: selectedOrder.delivery_method,
                       </td>
 
                       {/* 狀態 */}
-                      <td className="px-2 py-3 overflow-hidden">
+                      <td className="px-2 py-3 overflow-hidden text-center">
                         <div className="space-y-1 text-sm">
                           <div className="whitespace-nowrap">
                             💰 {order.payment_status}
@@ -423,7 +430,7 @@ shippingMethod: selectedOrder.delivery_method,
                       </td>
 
                       {/* 建立時間 */}
-                      <td className="px-2 py-3 overflow-hidden">
+                      <td className="px-2 py-3 overflow-hidden text-center">
                         <span
                           className="block truncate whitespace-nowrap text-sm"
                           title={formatOrderDate(order.created_at)}
@@ -471,7 +478,9 @@ shippingMethod: selectedOrder.delivery_method,
               ) : (
                 <>
                   <p className="font-bold text-lg mb-4">
-                    訂單 #{selectedOrderId}
+                    訂單{" "}
+                    {selectedOrder?.order_no ??
+                      `#${selectedOrderId}`}
                   </p>
 
                   <div className="space-y-3 mb-6 min-w-0">
@@ -680,7 +689,8 @@ shippingMethod: selectedOrder.delivery_method,
                   >
                     <div className="flex items-center justify-between gap-2">
                       <span className="font-bold text-lg">
-                        訂單 #{order.id}
+                        訂單{" "}
+                        {order.order_no ?? `#${order.id}`}
                       </span>
 
                       <span className="text-base text-gray-500 whitespace-nowrap">

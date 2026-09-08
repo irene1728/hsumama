@@ -27,7 +27,7 @@ export default async function MemberPage({
   const { data: profile, error: profileError } = await supabase
     .from("profiles")
     .select(
-      "user_id, member_no, name, phone, email, address, created_at, updated_at"
+      "user_id, member_no, name, phone, email, birthday, address, created_at, updated_at"
     )
     .eq("member_no", memberNo)
     .maybeSingle();
@@ -87,6 +87,7 @@ export default async function MemberPage({
         <div className="rounded-xl border border-gray-300 bg-white p-4 shadow-sm">
           <div className="space-y-2">
 
+            {/* 會員編號 */}
             <div>
               <p className="text-lg text-gray-500">
                 會員編號
@@ -95,9 +96,11 @@ export default async function MemberPage({
               <p className="mt-1 font-bold text-xl">
                 {profile.member_no}
               </p>
-               <hr className="border-b border-gray-200"></hr>
+
+              <hr className="border-b border-gray-200"></hr>
             </div>
 
+            {/* 姓名 */}
             <div>
               <p className="text-lg text-gray-500">
                 姓名
@@ -106,9 +109,11 @@ export default async function MemberPage({
               <p className="mt-1 text-xl">
                 {profile.name}
               </p>
-               <hr className="border-b border-gray-200"></hr>
+
+              <hr className="border-b border-gray-200"></hr>
             </div>
 
+            {/* 電話 */}
             <div>
               <p className="text-lg text-gray-500">
                 電話
@@ -117,9 +122,11 @@ export default async function MemberPage({
               <p className="mt-1 text-xl">
                 {profile.phone}
               </p>
-               <hr className="border-b border-gray-200"></hr>
+
+              <hr className="border-b border-gray-200"></hr>
             </div>
 
+            {/* Email */}
             <div>
               <p className="text-lg text-gray-500">
                 Email
@@ -128,9 +135,24 @@ export default async function MemberPage({
               <p className="mt-1 text-lg md:text-xl">
                 {profile.email}
               </p>
-               <hr className="border-b border-gray-200"></hr>
+
+              <hr className="border-b border-gray-200"></hr>
             </div>
 
+            {/* 生日 */}
+            <div>
+              <p className="text-lg text-gray-500">
+                生日
+              </p>
+
+              <p className="mt-1 text-lg md:text-xl">
+                {profile.birthday ?? "—"}
+              </p>
+
+              <hr className="border-b border-gray-200"></hr>
+            </div>
+
+            {/* 地址 */}
             <div>
               <p className="text-lg text-gray-500">
                 地址
@@ -139,9 +161,11 @@ export default async function MemberPage({
               <p className="mt-1 text-lg md:text-xl">
                 {profile.address}
               </p>
-               <hr className="border-b border-gray-200"></hr>
+
+              <hr className="border-b border-gray-200"></hr>
             </div>
 
+            {/* 註冊時間 */}
             <div>
               <p className="text-lg text-gray-500">
                 註冊時間
@@ -150,7 +174,8 @@ export default async function MemberPage({
               <p className="mt-1 text-lg md:text-xl">
                 {new Date(profile.created_at).toLocaleString("zh-TW")}
               </p>
-               <hr className="border-b border-gray-200"></hr>
+
+              <hr className="border-b border-gray-200"></hr>
             </div>
 
           </div>

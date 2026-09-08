@@ -204,19 +204,22 @@ export default function InventoryList({ products }: Props) {
               shadow-sm
             "
           >
+            {/* ====================================== */}
             {/* 商品 / 庫存 / 補貨 */}
+            {/* ====================================== */}
+
             <div
               className="
-                flex
-                flex-col
-                md:flex-row
+                grid
+                grid-cols-1
+                md:grid-cols-[minmax(0,1fr)_200px_300px]
                 md:items-center
-                md:justify-between
+
                 gap-4
               "
             >
               {/* 商品 */}
-              <div>
+              <div className="min-w-0">
                 <h2 className="text-xl font-bold text-stone-800">
                   {product.name}
                 </h2>
@@ -227,18 +230,18 @@ export default function InventoryList({ products }: Props) {
               </div>
 
               {/* 目前存貨 */}
-              <div>
+              <div className="w-200px] text-center">
                 <p className="text-sm text-gray-500">
                   目前存貨
                 </p>
 
-                <p className="text-2xl font-bold text-orange-600">
+                <p className="mt-1 text-2xl font-bold text-orange-600">
                   {product.stock_quantity ?? 0} 份
                 </p>
               </div>
 
               {/* 補貨 */}
-              <div className="flex gap-2">
+              <div className="flex items-center justify-end gap-2">
                 <input
                   type="number"
                   min="1"
@@ -253,9 +256,14 @@ export default function InventoryList({ products }: Props) {
                   className="
                     w-32
                     border
+                    border-gray-300
                     rounded-xl
                     px-3
                     py-2
+                    outline-none
+                    focus:border-orange-500
+                    focus:ring-1
+                    focus:ring-orange-500
                   "
                 />
 
@@ -272,6 +280,7 @@ export default function InventoryList({ products }: Props) {
                     px-5
                     py-2
                     rounded-xl
+                    whitespace-nowrap
                   "
                 >
                   {loadingId === product.id
@@ -281,8 +290,11 @@ export default function InventoryList({ products }: Props) {
               </div>
             </div>
 
+            {/* ====================================== */}
             {/* 查看紀錄 */}
-            <div className="mt-2 border-t pt-2">
+            {/* ====================================== */}
+
+            <div className="mt-3 border-t border-gray-900 pt-2">
               <button
                 type="button"
                 onClick={() => {
@@ -308,7 +320,10 @@ export default function InventoryList({ products }: Props) {
               </button>
             </div>
 
+            {/* ====================================== */}
             {/* 左右兩欄 */}
+            {/* ====================================== */}
+
             {isExpanded && (
               <div
                 className="
@@ -446,7 +461,9 @@ export default function InventoryList({ products }: Props) {
 
                           <p className="text-sm text-gray-600">
                             單價：NT${" "}
-                            {purchase.price.toLocaleString("zh-TW")}
+                            {purchase.price.toLocaleString(
+                              "zh-TW"
+                            )}
                           </p>
 
                           <p className="text-sm text-gray-600">

@@ -12,6 +12,7 @@ export default function AccountEditPage() {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
+  const [birthday, setBirthday] = useState("");
 
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -29,7 +30,7 @@ export default function AccountEditPage() {
 
       const { data: profile, error } = await supabase
         .from("profiles")
-        .select("name, phone, address")
+        .select("name, phone, address, birthday")
         .eq("user_id", user.id)
         .single();
 
@@ -42,6 +43,7 @@ export default function AccountEditPage() {
       setName(profile.name ?? "");
       setPhone(profile.phone ?? "");
       setAddress(profile.address ?? "");
+      setBirthday(profile.birthday ?? "");
 
       setLoading(false);
     }
@@ -50,8 +52,8 @@ export default function AccountEditPage() {
   }, [router, supabase]);
 
   async function handleSave() {
-    if (!name || !phone || !address) {
-      alert("請完整填寫姓名、電話與地址。");
+    if (!name || !phone || !address || !birthday) {
+      alert("請完整填寫姓名、電話、生日與地址。");
       return;
     }
 
@@ -73,6 +75,7 @@ export default function AccountEditPage() {
           name,
           phone,
           address,
+          birthday,
         })
         .eq("user_id", user.id);
 
@@ -138,6 +141,24 @@ export default function AccountEditPage() {
             onChange={(e) => setPhone(e.target.value)}
             className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-orange-500"
           />
+        </div>
+
+        {/* 生日 */}
+        <div>
+          <label className="block text-gray-500 mb-2">
+            生日
+          </label>
+
+          <input
+            type="date"
+            value={birthday}
+            onChange={(e) => setBirthday(e.target.value)}
+            className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-orange-500"
+          />
+
+          <p className="mt-1 text-sm text-gray-500">
+            請填寫西元出生年月日
+          </p>
         </div>
 
         {/* 地址 */}

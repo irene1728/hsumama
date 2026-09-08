@@ -46,12 +46,12 @@ export const SHIPPING_PDF = {
     },
 
     documentTitle: {
-      x: 150,
+      x: 140,
       y: 16,
     },
 
     orderInfo: {
-      x: 150,
+      x: 140,
       orderNoY: 22,
       orderDateY: 28,
     },

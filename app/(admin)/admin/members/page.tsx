@@ -7,6 +7,7 @@ type Member = {
   name: string | null;
   phone: string | null;
   email: string | null;
+  birthday: string | null;
   address: string | null;
   created_at: string;
 };
@@ -28,7 +29,7 @@ export default async function MembersPage({
   let query = supabase
     .from("profiles")
     .select(
-      "user_id, member_no, name, phone, email, address, created_at"
+      "user_id, member_no, name, phone, email, birthday, address, created_at"
     )
     .order("created_at", { ascending: false });
 
@@ -171,6 +172,10 @@ export default async function MembersPage({
                       </th>
 
                       <th className="border-b px-4 py-3 font-bold text-stone-800">
+                        生日
+                      </th>
+
+                      <th className="border-b px-4 py-3 font-bold text-stone-800">
                         地址
                       </th>
 
@@ -205,6 +210,10 @@ export default async function MembersPage({
 
                         <td className="border-b px-4 py-4">
                           {member.email ?? "—"}
+                        </td>
+
+                        <td className="border-b px-4 py-4 whitespace-nowrap">
+                          {member.birthday ?? "—"}
                         </td>
 
                         <td className="border-b px-4 py-4">
@@ -278,6 +287,16 @@ export default async function MembersPage({
 
                       <p className="text-base break-all text-stone-800">
                         {member.email ?? "—"}
+                      </p>
+                    </div>
+
+                    <div>
+                      <p className="text-sm text-gray-500">
+                        生日
+                      </p>
+
+                      <p className="text-base text-stone-800">
+                        {member.birthday ?? "—"}
                       </p>
                     </div>
 

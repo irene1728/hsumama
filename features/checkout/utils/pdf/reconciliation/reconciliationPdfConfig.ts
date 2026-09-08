@@ -49,12 +49,12 @@ export const RECONCILIATION_PDF = {
     },
 
     documentTitle: {
-      x: 150,
+      x: 140,
       y: 18,
     },
 
     orderInfo: {
-      x: 150,
+      x: 140,
       orderNoY: 25,
       orderDateY: 31,
     },

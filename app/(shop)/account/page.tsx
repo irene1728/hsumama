@@ -16,7 +16,7 @@ export default async function AccountPage() {
 
   const { data: profile, error } = await supabase
     .from("profiles")
-    .select("member_no, name, phone, email, address")
+    .select("member_no, name, phone, email, birthday, address")
     .eq("user_id", user.id)
     .single();
 
@@ -34,10 +34,10 @@ export default async function AccountPage() {
     );
   }
 
- const { data: orders, error: ordersError } = await supabase
+  const { data: orders, error: ordersError } = await supabase
     .from("orders")
     .select(
-      "id, status, payment_status, total_amount, grand_total, created_at"
+      "id, order_no, status, payment_status, total_amount, grand_total, created_at"
     )
     .eq("user_id", user.id)
     .order("created_at", { ascending: false });
@@ -49,6 +49,8 @@ export default async function AccountPage() {
       </h1>
 
       <div className="border rounded-2xl p-5 space-y-2 shadow-sm">
+
+        {/* 會員編號 */}
         <div>
           <p className="text-gray-500">會員編號</p>
           <p className="text-lg font-semibold">
@@ -57,6 +59,7 @@ export default async function AccountPage() {
           <hr className="border-b border-gray-200"></hr>
         </div>
 
+        {/* 姓名 */}
         <div>
           <p className="text-gray-500">姓名</p>
           <p className="text-lg">
@@ -65,6 +68,7 @@ export default async function AccountPage() {
           <hr className="border-b border-gray-200"></hr>
         </div>
 
+        {/* 電話 */}
         <div>
           <p className="text-gray-500">電話</p>
           <p className="text-lg">
@@ -73,6 +77,7 @@ export default async function AccountPage() {
           <hr className="border-b border-gray-200"></hr>
         </div>
 
+        {/* Email */}
         <div>
           <p className="text-gray-500">Email</p>
           <p className="text-lg">
@@ -81,14 +86,24 @@ export default async function AccountPage() {
           <hr className="border-b border-gray-200"></hr>
         </div>
 
+        {/* 生日 */}
+        <div>
+          <p className="text-gray-500">生日</p>
+          <p className="text-lg">
+            {profile.birthday}
+          </p>
+          <hr className="border-b border-gray-200"></hr>
+        </div>
+
+        {/* 地址 */}
         <div>
           <p className="text-gray-500">地址</p>
           <p className="text-lg">
             {profile.address}
           </p>
-           <hr className="border-b border-gray-200"></hr>
+          <hr className="border-b border-gray-200"></hr>
         </div>
-    
+
       </div>
 
       {/* 我的訂單 */}
@@ -113,24 +128,24 @@ export default async function AccountPage() {
         ) : (
           <div className="space-y-3">
 
-           {orders.map((order) => (
-  <Link
-    key={order.id}
-    href={`/account/orders/${order.id}`}
-    className="block rounded-2xl border p-5 shadow-sm bg-white"
-  >
+            {orders.map((order) => (
+              <Link
+                key={order.id}
+                href={`/account/orders/${order.id}`}
+                className="block rounded-2xl border p-5 shadow-sm bg-white"
+              >
 
                 <div className="flex items-start justify-between gap-4">
 
                   <div>
                     <p className="font-bold text-lg text-[#4E342E]">
-                      訂單 #{order.id}
+                      訂單 {order.order_no ?? `#${order.id}`}
                     </p>
 
                     <p className="mt-1 text-base text-gray-500">
                       {new Date(order.created_at).toLocaleString("zh-TW")}
                     </p>
-                    
+
                   </div>
 
                   <p className="font-bold text-orange-600 text-lg whitespace-nowrap">
@@ -138,7 +153,9 @@ export default async function AccountPage() {
                   </p>
 
                 </div>
- <hr className="border-b border-gray-200"></hr>
+
+                <hr className="border-b border-gray-200"></hr>
+
                 <div className="mt-2 text-base text-gray-600 space-y-1">
                   <p>
                     付款狀態：{order.payment_status ?? "—"}
@@ -146,10 +163,11 @@ export default async function AccountPage() {
 
                   <p>
                     訂單狀態：{order.status ?? "—"}
-                 </p>
-    </div>
-  </Link>
-))}
+                  </p>
+                </div>
+
+              </Link>
+            ))}
 
           </div>
           
@@ -157,31 +175,32 @@ export default async function AccountPage() {
 
       </section>
 
-<div className="mt-6 space-y-3">
-  <Link
-    href="/account/edit"
-    className="block w-full rounded-xl border border-orange-600 py-3 text-center font-bold text-orange-600 transition hover:bg-orange-50"
-  >
-    編輯會員資料
-  </Link>
+      <div className="mt-6 space-y-3">
 
-<Link
-  href="/account/password"
-  className="block w-full rounded-xl border border-orange-600 py-3 text-center font-bold text-orange-600 transition hover:bg-orange-50"
->
-  修改密碼
-</Link>
+        <Link
+          href="/account/edit"
+          className="block w-full rounded-xl border border-orange-600 py-3 text-center font-bold text-orange-600 transition hover:bg-orange-50"
+        >
+          編輯會員資料
+        </Link>
 
-<Link
-  href="/account/email"
-  className="block w-full rounded-xl border border-orange-600 py-3 text-center font-bold text-orange-600 transition hover:bg-orange-50"
->
-  修改 Email
-</Link>
+        <Link
+          href="/account/password"
+          className="block w-full rounded-xl border border-orange-600 py-3 text-center font-bold text-orange-600 transition hover:bg-orange-50"
+        >
+          修改密碼
+        </Link>
 
-  <LogoutButton />
+        <Link
+          href="/account/email"
+          className="block w-full rounded-xl border border-orange-600 py-3 text-center font-bold text-orange-600 transition hover:bg-orange-50"
+        >
+          修改 Email
+        </Link>
 
-</div>
+        <LogoutButton />
+
+      </div>
 
     </main>
   );

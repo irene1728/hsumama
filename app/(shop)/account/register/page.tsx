@@ -14,12 +14,14 @@ export default function RegisterPage() {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
+  const [birthday, setBirthday] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+
   async function handleRegister() {
-    if (!name || !phone || !address || !email || !password) {
+    if (!name || !phone || !address || !birthday || !email || !password) {
       alert("請完整填寫註冊資料。");
       return;
     }
@@ -40,6 +42,7 @@ const [showSuccessModal, setShowSuccessModal] = useState(false);
             name,
             phone,
             address,
+            birthday,
           },
         },
       });
@@ -49,8 +52,7 @@ const [showSuccessModal, setShowSuccessModal] = useState(false);
         return;
       }
 
-     setShowSuccessModal(true);
-
+      setShowSuccessModal(true);
     } catch (error) {
       console.error("Register Error:", error);
       alert("註冊時發生錯誤，請稍後再試。");
@@ -114,6 +116,24 @@ const [showSuccessModal, setShowSuccessModal] = useState(false);
             />
           </div>
 
+          {/* 生日 */}
+          <div>
+            <label className="block font-semibold mb-2">
+              生日
+            </label>
+
+            <input
+              type="date"
+              value={birthday}
+              onChange={(e) => setBirthday(e.target.value)}
+              className="w-full rounded-lg border border-gray-500 px-4 py-3 outline-none focus:border-orange-500"
+            />
+
+            <p className="mt-1 text-sm text-gray-500">
+              請填寫西元出生年月日
+            </p>
+          </div>
+
           {/* Email */}
           <div>
             <label className="block font-semibold mb-2">
@@ -168,37 +188,37 @@ const [showSuccessModal, setShowSuccessModal] = useState(false);
 
       </div>
 
-{showSuccessModal && (
-  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-6">
-    <div className="w-full max-w-md rounded-2xl bg-white p-7 shadow-xl">
+      {showSuccessModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-6">
+          <div className="w-full max-w-md rounded-2xl bg-white p-7 shadow-xl">
 
-      <h2 className="text-2xl font-bold text-stone-800 text-center">
-        註冊成功 🎉
-      </h2>
+            <h2 className="text-2xl font-bold text-stone-800 text-center">
+              註冊成功 🎉
+            </h2>
 
-      <div className="mt-5 text-center text-gray-700 leading-relaxed">
-        <p>
-          我們已經發送 Email 驗證信。
-        </p>
+            <div className="mt-5 text-center text-gray-700 leading-relaxed">
+              <p>
+                我們已經發送 Email 驗證信。
+              </p>
 
-        <p className="mt-2">
-          請先到您的信箱點擊驗證連結，
-          <br />
-          完成 Email 驗證後才能登入。
-        </p>
-      </div>
+              <p className="mt-2">
+                請先到您的信箱點擊驗證連結，
+                <br />
+                完成 Email 驗證後才能登入。
+              </p>
+            </div>
 
-      <button
-        type="button"
-        onClick={() => router.push("/account/login")}
-        className="mt-6 w-full rounded-xl bg-orange-600 py-3 font-bold text-white transition hover:bg-orange-700"
-      >
-        知道了
-      </button>
+            <button
+              type="button"
+              onClick={() => router.push("/account/login")}
+              className="mt-6 w-full rounded-xl bg-orange-600 py-3 font-bold text-white transition hover:bg-orange-700"
+            >
+              知道了
+            </button>
 
-    </div>
-  </div>
-)}
+          </div>
+        </div>
+      )}
 
     </main>
   );
