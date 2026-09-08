@@ -1,8 +1,7 @@
 export default function Story() {
   return (
-    <section className="bg-white py-12">
-
-      <div className="max-w-7xl mx-auto px-8">
+    
+      <div className="max-w-7xl mx-auto px-3 md:px-8 bg-white mt-1">
 
         <div className="grid md:grid-cols-2 gap-16 items-center">
 
@@ -75,6 +74,6 @@ export default function Story() {
 
       </div>
 
-    </section>
+
   );
 }

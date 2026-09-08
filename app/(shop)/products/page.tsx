@@ -56,10 +56,10 @@ export default function ProductsPage() {
         );
 
   return (
-    <main className="max-w-7xl mx-auto pt-22 px-8 md:py-22">
+    <main className="max-w-7xl mx-auto py-1 px-8 md:py-2">
 
       {/* 全部商品／烤肉專區切換 */}
-      <div className="flex justify-center gap-3 mt-1 md:mt-3">
+      <div className="flex justify-center gap-3 mt-1 md:mt-2">
 
         <button
           onClick={() => {
@@ -97,7 +97,7 @@ export default function ProductsPage() {
       </p>
 
       {/* 商品分類 */}
-      <div className="flex flex-wrap justify-center gap-1 md:gap-3 mt-2 md:mt-4">
+      <div className="flex flex-wrap justify-center gap-1 md:gap-3 mt-2 md:mt-3">
 
         {categories.map((category) => (
           <button

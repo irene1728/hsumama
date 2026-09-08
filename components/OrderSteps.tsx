@@ -23,7 +23,7 @@ export default function OrderSteps() {
   ];
 
   return (
-    <section className="bg-[#FFF8F0] py-10">
+    <section className="bg-[#FFF8F0] py-10 mt-2 md:mt-4">
 
       <div className="max-w-7xl mx-auto px-8">
 

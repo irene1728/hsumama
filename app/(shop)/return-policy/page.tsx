@@ -1,9 +1,9 @@
 export default function ReturnPolicyPage() {
   return (
-    <main className="min-h-screen bg-white pt-28">
+    <main className="min-h-screen bg-white pt-1 md:pt-2">
       {/* 頁面標題 */}
-      <section className="bg-[#FFF8F0] py-12 md:py-16">
-        <div className="max-w-5xl mx-auto px-6 md:px-8 text-center">
+      <section className="bg-[#FFF8F0] py-3 md:py-14">
+        <div className="max-w-5xl mx-auto px-5 md:px-8 text-center">
           <p className="text-orange-600 font-semibold tracking-widest">
             RETURN & EXCHANGE
           </p>
@@ -12,21 +12,21 @@ export default function ReturnPolicyPage() {
             退換貨政策
           </h1>
 
-          <p className="text-gray-500 mt-5">
-            商品有任何問題，請先聯繫我們，我們會協助您處理
+          <p className="text-sm md:text-xl text-[#DC143C] mt-2 md:mt-5">
+            商品有任何問題，請先聯繫我們，我們會協助您處理。
           </p>
         </div>
       </section>
 
       {/* 01 退換貨政策 */}
-      <section className="py-12 md:py-16">
-        <div className="max-w-5xl mx-auto px-6 md:px-8">
+      <section className="py-3 md:py-14">
+        <div className="max-w-5xl mx-auto px-5 md:px-8">
        
-          <h2 className="text-3xl md:text-4xl font-bold text-stone-800 mb-8">
+          <h2 className="text-3xl md:text-4xl font-bold text-stone-800 mb-2 md:mb-8">
             退換貨政策
           </h2>
 
-          <div className="space-y-6 text-gray-600 leading-8">
+          <div className="space-y-6 text-gray-600 leading-6">
             <div className="rounded-3xl bg-[#FFF8F0] border border-orange-100 p-6 md:p-8">
               <h3 className="text-xl font-bold text-stone-800 mb-4">
                 冷凍食品之退貨說明
@@ -77,15 +77,15 @@ export default function ReturnPolicyPage() {
       </section>
 
       {/* 02 商品瑕疵／運送損壞 */}
-      <section className="bg-[#FFF8F0] py-12 md:py-16">
-        <div className="max-w-5xl mx-auto px-6 md:px-8">
+      <section className="bg-[#FFF8F0] py-3 md:py-14">
+        <div className="max-w-5xl mx-auto px-4 md:px-8">
         
-          <h2 className="text-3xl md:text-4xl font-bold text-stone-800 mb-8">
+          <h2 className="text-3xl md:text-4xl font-bold text-stone-800 mb-2 md:mb-8">
             商品瑕疵／運送損壞
           </h2>
 
-          <div className="bg-white rounded-3xl border border-orange-100 p-6 md:p-8">
-            <p className="text-gray-600 leading-8 mb-6">
+          <div className="bg-white rounded-3xl border border-orange-100 p-5 md:p-8">
+            <p className="text-gray-600 leading-6 mb-6">
               收到商品後請儘速檢查商品狀況。
               若發現商品有瑕疵、破損、異常解凍或品項錯誤，
               請立即與客服聯繫，以便我們協助處理。
@@ -95,7 +95,7 @@ export default function ReturnPolicyPage() {
               發現商品異常時，請協助提供
             </h3>
 
-            <ul className="list-disc pl-6 space-y-2 text-gray-600 leading-8">
+            <ul className="list-disc pl-6 space-y-2 text-gray-600 leading-6">
               <li>訂單編號及訂購人姓名。</li>
               <li>商品外箱及物流標籤照片。</li>
               <li>商品本體及異常狀況的清楚照片。</li>
@@ -112,14 +112,14 @@ export default function ReturnPolicyPage() {
       </section>
 
       {/* 03 退貨流程 */}
-      <section className="py-12 md:py-16">
-        <div className="max-w-5xl mx-auto px-6 md:px-8">
+      <section className="py-3 md:py-14">
+        <div className="max-w-5xl mx-auto px-4 md:px-8">
       
-          <h2 className="text-3xl md:text-4xl font-bold text-stone-800 mb-8">
+          <h2 className="text-3xl md:text-4xl font-bold text-stone-800 mb-2 md:mb-8">
             退貨流程
           </h2>
 
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-3 gap-3 md:gap-6">
             {[
               {
                 step: "STEP 1",
@@ -154,7 +154,7 @@ export default function ReturnPolicyPage() {
             ].map((item) => (
               <div
                 key={item.step}
-                className="rounded-3xl border border-orange-100 bg-[#FFF8F0] p-6"
+                className="rounded-3xl border border-orange-100 bg-[#FFF8F0] p-4"
               >
                 <p className="text-orange-600 font-semibold tracking-widest text-sm mb-2">
                   {item.step}
@@ -174,10 +174,10 @@ export default function ReturnPolicyPage() {
       </section>
 
       {/* 04 退款方式 */}
-      <section className="bg-[#FFF8F0] py-12 md:py-16">
-        <div className="max-w-5xl mx-auto px-6 md:px-8">
+      <section className="bg-[#FFF8F0] py-3 md:py-14">
+        <div className="max-w-5xl mx-auto px-5 md:px-8">
           
-          <h2 className="text-3xl md:text-4xl font-bold text-stone-800 mb-8">
+          <h2 className="text-3xl md:text-4xl font-bold text-stone-800 mb-2 md:mb-8">
             退款方式
           </h2>
 
@@ -209,15 +209,15 @@ export default function ReturnPolicyPage() {
       </section>
 
       {/* 05 特別注意事項 */}
-      <section className="py-12 md:py-16">
-        <div className="max-w-5xl mx-auto px-6 md:px-8">
+      <section className="py-3 md:py-14">
+        <div className="max-w-5xl mx-auto px-5 md:px-8">
        
-          <h2 className="text-3xl md:text-4xl font-bold text-stone-800 mb-8">
+          <h2 className="text-3xl md:text-4xl font-bold text-stone-800 mb-2 md:mb-8">
             特別注意事項
           </h2>
 
           <div className="rounded-3xl bg-[#FFF8F0] border border-orange-100 p-6 md:p-8">
-            <ul className="space-y-4 text-gray-600 leading-8">
+            <ul className="space-y-4 text-gray-600 leading-6">
               <li>
                 • 收到商品後請儘速檢查，並確認商品包裝及內容物是否完整。
               </li>
@@ -250,8 +250,8 @@ export default function ReturnPolicyPage() {
               </li>
             </ul>
 
-            <div className="mt-8 pt-6 border-t border-orange-100">
-              <p className="text-gray-600 leading-8">
+            <div className="mt-4 md:mt-8 pt-2 md:pt-6 border-t border-orange-100">
+              <p className="text-gray-600 leading-5 md:leading-8">
                 ※ 上述退換貨規定，不影響消費者依法就商品瑕疵或其他法定權利所為之主張。
               </p>
             </div>
@@ -260,17 +260,17 @@ export default function ReturnPolicyPage() {
       </section>
 
       {/* 客服提醒 */}
-      <section className="bg-[#FFF8F0] py-12 md:py-16">
-        <div className="max-w-4xl mx-auto px-6 md:px-8 text-center">
+      <section className="bg-[#FFF8F0] py-3 md:py-14">
+        <div className="max-w-4xl mx-auto px-5 md:px-8 text-center">
           <p className="text-orange-600 font-semibold tracking-widest mb-2">
             CUSTOMER SERVICE
           </p>
 
-          <h2 className="text-3xl font-bold text-stone-800 mb-4">
+          <h2 className="text-xl md:text-3xl font-bold text-stone-800 mb-2 md:mb-4">
             商品有任何問題，請先聯繫我們
           </h2>
 
-          <p className="text-gray-600 leading-8">
+          <p className="text-sm md:text-lg text-gray-600 leading-8">
             如收到商品後發現異常，請保留商品及相關包裝，
             並儘速與客服聯繫，我們會協助您確認及處理。
           </p>

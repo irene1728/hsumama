@@ -51,8 +51,8 @@ useEffect(() => {
   }
 
   return (
-    <main className="max-w-md mx-auto px-6 py-28">
-      <h1 className="text-4xl font-bold text-center text-[#4E342E] mb-10">
+    <main className="max-w-md mx-auto px-6 py-8 md:py-16">
+      <h1 className="text-4xl font-bold text-center text-[#4E342E] mb-8 md:mb-10">
         會員登入
       </h1>
 

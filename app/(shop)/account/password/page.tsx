@@ -63,9 +63,9 @@ export default function PasswordPage() {
   }
 
   return (
-    <main className="max-w-2xl mx-auto px-6 py-25">
+    <main className="max-w-2xl mx-auto px-6 py-2 md:py-8">
 
-      <h1 className="text-4xl font-bold text-[#4E342E] mb-8">
+      <h1 className="text-4xl font-bold text-[#4E342E] mb-2 md:mb-8">
         修改密碼
       </h1>
 

@@ -121,7 +121,7 @@ export default function AdminNav() {
             ================================================== */}
 
 {mobileMenuOpen && (
-  <div className="absolute left-0 right-0 top-full z-50 border-b border-gray-300 bg-white px-4 py-2 shadow-lg">
+  <div className="absolute left-0 right-0 top-full z-50 border-b border-gray-300 bg-white px-4 py-1 shadow-lg">
     <div className="space-y-1">
       {mobileMenus.map((menu) => {
         const active = isActive(menu.href);
@@ -131,7 +131,7 @@ export default function AdminNav() {
             key={menu.href}
             href={menu.href}
             onClick={() => setMobileMenuOpen(false)}
-            className={`block rounded-lg px-4 py-3 text-lg font-medium transition ${
+            className={`block rounded-lg px-4 py-1 text-lg font-medium transition border-b border-gray-400 ${
               active
                 ? "bg-orange-500 text-white"
                 : "text-gray-700 hover:bg-orange-100"
@@ -139,8 +139,10 @@ export default function AdminNav() {
           >
             {menu.name}
           </Link>
+          
         );
       })}
+     
     </div>
   </div>
 )}

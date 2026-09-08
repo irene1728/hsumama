@@ -22,7 +22,7 @@ export default async function AccountPage() {
 
   if (error || !profile) {
     return (
-      <main className="max-w-2xl mx-auto px-6 py-24 md:py-27">
+      <main className="max-w-2xl mx-auto px-6 py-5 md:py-10">
         <h1 className="text-4xl font-bold text-[#4E342E] mb-4">
           會員中心
         </h1>
@@ -43,8 +43,8 @@ export default async function AccountPage() {
     .order("created_at", { ascending: false });
 
   return (
-    <main className="max-w-2xl mx-auto px-6 py-22 md:py-27">
-      <h1 className="text-4xl font-bold text-[#4E342E] mb-2">
+    <main className="max-w-2xl mx-auto px-6 py-2 md:py-4">
+      <h1 className="text-4xl font-bold text-[#4E342E] mb-1 md:mb-2">
         會員中心
       </h1>
 
@@ -94,7 +94,7 @@ export default async function AccountPage() {
       {/* 我的訂單 */}
       <section className="mt-4">
 
-        <h2 className="text-2xl font-bold text-[#4E342E] mb-2">
+        <h2 className="text-2xl font-bold text-[#4E342E] mb-1 md:mb-2">
           我的訂單
         </h2>
 

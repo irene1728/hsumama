@@ -184,13 +184,13 @@ catch (error) {
 
 return (
   <>
-    <main className="max-w-7xl mx-auto px-8 py-20 md:py-28">
+    <main className="max-w-7xl mx-auto px-8 py-2 md:py-3">
 
       <h1 className="text-4xl font-bold text-stone-800 mb-2">
         結帳
       </h1>
 
-      <div className="grid lg:grid-cols-3 gap-10">
+      <div className="grid lg:grid-cols-3 gap-3 md:gap-10">
 
         {/* 左邊：收件資料 */}
         <div className="lg:col-span-2">
@@ -213,7 +213,7 @@ return (
 </div>
 
         {/* 右邊：訂單摘要 */}
-<div className="h-fit sticky top-28 space-y-6">
+<div className="h-fit sticky top-28 space-y-3 md:space-y-5">
 
 <OrderSummary
   cart={cart}

@@ -60,14 +60,14 @@ const [showSuccessModal, setShowSuccessModal] = useState(false);
   }
 
   return (
-    <main className="min-h-screen bg-white px-6 py-20 md:py-28">
+    <main className="min-h-screen bg-white px-6 py-4 md:py-8">
       <div className="max-w-md mx-auto">
 
         <h1 className="text-2xl md:text-3xl font-bold text-stone-800 text-center mb-2 md:mb-4">
           會員註冊
         </h1>
 
-        <div className="space-y-4 md:space-y-5">
+        <div className="space-y-3 md:space-y-5">
 
           {/* 姓名 */}
           <div>

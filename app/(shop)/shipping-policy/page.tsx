@@ -1,9 +1,9 @@
 
 export default function ShippingPolicyPage() {
   return (
-    <main className="min-h-screen bg-white pt-28">
+    <main className="min-h-screen bg-white pt-1 md:pt-2">
       {/* 頁面標題 */}
-      <section className="bg-[#FFF8F0] py-12 md:py-16">
+      <section className="bg-[#FFF8F0] py-3 md:py-14">
         <div className="max-w-5xl mx-auto px-6 md:px-8 text-center">
           <p className="text-orange-600 font-semibold tracking-widest">
             SHIPPING POLICY
@@ -13,20 +13,20 @@ export default function ShippingPolicyPage() {
             運送政策
           </h1>
 
-          <p className="text-gray-500 mt-5">
+          <p className="text-gray-500 mt-3 md:mt-5">
             保鮮真空包裝，冷凍宅配送到您家。
           </p>
         </div>
       </section>
 
       {/* 01 配送方式 */}
-      <section className="py-12 md:py-16">
-        <div className="max-w-5xl mx-auto px-6 md:px-8">
-          <h2 className="text-3xl md:text-4xl font-bold text-stone-800 mb-8">
+      <section className="py-3 md:py-14">
+        <div className="max-w-5xl mx-auto px-4 md:px-8">
+          <h2 className="text-3xl md:text-4xl font-bold text-stone-800 mb-2 md:mb-8">
             配送方式
           </h2>
 
-          <div className="rounded-3xl bg-[#FFF8F0] border border-orange-100 p-6 md:p-8">
+          <div className="rounded-3xl bg-[#FFF8F0] border border-orange-100 p-5 md:p-8">
             <h3 className="text-xl font-bold text-stone-800 mb-4">
               新竹貨運冷凍宅配
             </h3>
@@ -40,13 +40,13 @@ export default function ShippingPolicyPage() {
       </section>
 
       {/* 02 配送範圍 */}
-      <section className="bg-[#FFF8F0] py-12 md:py-16">
-        <div className="max-w-5xl mx-auto px-6 md:px-8">
-          <h2 className="text-3xl md:text-4xl font-bold text-stone-800 mb-8">
+      <section className="bg-[#FFF8F0] py-3 md:py-14">
+        <div className="max-w-5xl mx-auto px-4 md:px-8">
+          <h2 className="text-3xl md:text-4xl font-bold text-stone-800 mb-2 md:mb-8">
             配送範圍
           </h2>
 
-          <div className="bg-white rounded-3xl border border-orange-100 p-6 md:p-8">
+          <div className="bg-white rounded-3xl border border-orange-100 p-5 md:p-8">
             <h3 className="text-xl font-bold text-stone-800 mb-4">
               台灣本島
             </h3>
@@ -60,14 +60,14 @@ export default function ShippingPolicyPage() {
       </section>
 
       {/* 03 出貨時間 */}
-      <section className="py-12 md:py-16">
-        <div className="max-w-5xl mx-auto px-6 md:px-8">
-          <h2 className="text-3xl md:text-4xl font-bold text-stone-800 mb-8">
+      <section className="py-3 md:py-14">
+        <div className="max-w-5xl mx-auto px-4 md:px-8">
+          <h2 className="text-3xl md:text-4xl font-bold text-stone-800 mb-2 md:mb-8">
             出貨時間
           </h2>
 
           <div className="grid md:grid-cols-2 gap-6">
-            <div className="rounded-3xl border border-orange-100 bg-[#FFF8F0] p-6 md:p-8">
+            <div className="rounded-3xl border border-orange-100 bg-[#FFF8F0] p-5 md:p-8">
               <h3 className="text-xl font-bold text-stone-800 mb-4">
                 一般商品
               </h3>
@@ -78,7 +78,7 @@ export default function ShippingPolicyPage() {
               </p>
             </div>
 
-            <div className="rounded-3xl border border-orange-100 bg-[#FFF8F0] p-6 md:p-8">
+            <div className="rounded-3xl border border-orange-100 bg-[#FFF8F0] p-5 md:p-8">
               <h3 className="text-xl font-bold text-stone-800 mb-4">
                 預購商品
               </h3>
@@ -90,7 +90,7 @@ export default function ShippingPolicyPage() {
             </div>
           </div>
 
-          <div className="mt-6 bg-white rounded-3xl border border-orange-100 p-6 md:p-8">
+          <div className="mt-6 bg-white rounded-3xl border border-orange-100 p-5 md:p-8">
             <p className="text-gray-600 leading-8">
               ※ 實際出貨時間可能因訂單量、生產狀況、節慶或其他不可預期因素而有所調整。
             </p>
@@ -99,13 +99,13 @@ export default function ShippingPolicyPage() {
       </section>
 
       {/* 04 配送時間 */}
-      <section className="bg-[#FFF8F0] py-12 md:py-16">
-        <div className="max-w-5xl mx-auto px-6 md:px-8">
-          <h2 className="text-3xl md:text-4xl font-bold text-stone-800 mb-8">
+      <section className="bg-[#FFF8F0] py-3 md:py-14">
+        <div className="max-w-5xl mx-auto px-4 md:px-8">
+          <h2 className="text-3xl md:text-4xl font-bold text-stone-800 mb-2 md:mb-8">
             配送時間
           </h2>
 
-          <div className="bg-white rounded-3xl border border-orange-100 p-6 md:p-8">
+          <div className="bg-white rounded-3xl border border-orange-100 p-3 md:p-8">
             <h3 className="text-xl font-bold text-stone-800 mb-4">
               物流配送
             </h3>
@@ -132,13 +132,13 @@ export default function ShippingPolicyPage() {
       </section>
 
       {/* 05 收貨注意事項 */}
-      <section className="py-12 md:py-16">
-        <div className="max-w-5xl mx-auto px-6 md:px-8">
-          <h2 className="text-3xl md:text-4xl font-bold text-stone-800 mb-8">
+      <section className="py-3 md:py-14">
+        <div className="max-w-5xl mx-auto px-4 md:px-8">
+          <h2 className="text-3xl md:text-4xl font-bold text-stone-800 mb-2 md:mb-8">
             收貨注意事項
           </h2>
 
-          <div className="rounded-3xl bg-[#FFF8F0] border border-orange-100 p-6 md:p-8">
+          <div className="rounded-3xl bg-[#FFF8F0] border border-orange-100 p-4 md:p-8">
             <ul className="space-y-4 text-gray-600 leading-8">
               <li>
                 • 收到商品後，請儘速確認包裝及商品狀況。
@@ -164,9 +164,9 @@ export default function ShippingPolicyPage() {
 
 
 {/* 配送提醒 */}
-<section className="bg-[#FFF8F0] py-12 md:py-16">
-  <div className="max-w-5xl mx-auto px-6 md:px-8">
-    <div className="bg-white rounded-3xl border border-orange-100 p-8 md:p-10 text-center">
+<section className="bg-[#FFF8F0] py-3 md:py-14">
+  <div className="max-w-5xl mx-auto px-4 md:px-8">
+    <div className="bg-white rounded-3xl border border-orange-100 p-7 md:p-10 text-center">
       <p className="text-orange-600 font-semibold tracking-widest mb-2">
         SHIPPING NOTICE
       </p>

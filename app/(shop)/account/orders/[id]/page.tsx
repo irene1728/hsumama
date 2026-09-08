@@ -152,10 +152,10 @@ export default async function AccountOrderPage({
   }));
 
   return (
-    <main className="max-w-4xl mx-auto px-4 md:px-6 py-20 md:py-25">
+    <main className="max-w-4xl mx-auto px-4 md:px-6 py-1 md:py-2">
 
 {/* 返回會員中心 + LINE 聯絡取消訂單 */}
-<div className="flex items-start justify-between gap-3 mb-2">
+<div className="flex items-start justify-between gap-3">
   <Link
     href="/account"
     className="text-orange-600 font-bold text-xl hover:text-orange-700"

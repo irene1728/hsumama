@@ -95,7 +95,7 @@ export default function AccountEditPage() {
 
   if (loading) {
     return (
-      <main className="max-w-2xl mx-auto px-6 py-25">
+      <main className="max-w-2xl mx-auto px-6 py-15">
         <p className="text-gray-500">
           載入會員資料中...
         </p>
@@ -104,13 +104,13 @@ export default function AccountEditPage() {
   }
 
   return (
-    <main className="max-w-2xl mx-auto px-6 py-25">
+    <main className="max-w-2xl mx-auto px-6 py-2 md:py-8">
 
-      <h1 className="text-4xl font-bold text-[#4E342E] mb-8">
+      <h1 className="text-4xl font-bold text-[#4E342E] mb-2 md:mb-8">
         編輯會員資料
       </h1>
 
-      <div className="border rounded-2xl p-6 space-y-5 shadow-sm">
+      <div className="border rounded-2xl p-6 space-y-3 md:space-y-5 shadow-sm">
 
         {/* 姓名 */}
         <div>

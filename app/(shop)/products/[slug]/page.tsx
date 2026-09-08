@@ -56,10 +56,10 @@ const hasPromotion = effectivePrice !== product.price;
       : null;
 
   return (
-    <main className="max-w-6xl mx-auto px-4 md:px-8 py-20 md:py-26">
+    <main className="max-w-6xl mx-auto px-4 md:px-8 py-1 md:py-2">
 
       {/* 麵包屑 */}
-      <div className="mb-2 text-base text-gray-500">
+      <div className="mb-1 md:mb-2 text-base text-gray-500">
 
         <Link
           href="/"

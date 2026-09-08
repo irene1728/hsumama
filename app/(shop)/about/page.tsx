@@ -1,9 +1,9 @@
 export default function AboutPage() {
   return (
-    <main className="min-h-screen bg-white pt-28">
-      <section className="py-12 md:py-16">
+    <main className="min-h-screen bg-white pt-1 md:pt-4">
+      <section className="py-3 md:py-10">
         <div className="max-w-7xl mx-auto px-6 md:px-8">
-          <div className="grid md:grid-cols-2 gap-12 md:gap-16 items-center">
+          <div className="grid md:grid-cols-2 gap-3 md:gap-16 items-center">
 
            {/* 左邊品牌故事影片 */}
 <div>
@@ -21,21 +21,21 @@ export default function AboutPage() {
 
             {/* 右邊文字 */}
             <div>
-              <p className="text-orange-600 font-semibold tracking-widest mb-2">
+              <p className="text-orange-600 font-semibold tracking-widest mb-1 md:mb-2">
                 ABOUT US
               </p>
 
-              <h1 className="text-4xl md:text-5xl font-bold text-stone-800 mb-8">
+              <h1 className="text-4xl md:text-5xl font-bold text-stone-800 mb-2 md:mb-8">
                 我們的故事
               </h1>
 
-              <h2 className="text-2xl md:text-3xl font-semibold text-orange-600 mb-8">
+              <h2 className="text-2xl md:text-3xl font-semibold text-orange-600 mb-2 md:mb-8">
                 一鍋滷香，
                 <br />
                 傳承三代的溫暖。
               </h2>
 
-              <div className="space-y-6 text-gray-600 leading-9">
+              <div className="space-y-3 md:space-y-6 text-gray-600 leading-5 md:leading-9">
 
                 <p>
                   徐媽媽冰鑽滷味的故事，

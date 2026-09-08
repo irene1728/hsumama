@@ -96,7 +96,7 @@ async function loadMarqueeAnnouncements() {
           : "bg-white/90 backdrop-blur-md border-b border-gray-200 shadow-sm"
       }`}
     >
-      <div className="max-w-7xl mx-auto flex items-center justify-between px-1 py-2 md:grid md:grid-cols-[26%_48%_26%] md:px-4 md:py-2">
+      <div className="max-w-7xl mx-auto flex items-center justify-between px-1 py-1 md:grid md:grid-cols-[26%_48%_26%] md:px-4 md:py-1 mt-1">
 
         {/* Logo */}
        <div className="order-2 flex-1 text-left md:order-none md:flex-none md:text-left md:justify-self-start">
@@ -185,7 +185,7 @@ async function loadMarqueeAnnouncements() {
 
   {/* 跑馬燈 */}
   {marqueeAnnouncements.length > 0 && (
-    <div className="mt-1 w-full max-w-[560px] overflow-hidden">
+    <div className="hidden mt-1 w-full max-w-[560px] overflow-hidden">
       <div className="relative h-6 overflow-hidden">
        <div
   className="marquee-track"
@@ -221,7 +221,7 @@ async function loadMarqueeAnnouncements() {
       <Link
         href="/"
         onClick={() => setMobileMenuOpen(false)}
-        className="px-6 py-4 text-lg text-[#4E342E] border-b border-gray-100"
+        className="px-6 py-2 text-lg text-[#4E342E] border-b border-gray-100"
       >
         首頁
       </Link>
@@ -229,21 +229,21 @@ async function loadMarqueeAnnouncements() {
       <Link
         href="/products"
         onClick={() => setMobileMenuOpen(false)}
-        className="px-6 py-4 text-lg text-[#4E342E] border-b border-gray-100"
+        className="px-6 py-2 text-lg text-[#4E342E] border-b border-gray-100"
       >
         全部商品
       </Link>
 
      <Link href="/about"
         onClick={() => setMobileMenuOpen(false)}
-        className="px-6 py-4 text-lg text-[#4E342E] border-b border-gray-100"
+        className="px-6 py-2 text-lg text-[#4E342E] border-b border-gray-100"
       >
         關於我們
       </Link>
 
       <Link href="/order-info"
         onClick={() => setMobileMenuOpen(false)}
-        className="px-6 py-4 text-lg text-[#4E342E]"
+        className="px-6 py-2 text-lg text-[#4E342E]"
       >
         訂購方式
       </Link>
@@ -251,7 +251,7 @@ async function loadMarqueeAnnouncements() {
 <Link
   href={isLoggedIn ? "/account" : "/account/login"}
   onClick={() => setMobileMenuOpen(false)}
-  className="px-6 py-4 text-lg text-[#4E342E] border-t border-gray-100"
+  className="px-6 py-2 text-lg text-[#4E342E] border-t border-gray-100"
 >
   👤 {isLoggedIn ? "會員中心" : "會員登入"}
 </Link>
@@ -266,14 +266,14 @@ async function loadMarqueeAnnouncements() {
   {/* 會員登入 */}
 <Link
   href={isLoggedIn ? "/account" : "/account/login"}
-className={`flex items-center gap-1 font-semibold text-base md:gap-1.5 md:text-xl transition ${
+className={`flex items-center gap-1 font-semibold text-base md:gap-1.5 md:text-xl transition mr-2 ${
     isHome
       ? "text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)] hover:text-amber-200 mr-2"
       : "text-[#4E342E] hover:text-orange-600"
   }`}
 >
 <span className="text-lg md:text-xl">👤</span>
-  <span>{isLoggedIn ? "會員中心" : "會員登入"}</span>
+  <span className="text-lg md:text-xl">{isLoggedIn ? "會員中心" : "會員登入"}</span>
 </Link>
 
   {/* 購物車 */}

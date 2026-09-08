@@ -11,7 +11,7 @@ export default function CartPage() {
   const { cart } = useCart();
 
   return (
-    <main className="max-w-7xl mx-auto px-8 py-20 md:py-28">
+    <main className="max-w-7xl mx-auto px-8 py-2 md:py-4">
       <h1 className="text-4xl font-bold text-stone-800">
         購物車
       </h1>
@@ -21,7 +21,7 @@ export default function CartPage() {
       </p>
 
       {cart.length === 0 ? (
-        <div className="text-center py-24">
+        <div className="text-center py-10">
           <p className="text-2xl text-gray-500">
             您的購物車目前沒有商品
           </p>

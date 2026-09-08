@@ -23,10 +23,10 @@ export default function OrderInfoPage() {
   ];
 
   return (
-    <main className="min-h-screen bg-white pt-16 md:pt-24">
+    <main className="min-h-screen bg-white md:pt-2">
       {/* 訂購流程 */}
-      <section className="bg-[#FFF8F0] py-4 md:py-10">
-        <div className="max-w-7xl mx-auto px-4 md:px-5">
+      <section className="bg-[#FFF8F0] md:py-10">
+        <div className="max-w-7xl mx-auto px-3 md:px-5">
           <div className="text-center mb:-3 md:mb-5">
            
             <h1 className="text-2xl md:text-5xl md:font-bold text-red-600 mt-1 md:mt-2">

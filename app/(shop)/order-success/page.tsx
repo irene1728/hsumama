@@ -93,16 +93,16 @@ if (!order) return null;
 const pdfOrder = orderToPdf(order);
 
   return (
-    <main className="max-w-3xl mx-auto px-2 py-6">
+    <main className="max-w-3xl mx-auto px-3 md:px-4 py-2">
 
-      <div className="bg-white border border-gray-200 rounded-3xl shadow-lg p-4
+      <div className="bg-white border border-gray-200 rounded-3xl shadow-lg p-3 md:px-6
 
       ">
 
         <div className="text-center">
 
       
-          <h1 className="text-2xl font-bold text-stone-800 mt-10 lg:mt-15">
+          <h1 className="text-2xl font-bold text-stone-800 md:mt-1">
             🎉訂單已成立🎉
           </h1>
 
@@ -245,7 +245,7 @@ const pdfOrder = orderToPdf(order);
 
         <Link
           href="/"
-          className="block text-center mt-12 bg-orange-600 hover:bg-orange-700 text-white py-4 rounded-xl text-lg font-bold"
+          className="block text-center mt-4 md:mt-12 bg-orange-600 hover:bg-orange-700 text-white py-4 rounded-xl text-lg font-bold"
         >
           返回首頁
         </Link>
