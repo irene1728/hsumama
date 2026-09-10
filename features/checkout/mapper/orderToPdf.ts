@@ -26,6 +26,7 @@ export interface OrderRow {
 
   total_amount: number;
   shipping_fee: number;
+  points_used: number;
   grand_total: number;
 
   items: OrderItemRow[];
@@ -60,6 +61,7 @@ export function orderToPdf(order: OrderRow): PdfOrder {
     // 金額
     subtotal: order.total_amount,
     shippingFee: order.shipping_fee,
+    pointsUsed: order.points_used ?? 0,
     total: order.grand_total,
 
     // 付款方式

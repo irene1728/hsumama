@@ -9,6 +9,7 @@ type PageProps = {
 
 type MemberOrder = {
   id: number;
+  order_no: string | null;
   status: string | null;
   payment_status: string | null;
   total_amount: number;
@@ -67,9 +68,9 @@ export default async function MemberPage({
   // 透過 user_id 找出這個會員的歷史訂單
   const { data: orders, error: ordersError } = await supabase
     .from("orders")
-    .select(
-      "id, status, payment_status, total_amount, grand_total, created_at"
-    )
+   .select(
+  "id, order_no, status, payment_status, total_amount, grand_total, created_at"
+)
     .eq("user_id", profile.user_id)
     .order("created_at", { ascending: false });
 
@@ -213,9 +214,9 @@ export default async function MemberPage({
                   <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
 
                     <div>
-                      <p className="font-bold text-lg text-stone-800">
-                        訂單 #{order.id}
-                      </p>
+                     <p className="font-bold text-lg text-stone-800">
+  訂單 {order.order_no ?? String(order.id)}
+</p>
 
                       <p className="mt-1 text-sm text-gray-500">
                         {new Date(order.created_at).toLocaleString("zh-TW")}

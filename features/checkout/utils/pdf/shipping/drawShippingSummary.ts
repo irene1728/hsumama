@@ -18,13 +18,12 @@ type ShippingSummaryProps = {
 /**
  * 出貨單 PDF｜金額摘要
  *
- * 出貨單使用「顧客市價」。
+ * 顧客市價
  *
- * subtotal    → 商品金額
- * shippingFee → 運費
- * total       → 顧客應付總額
- *
- * 批發價不在出貨單顯示。
+ * 商品金額
+ * 運費
+ * 積分折抵
+ * 應付總額
  */
 export function drawShippingSummary({
   doc,
@@ -33,12 +32,24 @@ export function drawShippingSummary({
 }: ShippingSummaryProps): number {
 
   //------------------------------------------
-  // 商品金額
+  // 欄位位置
   //------------------------------------------
 
   const labelX = SHIPPING_PDF.summary.labelX;
   const valueX = SHIPPING_PDF.summary.valueX;
 
+  const lineHeight =
+    SHIPPING_PDF.summary.lineHeight;
+
+  const pointsUsed = Number(
+    order.pointsUsed ?? 0
+  );
+
+  //------------------------------------------
+  // 商品金額
+  //------------------------------------------
+
+  setBodyFont(doc);
   doc.setFontSize(12);
 
   doc.text(
@@ -47,10 +58,10 @@ export function drawShippingSummary({
     startY
   );
 
-  doc.setFontSize(12);
+  
 
   doc.text(
-    `NT$ ${order.subtotal}`,
+    `NT$ ${order.subtotal.toLocaleString("zh-TW")}`,
     valueX,
     startY,
     {
@@ -62,38 +73,62 @@ export function drawShippingSummary({
   // 運費
   //------------------------------------------
 
-  doc.setFontSize(12);
+
 
   doc.text(
     "運費",
     labelX,
-    startY + 1 + SHIPPING_PDF.summary.lineHeight
+    startY + lineHeight
   );
 
-  doc.setFontSize(12);
 
   doc.text(
-    `NT$ ${order.shippingFee}`,
+    `NT$ ${order.shippingFee.toLocaleString("zh-TW")}`,
     valueX,
-    startY + 1 + SHIPPING_PDF.summary.lineHeight,
+    startY + lineHeight,
     {
       align: "right",
     }
   );
 
   //------------------------------------------
+  // 積分折抵
+  //------------------------------------------
+
+  let currentY =
+    startY + lineHeight;
+
+  if (pointsUsed > 0) {
+    currentY += lineHeight;
+
+    doc.text(
+      "積分折抵",
+      labelX,
+      currentY
+    );
+
+    doc.text(
+      `- NT$ ${pointsUsed.toLocaleString("zh-TW")}`,
+      valueX,
+      currentY,
+      {
+        align: "right",
+      }
+    );
+  }
+
+  //------------------------------------------
   // 分隔線
   //------------------------------------------
 
   const totalY =
-    startY +
-    3 +
-    SHIPPING_PDF.summary.lineHeight;
+    currentY + 3;
 
   drawDivider(
     doc,
     labelX,
-    SHIPPING_PDF.page.width - SHIPPING_PDF.page.margin,
+    SHIPPING_PDF.page.width -
+      SHIPPING_PDF.page.margin,
     totalY
   );
 
@@ -111,7 +146,7 @@ export function drawShippingSummary({
   );
 
   doc.text(
-    `NT$ ${order.total}`,
+    `NT$ ${order.total.toLocaleString("zh-TW")}`,
     valueX,
     totalY + 5,
     {
@@ -123,7 +158,8 @@ export function drawShippingSummary({
   // 結束位置
   //------------------------------------------
 
-  const bottomY = totalY + 5;
+  const bottomY =
+    totalY + 5;
 
   return bottomY;
 }

@@ -23,7 +23,7 @@ export default function DownloadOrderButton({
       disabled={isDownloading}
       className="
         rounded-lg
-        bg-amber-700
+        bg-amber-600
         px-3
         md:py-1
         text-white

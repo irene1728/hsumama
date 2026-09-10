@@ -15,14 +15,19 @@ export function drawSummary({
   order,
   startY,
 }: DrawSummaryProps): number {
-
+  
   setBodyFont(doc);
 
   const { labelX, valueX, lineHeight } = PDF.summary;
-  
-doc.setFontSize(10);
+
+  doc.setFontSize(10);
+
+  // =========================
+  // 商品小計
+  // =========================
 
   doc.text("商品小計", labelX, startY);
+
   doc.text(
     `NT$ ${order.subtotal.toLocaleString()}`,
     valueX,
@@ -30,23 +35,54 @@ doc.setFontSize(10);
     { align: "right" }
   );
 
-  doc.text("運費", labelX, startY + lineHeight);
+  // =========================
+  // 運費
+  // =========================
+
+  const shippingY = startY + lineHeight;
+
+  doc.text("運費", labelX, shippingY);
+
   doc.text(
     `NT$ ${order.shippingFee.toLocaleString()}`,
     valueX,
-    startY + lineHeight,
+    shippingY,
     { align: "right" }
   );
 
-  doc.text("總金額", labelX, startY + lineHeight * 2);
+  // =========================
+  // 積分折抵
+  // =========================
+
+  let currentY = shippingY;
+
+  if (order.pointsUsed > 0) {
+    currentY += lineHeight;
+
+    doc.text("積分折抵", labelX, currentY);
+
+    doc.text(
+      `- NT$ ${order.pointsUsed.toLocaleString()}`,
+      valueX,
+      currentY,
+      { align: "right" }
+    );
+  }
+
+  // =========================
+  // 應付總金額
+  // =========================
+
+  const totalY = currentY + lineHeight;
+
+  doc.text("應付總金額", labelX, totalY);
+
   doc.text(
     `NT$ ${order.total.toLocaleString()}`,
     valueX,
-    startY + lineHeight * 2,
+    totalY,
     { align: "right" }
   );
-  
-  const endY = startY + lineHeight * 2;
 
-return endY;
+  return totalY;
 }

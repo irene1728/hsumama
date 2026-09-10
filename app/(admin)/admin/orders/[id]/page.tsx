@@ -56,6 +56,7 @@ export default function AdminOrderDetailPage() {
 
   const [paymentStatus, setPaymentStatus] = useState("");
   const [status, setStatus] = useState("");
+  const [saving, setSaving] = useState(false);
 
   useEffect(() => {
     if (!orderId) return;
@@ -64,7 +65,7 @@ export default function AdminOrderDetailPage() {
   }, [orderId]);
 
   async function loadOrder() {
-    
+
     setLoading(true);
 
     const { data: orderData, error: orderError } = await supabase
@@ -106,26 +107,68 @@ export default function AdminOrderDetailPage() {
     setLoading(false);
   }
 
+  // ==================================================
+  // 儲存訂單狀態
+  //
+  // 透過 Supabase RPC：
+  //
+  // 後台管理員
+  // ↓
+  // 更新付款狀態＋訂單狀態
+  // ↓
+  // 如果變成「已完成」
+  // ↓
+  // 自動發放會員積分
+  // ==================================================
+
   async function saveStatus() {
-    if (!order) return;
+    if (!order || saving) return;
 
-    const { error } = await supabase
-      .from("orders")
-      .update({
-        payment_status: paymentStatus,
-        status,
-      })
-      .eq("id", order.id);
+    setSaving(true);
 
-    if (error) {
+    try {
+      const { data, error } = await supabase.rpc(
+        "admin_update_order_status",
+        {
+          p_order_id: order.id,
+          p_payment_status: paymentStatus,
+          p_status: status,
+        }
+      );
+
+      if (error) {
+        console.error(error);
+
+        alert(
+          error.message || "更新訂單狀態失敗"
+        );
+
+        return;
+      }
+
+alert(
+  JSON.stringify(
+    {
+      data,
+      dataType: typeof data,
+      status,
+      paymentStatus,
+      orderId: order.id,
+    },
+    null,
+    2
+  )
+);
+      await loadOrder();
+
+    } catch (error) {
       console.error(error);
-      alert("更新失敗");
-      return;
+
+      alert("更新訂單狀態失敗");
+
+    } finally {
+      setSaving(false);
     }
-
-    alert("狀態已更新");
-
-    await loadOrder();
   }
 
   // ==================================================
@@ -183,13 +226,15 @@ export default function AdminOrderDetailPage() {
         total: Number(order.grand_total),
       };
 
-      const doc = await generateShippingPdf(
-        shippingOrder
-      );
+      const doc =
+        await generateShippingPdf(
+          shippingOrder
+        );
 
       doc.save(
         `徐媽媽冰鑽滷味_出貨單_訂單${displayOrderNo}.pdf`
       );
+
     } catch (error) {
       console.error(error);
 
@@ -251,6 +296,7 @@ export default function AdminOrderDetailPage() {
       doc.save(
         `徐媽媽冰鑽滷味_對帳單_訂單${displayOrderNo}.pdf`
       );
+
     } catch (error) {
       console.error(error);
 
@@ -487,7 +533,8 @@ export default function AdminOrderDetailPage() {
             onChange={(e) =>
               setPaymentStatus(e.target.value)
             }
-            className="border rounded-lg px-3 py-3 w-full bg-white"
+            disabled={saving}
+            className="border rounded-lg px-3 py-3 w-full bg-white disabled:bg-gray-100"
           >
 
             <option value="未付款">
@@ -521,7 +568,8 @@ export default function AdminOrderDetailPage() {
             onChange={(e) =>
               setStatus(e.target.value)
             }
-            className="border rounded-lg px-3 py-3 w-full bg-white"
+            disabled={saving}
+            className="border rounded-lg px-3 py-3 w-full bg-white disabled:bg-gray-100"
           >
 
             <option value="待處理">
@@ -548,9 +596,10 @@ export default function AdminOrderDetailPage() {
 
           <button
             onClick={saveStatus}
-            className="mt-4 w-full bg-orange-500 hover:bg-orange-600 text-white px-5 py-3 rounded-lg font-bold"
+            disabled={saving}
+            className="mt-4 w-full bg-orange-500 hover:bg-orange-600 disabled:bg-gray-400 text-white px-5 py-3 rounded-lg font-bold"
           >
-            儲存
+            {saving ? "儲存中..." : "儲存"}
           </button>
 
         </div>
@@ -561,7 +610,8 @@ export default function AdminOrderDetailPage() {
 
         <button
           onClick={() => router.back()}
-          className="mt-4 w-full border border-gray-300 bg-white text-gray-700 px-5 py-3 rounded-lg font-medium"
+          disabled={saving}
+          className="mt-4 w-full border border-gray-300 bg-white text-gray-700 px-5 py-3 rounded-lg font-medium disabled:bg-gray-100"
         >
           ← 返回訂單列表
         </button>

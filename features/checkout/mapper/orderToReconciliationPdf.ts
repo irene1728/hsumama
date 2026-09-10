@@ -40,6 +40,7 @@ export interface ReconciliationOrderRow {
 
   total_amount: number;
   shipping_fee: number;
+  points_used: number;
   grand_total: number;
 
   items: ReconciliationOrderItemRow[];
@@ -57,19 +58,21 @@ export interface ReconciliationOrderRow {
 export function orderToReconciliationPdf(
   order: ReconciliationOrderRow
 ): PdfOrder {
-  
+
   const result: PdfOrder = {
     // ==========================================
     // Header
     // ==========================================
 
-    orderNo: order.order_no ?? String(order.id),
+    orderNo:
+      order.order_no ?? String(order.id),
 
-    orderDate: new Date(
-      order.created_at
-    ).toLocaleDateString("zh-TW", {
-      timeZone: "Asia/Taipei",
-    }),
+    orderDate:
+      new Date(
+        order.created_at
+      ).toLocaleDateString("zh-TW", {
+        timeZone: "Asia/Taipei",
+      }),
 
     // ==========================================
     // 客戶資料
@@ -101,10 +104,14 @@ export function orderToReconciliationPdf(
       // 對帳單專用批發價快照
       // ========================================
 
-      wholesalePrice: item.wholesale_price,
+      wholesalePrice:
+        item.wholesale_price,
 
-      wholesaleSubtotal: item.wholesale_subtotal,
-      profit: item.profit,
+      wholesaleSubtotal:
+        item.wholesale_subtotal,
+
+      profit:
+        item.profit,
     })),
 
     // ==========================================
@@ -114,15 +121,22 @@ export function orderToReconciliationPdf(
     // 對帳單的商品金額會另外使用
     // items[].wholesaleSubtotal 計算。
     //
-    // 這裡仍保留原訂單金額，
+    // 這裡仍保留原訂單商品金額，
     // 避免破壞共用 Order 型別。
-    subtotal: order.total_amount,
+    subtotal:
+      order.total_amount,
 
     // 運費使用訂單當時保存的 shipping_fee
-    shippingFee: order.shipping_fee,
+    shippingFee:
+      order.shipping_fee,
+
+    // 積分折抵
+    pointsUsed:
+      order.points_used,
 
     // 顧客實際支付總額
-    total: order.grand_total,
+    total:
+      order.grand_total,
 
     // ==========================================
     // 付款方式
@@ -134,7 +148,8 @@ export function orderToReconciliationPdf(
     // 配送方式
     // ==========================================
 
-    shippingMethod: order.delivery_method,
+    shippingMethod:
+      order.delivery_method,
   };
 
   return result;

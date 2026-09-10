@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { orderToPdf } from "@/features/checkout/mapper";
+import DownloadOrderButton from "@/features/checkout/components/DownloadOrderButton";
 
 type PageProps = {
   params: Promise<{
@@ -46,28 +48,30 @@ export default async function AccountOrderPage({
   // =========================
   const { data: order, error: orderError } = await supabase
     .from("orders")
-    .select(
-      `
-        id,
-        user_id,
-        member_no,
-        created_at,
-        customer_name,
-        phone,
-        email,
-        address,
-        note,
-        payment,
-        total_quantity,
-        total_amount,
-        status,
-        delivery_method,
-        shipping_fee,
-        grand_total,
-        free_shipping_threshold,
-        payment_status
-      `
-    )
+.select(
+  `
+    id,
+    order_no,
+    user_id,
+    member_no,
+    created_at,
+    customer_name,
+    phone,
+    email,
+    address,
+    note,
+    payment,
+    total_quantity,
+    total_amount,
+    status,
+    delivery_method,
+    shipping_fee,
+    grand_total,
+    free_shipping_threshold,
+    payment_status,
+    points_used
+  `
+)
     .eq("id", orderId)
     .eq("user_id", user.id)
     .maybeSingle();
@@ -151,6 +155,32 @@ export default async function AccountOrderPage({
       : null,
   }));
 
+const pdfOrder = orderToPdf({
+  id: order.id,
+  order_no: order.order_no,
+
+  customer_name: order.customer_name ?? "",
+  phone: order.phone ?? "",
+  email: order.email ?? "",
+  address: order.address ?? "",
+  note: order.note ?? "",
+
+  payment: order.payment ?? "",
+  delivery_method: order.delivery_method ?? "",
+
+  total_amount: Number(order.total_amount ?? 0),
+  shipping_fee: Number(order.shipping_fee ?? 0),
+  points_used: Number(order.points_used ?? 0),
+  grand_total: Number(order.grand_total ?? 0),
+
+  items: (items ?? []).map((item) => ({
+    product_name: item.product_name ?? "商品",
+    quantity: Number(item.quantity),
+    price: Number(item.price),
+    subtotal: Number(item.subtotal),
+  })),
+});
+
   return (
     <main className="max-w-4xl mx-auto px-4 md:px-6 py-1 md:py-2">
 
@@ -185,15 +215,21 @@ export default async function AccountOrderPage({
       {/* =========================
           訂單標題
           ========================= */}
-      <div className="mb-1">
-        <h1 className="text-xl md:text-2xl font-bold text-[#4E342E]">
-          訂單 #{order.id}
-        </h1>
+     <div className="mb-1 flex items-start justify-between gap-3">
+  <div>
+    <h1 className="text-xl md:text-2xl font-bold text-[#4E342E]">
+      訂單 {order.order_no ?? String(order.id)}
+    </h1>
 
-        <p className="text-gray-500">
-          {new Date(order.created_at).toLocaleString("zh-TW")}
-        </p>
-      </div>
+    <p className="text-gray-500">
+      {new Date(order.created_at).toLocaleString("zh-TW")}
+    </p>
+  </div>
+<div className="text-xl pt-5 mr-5">
+  <DownloadOrderButton order={pdfOrder} />
+</div>
+
+</div>
 
       {/* =========================
           訂單狀態

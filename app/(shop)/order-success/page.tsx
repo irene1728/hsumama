@@ -31,9 +31,10 @@ type Order = {
   payment: string;
   delivery_method: string;
 
-  total_amount: number;
-  shipping_fee: number;
-  grand_total: number;
+total_amount: number;
+shipping_fee: number;
+points_used: number;
+grand_total: number;
 
   items: OrderItem[];
 };
@@ -51,9 +52,9 @@ function OrderSuccessContent() {
 
       const { data } = await supabase
         .from("orders")
-        .select(
-          "id, order_no, customer_name, phone, email, address, note, payment, delivery_method, total_amount, shipping_fee, grand_total"
-        )
+      .select(
+  "id, order_no, customer_name, phone, email, address, note, payment, delivery_method, total_amount, shipping_fee, points_used, grand_total"
+)
         .eq("id", Number(orderId))
         .single();
 

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { supabase } from "@/lib/supabase";
+import { createClient } from "@/lib/supabase/client";
 import { generateShippingPdf } from "@/features/checkout/utils/pdf/shipping/generateShippingPdf";
 import { generateReconciliationPdf } from "@/features/checkout/utils/pdf/reconciliation/generateReconciliationPdf";
 import { orderToReconciliationPdf } from "@/features/checkout/mapper/orderToReconciliationPdf";
@@ -24,6 +24,7 @@ type Order = {
   total_quantity: number;
   total_amount: number;
   shipping_fee: number;
+  points_used: number;
   grand_total: number;
   free_shipping_threshold: number;
   status: string;
@@ -31,6 +32,7 @@ type Order = {
 };
 
 export default function AdminOrdersPage() {
+  const supabase = createClient();
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedOrderId, setSelectedOrderId] = useState<number | null>(null);
@@ -60,27 +62,62 @@ export default function AdminOrdersPage() {
   }
 
   async function loadItems(orderId: number) {
-    const { data, error } = await supabase
+    // ==========================================
+    // 取得該筆訂單最新資料
+    // 不使用舊的 orders state
+    // ==========================================
+
+    const { data: orderData, error: orderError } = await supabase
+      .from("orders")
+      .select("*")
+      .eq("id", orderId)
+      .single();
+
+    if (orderError) {
+      console.error(orderError);
+      return;
+    }
+
+    // ==========================================
+    // 取得商品明細
+    // ==========================================
+
+    const { data: itemData, error: itemError } = await supabase
       .from("order_items")
       .select("*")
       .eq("order_id", orderId);
 
-    if (error) {
-      console.error(error);
+    if (itemError) {
+      console.error(itemError);
       return;
     }
 
-    const order = orders.find((o) => o.id === orderId) ?? null;
+    // ==========================================
+    // 使用最新訂單資料更新右側明細
+    // ==========================================
 
-    setSelectedOrder(order);
-    setStatus(order?.status ?? "");
-    setPaymentStatus(order?.payment_status ?? "");
+    setSelectedOrder(orderData);
+    setStatus(orderData.status ?? "");
+    setPaymentStatus(orderData.payment_status ?? "");
     setSelectedOrderId(orderId);
-    setItems(data ?? []);
+    setItems(itemData ?? []);
   }
 
   async function saveStatus() {
     if (!selectedOrderId) return;
+
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+
+    console.log("目前 Supabase Session：", session);
+
+    if (!session) {
+      alert("目前沒有 Supabase 登入 Session");
+      return;
+    }
+
+    console.log("目前登入 user_id：", session.user.id);
 
     // ==========================================
     // 已取消 → 自動退回庫存
@@ -127,23 +164,49 @@ export default function AdminOrdersPage() {
 
     // ==========================================
     // 一般狀態更新
+    //
+    // 改由 RPC 統一處理：
+    //
+    // ① 更新付款狀態
+    // ② 更新訂單狀態
+    // ③ 已付款 + 已完成 → 自動發積分
+    // ④ 同一訂單只發一次
     // ==========================================
 
-    const { error } = await supabase
-      .from("orders")
-      .update({
-        status,
-        payment_status: paymentStatus,
-      })
-      .eq("id", selectedOrderId);
+    const { data, error } = await supabase.rpc(
+      "admin_update_order_status",
+      {
+        p_order_id: selectedOrderId,
+        p_payment_status: paymentStatus,
+        p_status: status,
+      }
+    );
 
     if (error) {
-      alert("更新失敗");
+      alert(
+        error.message || "更新訂單狀態失敗"
+      );
+
       console.error(error);
       return;
     }
 
-    alert("狀態已更新");
+    // ==========================================
+    // RPC 回傳：
+    //
+    // > 0 = 這次實際發放的積分
+    // 0   = 沒有新增積分
+    // ==========================================
+
+    const earnedPoints = Number(data ?? 0);
+
+    if (earnedPoints > 0) {
+      alert(
+        `訂單已更新，已自動發放 ${earnedPoints} 點積分 🎉`
+      );
+    } else {
+      alert("狀態已更新");
+    }
 
     await loadOrders();
     await loadItems(selectedOrderId);
@@ -200,9 +263,11 @@ export default function AdminOrdersPage() {
 
         subtotal: Number(selectedOrder.total_amount),
 
-        shippingFee: Number(selectedOrder.shipping_fee),
+shippingFee: Number(selectedOrder.shipping_fee),
 
-        total: Number(selectedOrder.grand_total),
+pointsUsed: Number(selectedOrder.points_used ?? 0),
+
+total: Number(selectedOrder.grand_total),
       };
 
       const doc = await generateShippingPdf(shippingOrder);
@@ -317,7 +382,7 @@ export default function AdminOrdersPage() {
               <table className="w-full table-fixed">
                 <colgroup>
                   {/* 訂單 */}
-                  <col className="w-[18%]" />
+                  <col className="w-[19%]" />
 
                   {/* 會員 */}
                   <col className="w-[16%]" />
@@ -332,7 +397,7 @@ export default function AdminOrdersPage() {
                   <col className="w-[16%]" />
 
                   {/* 建立時間 */}
-                  <col className="w-[18%]" />
+                  <col className="w-[17%]" />
                 </colgroup>
 
                 <thead className="bg-gray-100">
@@ -375,9 +440,14 @@ export default function AdminOrdersPage() {
                       }`}
                     >
                       {/* 訂單 */}
-                      <td className="px-2 py-3 whitespace-nowrap overflow-hidden text-center">
-                        {order.order_no ?? `#${order.id}`}
-                      </td>
+                     <td>
+  <Link
+    href={`/admin/orders/${order.id}`}
+    className="text-blue-600 hover:text-blue-800 hover:underline font-medium ml-1"
+  >
+    {order.order_no ?? String(order.id)}
+  </Link>
+</td>
 
                       {/* 會員 */}
                       <td className="px-2 py-3 whitespace-nowrap overflow-hidden text-center">
@@ -536,6 +606,7 @@ export default function AdminOrdersPage() {
                     </p>
 
                     <div className="space-y-2">
+                      {/* 商品金額 */}
                       <p>
                         <span className="font-semibold">
                           💰 商品金額：
@@ -546,6 +617,7 @@ export default function AdminOrdersPage() {
                         )}
                       </p>
 
+                      {/* 運費說明 */}
                       <p className="break-words">
                         <span className="font-semibold">
                           🚚 運費說明：
@@ -560,6 +632,23 @@ export default function AdminOrdersPage() {
                             )}`}
                       </p>
 
+                      {/* 積分折抵 */}
+                      {(selectedOrder?.points_used ?? 0) > 0 && (
+                        <p>
+                          <span className="font-semibold">
+                            🎁 積分折抵：
+                          </span>
+
+                          <span className="font-bold text-orange-600">
+                            - NT${" "}
+                            {(
+                              selectedOrder?.points_used ?? 0
+                            ).toLocaleString("zh-TW")}
+                          </span>
+                        </p>
+                      )}
+
+                      {/* 最終應付總金額 */}
                       <p>
                         <span className="font-semibold">
                           💰 應付總金額：

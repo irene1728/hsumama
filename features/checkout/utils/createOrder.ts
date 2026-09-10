@@ -23,6 +23,9 @@ type CreateOrderParams = {
   grandTotal: number;
   freeShippingThreshold: number;
 
+  // 使用積分
+  pointsUsed: number;
+
   cart: OrderItem[];
 };
 
@@ -39,9 +42,10 @@ export async function createOrder({
   shippingFee,
   grandTotal,
   freeShippingThreshold,
+  pointsUsed,
   cart,
 }: CreateOrderParams) {
-
+  
   const supabase = createClient();
 
   // 提供給資料庫 Function 的商品資料
@@ -68,11 +72,16 @@ export async function createOrder({
       p_grand_total: grandTotal,
       p_free_shipping_threshold: freeShippingThreshold,
 
+      // ★ 本次使用的積分
+      p_points_used: pointsUsed,
+
       p_items: items,
     }
   );
 
-  // 庫存不足、商品不存在、或其他資料庫錯誤
+  // 庫存不足、商品不存在、積分不足、
+  // 未滿 800 元、超過 500 點，
+  // 或其他資料庫錯誤
   if (error) {
     throw error;
   }
@@ -94,7 +103,6 @@ export async function createOrder({
     throw orderError;
   }
 
-  
 
   return order;
 }

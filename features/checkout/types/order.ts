@@ -1,11 +1,11 @@
 export interface OrderItem {
-
+  
   id: string;
 
   name: string;
 
   quantity: number;
-  
+
   price: number;
 
   subtotal: number;
@@ -35,6 +35,7 @@ export interface Order {
   note: string;
 
   paymentMethod: "ATM";
+
   paymentStatus?: string;
 
   shippingMethod: string;
@@ -44,6 +45,8 @@ export interface Order {
   subtotal: number;
 
   shippingFee: number;
+
+  pointsUsed: number;
 
   total: number;
 
