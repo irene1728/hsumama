@@ -25,6 +25,7 @@ type Order = {
   total_quantity: number;
   total_amount: number;
   shipping_fee: number;
+  points_used: number;
   grand_total: number;
   free_shipping_threshold: number;
 
@@ -65,7 +66,6 @@ export default function AdminOrderDetailPage() {
   }, [orderId]);
 
   async function loadOrder() {
-
     setLoading(true);
 
     const { data: orderData, error: orderError } = await supabase
@@ -146,26 +146,25 @@ export default function AdminOrderDetailPage() {
         return;
       }
 
-alert(
-  JSON.stringify(
-    {
-      data,
-      dataType: typeof data,
-      status,
-      paymentStatus,
-      orderId: order.id,
-    },
-    null,
-    2
-  )
-);
-      await loadOrder();
+      alert(
+        JSON.stringify(
+          {
+            data,
+            dataType: typeof data,
+            status,
+            paymentStatus,
+            orderId: order.id,
+          },
+          null,
+          2
+        )
+      );
 
+      await loadOrder();
     } catch (error) {
       console.error(error);
 
       alert("更新訂單狀態失敗");
-
     } finally {
       setSaving(false);
     }
@@ -223,6 +222,8 @@ alert(
 
         shippingFee: Number(order.shipping_fee),
 
+        pointsUsed: Number(order.points_used ?? 0),
+
         total: Number(order.grand_total),
       };
 
@@ -234,7 +235,6 @@ alert(
       doc.save(
         `徐媽媽冰鑽滷味_出貨單_訂單${displayOrderNo}.pdf`
       );
-
     } catch (error) {
       console.error(error);
 
@@ -296,7 +296,6 @@ alert(
       doc.save(
         `徐媽媽冰鑽滷味_對帳單_訂單${displayOrderNo}.pdf`
       );
-
     } catch (error) {
       console.error(error);
 
