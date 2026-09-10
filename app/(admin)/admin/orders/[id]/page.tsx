@@ -472,6 +472,20 @@ export default function AdminOrderDetailPage() {
                   )}`}
             </p>
 
+          
+<p>
+  <span className="font-semibold">
+    🎁 積分折抵：
+  </span>
+
+  <span className="font-bold text-red-600">
+    - NT${" "}
+    {Number(order.points_used ?? 0).toLocaleString(
+      "zh-TW"
+    )}
+  </span>
+</p>
+
             <p>
               <span className="font-semibold">
                 💰 應付總金額：
