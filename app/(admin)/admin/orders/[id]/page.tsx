@@ -121,55 +121,128 @@ const supabase = createClient();
   // 自動發放會員積分
   // ==================================================
 
-  async function saveStatus() {
-    if (!order || saving) return;
+async function saveStatus() {
+  if (!order || saving) return;
 
-    setSaving(true);
+  setSaving(true);
 
-    try {
-      const { data, error } = await supabase.rpc(
-        "admin_update_order_status",
-        {
-          p_order_id: order.id,
-          p_payment_status: paymentStatus,
-          p_status: status,
-        }
-      );
+  // 記住修改前的狀態
+  const previousPaymentStatus = order.payment_status;
+  const previousStatus = order.status;
 
-      if (error) {
-        console.error(error);
+  try {
+    // ① 先更新 Supabase 訂單狀態
+    const { data, error } = await supabase.rpc(
+      "admin_update_order_status",
+      {
+        p_order_id: order.id,
+        p_payment_status: paymentStatus,
+        p_status: status,
+      }
+    );
 
-        alert(
-          error.message || "更新訂單狀態失敗"
+    if (error) {
+      console.error(error);
+      alert(error.message || "更新訂單狀態失敗");
+      return;
+    }
+
+    // ② 判斷是否為「付款狀態第一次變成已付款」
+    const paymentJustCompleted =
+      previousPaymentStatus !== "已付款" &&
+      paymentStatus === "已付款";
+
+    let emailResult = "";
+
+    // ③ 只有「未付款 → 已付款」才寄付款完成通知
+    if (paymentJustCompleted) {
+      try {
+        const emailResponse = await fetch(
+          "/api/email/payment-completed",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              orderId: order.id,
+            }),
+          }
         );
 
-        return;
+        const emailData = await emailResponse.json();
+
+        if (!emailResponse.ok) {
+          console.error("付款完成 Email 寄送失敗:", emailData);
+
+          emailResult =
+            `付款完成通知：寄送失敗\n` +
+            `原因：${emailData?.error || "未知錯誤"}`;
+        } else {
+          emailResult = "付款完成通知：已寄送";
+        }
+      } catch (emailError) {
+        console.error(
+          "付款完成 Email API 呼叫失敗:",
+          emailError
+        );
+
+        emailResult =
+          "付款完成通知：寄送失敗\n" +
+          "原因：無法連線至 Email 系統";
       }
-
-      alert(
-        JSON.stringify(
-          {
-            data,
-            dataType: typeof data,
-            status,
-            paymentStatus,
-            orderId: order.id,
-          },
-          null,
-          2
-        )
-      );
-
-      await loadOrder();
-    } catch (error) {
-      console.error(error);
-
-      alert("更新訂單狀態失敗");
-    } finally {
-      setSaving(false);
+    } else if (paymentStatus === "已付款") {
+      emailResult = "付款完成通知：未重複寄送";
+    } else {
+      emailResult = "付款完成通知：未寄送";
     }
-  }
 
+    // ④ 產生容易閱讀的狀態變更文字
+    const paymentChanged =
+      previousPaymentStatus !== paymentStatus;
+
+    const statusChanged =
+      previousStatus !== status;
+
+    const paymentText = paymentChanged
+      ? `付款狀態：${previousPaymentStatus || "未設定"} → ${paymentStatus}`
+      : `付款狀態：${paymentStatus}（未變更）`;
+
+    const statusText = statusChanged
+      ? `訂單狀態：${previousStatus || "未設定"} → ${status}`
+      : `訂單狀態：${status}（未變更）`;
+
+    // ⑤ 積分結果
+    const points = Number(data ?? 0);
+
+    const pointsText =
+      points > 0
+        ? `會員積分：新增 ${points} 點`
+        : "會員積分：未新增";
+
+    // ⑥ 顯示詳細結果
+    alert(
+      [
+        "訂單更新成功",
+        "",
+        `訂單編號：${order.order_no ?? order.id}`,
+        paymentText,
+        statusText,
+        "",
+        pointsText,
+        emailResult,
+      ].join("\n")
+    );
+
+    // ⑦ 重新讀取訂單資料
+    await loadOrder();
+  } catch (error) {
+    console.error(error);
+    alert("更新訂單狀態失敗");
+  } finally {
+    setSaving(false);
+  }
+}
   // ==================================================
   // 出貨單 PDF
   // ==================================================
