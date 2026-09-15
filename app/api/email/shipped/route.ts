@@ -5,9 +5,7 @@ import { createClient } from "@/lib/supabase/server";
 
 export const runtime = "nodejs";
 
-const resend = new Resend(
-  process.env.RESEND_API_KEY
-);
+
 
 export async function POST(request: Request) {
   try {
@@ -48,6 +46,11 @@ export async function POST(request: Request) {
         }
       );
     }
+
+
+    const resend = new Resend(
+  process.env.RESEND_API_KEY
+);
 
     // ------------------------------------------
     // Supabase Server Client
