@@ -23,8 +23,7 @@ type CreateOrderParams = {
   grandTotal: number;
   freeShippingThreshold: number;
 
-  // 使用積分
-  pointsUsed: number;
+
 
   cart: OrderItem[];
 };
@@ -42,19 +41,22 @@ export async function createOrder({
   shippingFee,
   grandTotal,
   freeShippingThreshold,
-  pointsUsed,
+
   cart,
 }: CreateOrderParams) {
-  
+
   const supabase = createClient();
 
-  // 提供給資料庫 Function 的商品資料
+
   const items = cart.map((item) => ({
     product_id: item.id,
     quantity: item.quantity,
   }));
 
-  // 呼叫資料庫 Function
+  // ------------------------------------------
+  // 建立訂單
+  // ------------------------------------------
+
   const { data: orderId, error } = await supabase.rpc(
     "create_order_with_stock",
     {
@@ -70,29 +72,31 @@ export async function createOrder({
       p_total_amount: totalAmount,
       p_shipping_fee: shippingFee,
       p_grand_total: grandTotal,
-      p_free_shipping_threshold: freeShippingThreshold,
-
-      // ★ 本次使用的積分
-      p_points_used: pointsUsed,
-
+      p_free_shipping_threshold:
+        freeShippingThreshold,
       p_items: items,
     }
   );
 
-  // 庫存不足、商品不存在、積分不足、
-  // 未滿 800 元、超過 500 點，
-  // 或其他資料庫錯誤
+  
   if (error) {
     throw error;
   }
 
   if (!orderId) {
-    throw new Error("訂單建立失敗：沒有取得訂單編號。");
+    throw new Error(
+      "訂單建立失敗：沒有取得訂單編號。"
+    );
   }
 
-  // Function 回傳訂單 ID
-  // 再把完整訂單資料取回來，維持原本 createOrder() 的回傳格式
-  const { data: order, error: orderError } = await supabase
+  // ------------------------------------------
+  // 取得完整訂單
+  // ------------------------------------------
+
+  const {
+    data: order,
+    error: orderError,
+  } = await supabase
     .from("orders")
 
     .select()
@@ -103,6 +107,50 @@ export async function createOrder({
     throw orderError;
   }
 
+  // ------------------------------------------
+  // 訂單 Email 通知
+  //
+  // Email 是通知流程，不影響訂單建立結果。
+  // 即使 Email 寄送失敗，訂單仍然視為建立成功。
+  // ------------------------------------------
+
+  try {
+    const response = await fetch(
+      "/api/email/order-created",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          orderId,
+        }),
+      }
+    );
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      console.error(
+        "Order email notification failed:",
+        result
+      );
+    } else {
+      console.log(
+        "Order email notification sent:",
+        result
+      );
+    }
+  } catch (emailError) {
+    console.error(
+      "Order email notification error:",
+      emailError
+    );
+  }
+
+  // ------------------------------------------
+  // 回傳訂單
+  // ------------------------------------------
 
   return order;
 }

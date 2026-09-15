@@ -1,6 +1,7 @@
 type ValidateCheckoutParams = {
   customerName: string;
   phone: string;
+  email: string;
   address: string;
   cartLength: number;
 };
@@ -8,6 +9,7 @@ type ValidateCheckoutParams = {
 export function validateCheckout({
   customerName,
   phone,
+  email,
   address,
   cartLength,
 }: ValidateCheckoutParams): string | null {
@@ -17,6 +19,10 @@ export function validateCheckout({
 
   if (!phone.trim()) {
     return "請填寫聯絡電話";
+  }
+
+  if (!email.trim()) {
+    return "請填寫 Email";
   }
 
   if (!address.trim()) {

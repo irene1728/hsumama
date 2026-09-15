@@ -379,8 +379,17 @@ const pdfOrder = orderToPdf({
             </span>
           </div>
 
-          <hr className="border-gray-200" />
+<div className="flex justify-between gap-4">
+  <span className="text-gray-500">
+    🎁積分折抵
+  </span>
 
+  <span className="font-bold text-red-600">
+    - NT$ {(order.points_used ?? 0).toLocaleString()}
+  </span>
+</div>
+          <hr className="border-gray-200" />
+       
           <div className="flex justify-between gap-4">
             <span className="font-bold text-[#4E342E]">
               訂單總額

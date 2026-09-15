@@ -104,12 +104,13 @@ function OrderSuccessContent() {
           <p className="md:mt-1 text-gray-600 leading-4 md:leading-7">
             <span className="block">感謝您的訂購，</span>
             <span className="block">我們已收到您的訂單。</span>
+            <span className="block text-sm">📧 訂單確認信已寄至您的 Email，請至信箱查收。</span>
           </p>
         </div>
 
         {order && (
 
-          <div className="mt-2 md:mt-4 space-y-1 md:space-y-2 border-t pt-2 md:pt-4">
+          <div className="mt-1 md:mt-2 space-y-1 md:space-y-2 border-t pt-1 md:pt-3">
             
             <div className="flex justify-between">
               <span>訂單編號</span>

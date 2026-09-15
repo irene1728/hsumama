@@ -3,8 +3,10 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { useSearchParams } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { getEffectivePrice } from "@/lib/promotion";
+import ProductTabs from "./ProductTabs";
 
 const categoryMap: Record<string, string> = {
   pork: "豬肉",
@@ -17,8 +19,32 @@ const categoryMap: Record<string, string> = {
 };
 
 export default function AdminProductsPage() {
-  
+
   const [products, setProducts] = useState<any[]>([]);
+
+  const searchParams = useSearchParams();
+
+  // 商品狀態分頁
+  const [activeTab, setActiveTab] = useState<
+    "all" | "active" | "inactive"
+  >("all");
+
+  // =========================
+  // 讀取網址中的 tab
+  // =========================
+  useEffect(() => {
+    const tab = searchParams.get("tab");
+
+    if (
+      tab === "active" ||
+      tab === "inactive" ||
+      tab === "all"
+    ) {
+      setActiveTab(tab);
+    } else {
+      setActiveTab("all");
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     loadProducts();
@@ -70,21 +96,22 @@ export default function AdminProductsPage() {
 
     loadProducts();
   }
-async function toggleBBQ(product: any) {
-  const { error } = await supabase
-    .from("products")
-    .update({
-      is_bbq: !product.is_bbq,
-    })
-    .eq("id", product.id);
 
-  if (error) {
-    alert("更新失敗");
-    return;
+  async function toggleBBQ(product: any) {
+    const { error } = await supabase
+      .from("products")
+      .update({
+        is_bbq: !product.is_bbq,
+      })
+      .eq("id", product.id);
+
+    if (error) {
+      alert("更新失敗");
+      return;
+    }
+
+    loadProducts();
   }
-
-  loadProducts();
-}
 
   async function updateSortOrder(
     productId: number,
@@ -105,41 +132,94 @@ async function toggleBBQ(product: any) {
     loadProducts();
   }
 
+  // =========================
+  // 依照目前分頁篩選商品
+  // =========================
+  const filteredProducts = products.filter((product) => {
+    if (activeTab === "active") {
+      return product.is_active;
+    }
+
+    if (activeTab === "inactive") {
+      return !product.is_active;
+    }
+
+    return true;
+  });
+
+  // =========================
+  // 產生編輯商品網址
+  // =========================
+  function getEditUrl(productId: number) {
+    return `/admin/products/${productId}?from=${activeTab}`;
+  }
+
   return (
-   <main className="max-w-7xl mx-auto p-2 md:p-1">
+    <main className="max-w-7xl mx-auto p-2 md:p-1">
+
       <h1 className="text-3xl md:text-4xl font-bold mb-2 md:mb-2">
         商品管理
       </h1>
 
       {/* =========================
+          商品狀態分頁
+          ========================= */}
+ <ProductTabs />
+ 
+      {/* =========================
           Desktop：維持原本 Table
           ========================= */}
       <div className="hidden md:block overflow-x-auto rounded-2xl border">
+
         <table className="w-full table-fixed">
+
           <thead className="bg-orange-100">
+
             <tr>
-             
-           <th className="w-16 px-2 py-3">圖片</th>
 
-           <th className="w-70 text-left px-2">商品</th>
+              <th className="w-16 px-2 py-3">
+                圖片
+              </th>
 
-           <th className="w-18 px-2 text-center">分類</th>
+              <th className="w-70 text-left px-2">
+                商品
+              </th>
 
-           <th className="w-22 px-2 text-center">價格</th>
+              <th className="w-18 px-2 text-center">
+                分類
+              </th>
 
-           <th className="w-22 px-2 text-center">優惠價</th>
+              <th className="w-22 px-2 text-center">
+                價格
+              </th>
 
-           <th className="w-22 px-2 text-center">批發價</th>
+              <th className="w-22 px-2 text-center">
+                優惠價
+              </th>
 
-           <th className="w-18 px-4 text-center">人氣</th>
+              <th className="w-22 px-2 text-center">
+                批發價
+              </th>
 
-           <th className="w-18 px-2 text-center">🔥烤肉</th>
+              <th className="w-18 px-4 text-center">
+                人氣
+              </th>
 
-           <th className="w-16 px-4 text-center">上架</th>
+              <th className="w-18 px-2 text-center">
+                🔥烤肉
+              </th>
 
-           <th className="w-14 px-4 text-center">排序</th>
+              <th className="w-16 px-4 text-center">
+                上架
+              </th>
 
-           <th className="w-22 px-4 text-center">操作</th>
+              <th className="w-14 px-4 text-center">
+                排序
+              </th>
+
+              <th className="w-22 px-4 text-center">
+                操作
+              </th>
 
             </tr>
 
@@ -147,13 +227,15 @@ async function toggleBBQ(product: any) {
 
           <tbody>
 
-            {products.map((product) => (
+            {filteredProducts.map((product) => (
 
               <tr
                 key={product.id}
                 className="border-t h-12"
               >
+
                 <td className="w-28 px-4 py-3">
+
                   <Image
                     src={product.image}
                     alt={product.name}
@@ -161,6 +243,7 @@ async function toggleBBQ(product: any) {
                     height={40}
                     className="mx-auto rounded-lg object-cover"
                   />
+
                 </td>
 
                 <td className="w-68 px-4">
@@ -172,37 +255,49 @@ async function toggleBBQ(product: any) {
                     product.category}
                 </td>
 
-          <td className="px-4 text-center">
-  {product.price
-    ? `NT$ ${product.price}`
-    : "-"}
-</td>
+                <td className="px-4 text-center">
+                  {product.price
+                    ? `NT$ ${product.price}`
+                    : "-"}
+                </td>
 
-<td className="px-4 text-center">
-  {product.promotion_enabled ? (
-    (() => {
-      const effectivePrice = getEffectivePrice(product);
+                <td className="px-4 text-center">
 
-      return effectivePrice !== product.price ? (
-        <span className="font-bold text-orange-600">
-          NT$ {effectivePrice}
-        </span>
-      ) : (
-        "-"
-      );
-    })()
-  ) : (
-    "-"
-  )}
-</td>
+                  {product.promotion_enabled ? (
 
-<td className="px-4 text-center">
-  {product.wholesale_price != null
-    ? `NT$ ${product.wholesale_price}`
-    : "尚未設定"}
-</td>
+                    (() => {
+
+                      const effectivePrice =
+                        getEffectivePrice(product);
+
+                      return effectivePrice !== product.price ? (
+
+                        <span className="font-bold text-orange-600">
+                          NT$ {effectivePrice}
+                        </span>
+
+                      ) : (
+                        "-"
+                      );
+
+                    })()
+
+                  ) : (
+                    "-"
+                  )}
+
+                </td>
+
+                <td className="px-4 text-center">
+
+                  {product.wholesale_price != null
+                    ? `NT$ ${product.wholesale_price}`
+                    : "尚未設定"}
+
+                </td>
 
                 <td className="text-center">
+
                   <button
                     onClick={() =>
                       toggleFeatured(product)
@@ -213,28 +308,38 @@ async function toggleBBQ(product: any) {
                         : "bg-gray-100 text-gray-500 hover:bg-gray-200"
                     }`}
                   >
+
                     {product.featured
                       ? "⭐ 人氣"
                       : "☆ 一般"}
+
                   </button>
+
                 </td>
 
-<td className="text-center">
-  <button
-    onClick={() => toggleBBQ(product)}
-    className={`px-2 py-1 rounded-full text-sm font-bold transition ${
-      product.is_bbq
-        ? "bg-orange-100 text-orange-700 hover:bg-orange-200"
-        : "bg-gray-100 text-gray-500 hover:bg-gray-200"
-    }`}
-  >
-    {product.is_bbq
-      ? "🔥 烤肉"
-      : "☆ 一般"}
-  </button>
-</td>
+                <td className="text-center">
+
+                  <button
+                    onClick={() =>
+                      toggleBBQ(product)
+                    }
+                    className={`px-2 py-1 rounded-full text-sm font-bold transition ${
+                      product.is_bbq
+                        ? "bg-orange-100 text-orange-700 hover:bg-orange-200"
+                        : "bg-gray-100 text-gray-500 hover:bg-gray-200"
+                    }`}
+                  >
+
+                    {product.is_bbq
+                      ? "🔥 烤肉"
+                      : "☆ 一般"}
+
+                  </button>
+
+                </td>
 
                 <td className="text-center">
+
                   <button
                     onClick={() =>
                       toggleActive(product)
@@ -245,13 +350,17 @@ async function toggleBBQ(product: any) {
                         : "bg-red-100 text-red-700 hover:bg-red-200"
                     }`}
                   >
+
                     {product.is_active
                       ? "上架"
                       : "下架"}
+
                   </button>
+
                 </td>
 
                 <td className="text-center">
+
                   <input
                     type="number"
                     defaultValue={product.sort_order}
@@ -263,16 +372,20 @@ async function toggleBBQ(product: any) {
                       )
                     }
                   />
+
                 </td>
 
                 <td className="text-center">
+
                   <Link
-                    href={`/admin/products/${product.id}`}
+                    href={getEditUrl(product.id)}
                     className="bg-orange-600 hover:bg-orange-700 text-white text-sm font-medium px-3 py-2 rounded-lg transition inline-block"
                   >
                     編輯
                   </Link>
+
                 </td>
+
               </tr>
 
             ))}
@@ -287,13 +400,17 @@ async function toggleBBQ(product: any) {
           Mobile：商品卡片
           ========================= */}
       <div className="md:hidden px-2 space-y-4">
-        {products.map((product) => (
+
+        {filteredProducts.map((product) => (
+
           <div
             key={product.id}
             className="rounded-2xl border bg-white p-2 shadow-sm"
           >
+
             {/* 商品基本資訊 */}
             <div className="flex items-center gap-2">
+
               <Image
                 src={product.image}
                 alt={product.name}
@@ -303,6 +420,7 @@ async function toggleBBQ(product: any) {
               />
 
               <div className="min-w-0 flex-1">
+
                 <h2 className="font-bold text-lg leading-snug">
                   {product.name}
                 </h2>
@@ -311,61 +429,80 @@ async function toggleBBQ(product: any) {
                   {categoryMap[product.category] ??
                     product.category}
                 </p>
+
               </div>
+
             </div>
 
- {/* 價格資訊 */}
-<div className="grid grid-cols-3 gap-2 mt-1">
+            {/* 價格資訊 */}
+            <div className="grid grid-cols-3 gap-2 mt-1">
 
-  <div className="rounded-xl bg-gray-50 px-2 py-1.5">
-    <div className="text-xs text-gray-500">
-      市價
-    </div>
+              <div className="rounded-xl bg-gray-50 px-2 py-1.5">
 
-    <div className="font-bold text-gray-800 mt-1">
-      {product.price
-        ? `NT$ ${product.price}`
-        : "-"}
-    </div>
-  </div>
+                <div className="text-xs text-gray-500">
+                  市價
+                </div>
 
-  <div className="rounded-xl bg-orange-50 px-2 py-1.5">
-    <div className="text-xs text-gray-500">
-      優惠價
-    </div>
+                <div className="font-bold text-gray-800 mt-1">
 
-    <div className="font-bold text-orange-700 mt-1">
-      {product.promotion_enabled ? (
-        (() => {
-          const effectivePrice =
-            getEffectivePrice(product);
+                  {product.price
+                    ? `NT$ ${product.price}`
+                    : "-"}
 
-          return effectivePrice !== product.price
-            ? `NT$ ${effectivePrice}`
-            : "-";
-        })()
-      ) : (
-        "-"
-      )}
-    </div>
-  </div>
+                </div>
 
-  <div className="rounded-xl bg-gray-50 px-2 py-1.5">
-    <div className="text-xs text-gray-500">
-      批發價
-    </div>
+              </div>
 
-    <div className="font-bold text-gray-800 mt-1">
-      {product.wholesale_price != null
-        ? `NT$ ${product.wholesale_price}`
-        : "尚未設定"}
-    </div>
-  </div>
+              <div className="rounded-xl bg-orange-50 px-2 py-1.5">
 
-</div>
+                <div className="text-xs text-gray-500">
+                  優惠價
+                </div>
+
+                <div className="font-bold text-orange-700 mt-1">
+
+                  {product.promotion_enabled ? (
+
+                    (() => {
+
+                      const effectivePrice =
+                        getEffectivePrice(product);
+
+                      return effectivePrice !== product.price
+                        ? `NT$ ${effectivePrice}`
+                        : "-";
+
+                    })()
+
+                  ) : (
+                    "-"
+                  )}
+
+                </div>
+
+              </div>
+
+              <div className="rounded-xl bg-gray-50 px-2 py-1.5">
+
+                <div className="text-xs text-gray-500">
+                  批發價
+                </div>
+
+                <div className="font-bold text-gray-800 mt-1">
+
+                  {product.wholesale_price != null
+                    ? `NT$ ${product.wholesale_price}`
+                    : "尚未設定"}
+
+                </div>
+
+              </div>
+
+            </div>
 
             {/* 狀態操作 */}
             <div className="flex items-center gap-2 mt-2">
+
               <button
                 onClick={() =>
                   toggleFeatured(product)
@@ -376,23 +513,29 @@ async function toggleBBQ(product: any) {
                     : "bg-gray-100 text-gray-500 hover:bg-gray-200"
                 }`}
               >
+
                 {product.featured
                   ? "⭐ 人氣"
                   : "☆ 一般"}
+
               </button>
 
-<button
-  onClick={() => toggleBBQ(product)}
-  className={`flex-1 px-3 py-2 rounded-xl text-sm font-bold transition ${
-    product.is_bbq
-      ? "bg-orange-100 text-orange-700 hover:bg-orange-200"
-      : "bg-gray-100 text-gray-500 hover:bg-gray-200"
-  }`}
->
-  {product.is_bbq
-    ? "🔥 烤肉"
-    : "☆ 一般"}
-</button>
+              <button
+                onClick={() =>
+                  toggleBBQ(product)
+                }
+                className={`flex-1 px-3 py-2 rounded-xl text-sm font-bold transition ${
+                  product.is_bbq
+                    ? "bg-orange-100 text-orange-700 hover:bg-orange-200"
+                    : "bg-gray-100 text-gray-500 hover:bg-gray-200"
+                }`}
+              >
+
+                {product.is_bbq
+                  ? "🔥 烤肉"
+                  : "☆ 一般"}
+
+              </button>
 
               <button
                 onClick={() =>
@@ -404,14 +547,18 @@ async function toggleBBQ(product: any) {
                     : "bg-red-100 text-red-700 hover:bg-red-200"
                 }`}
               >
+
                 {product.is_active
                   ? "🟢 上架"
                   : "🔴 下架"}
+
               </button>
+
             </div>
 
             {/* 排序 */}
             <div className="flex items-center justify-between mt-2">
+
               <label
                 htmlFor={`sort-${product.id}`}
                 className="text-lg font-medium text-gray-700"
@@ -431,18 +578,23 @@ async function toggleBBQ(product: any) {
                   )
                 }
               />
+
             </div>
 
             {/* 編輯 */}
             <Link
-              href={`/admin/products/${product.id}`}
+              href={getEditUrl(product.id)}
               className="mt-2 w-full bg-orange-600 hover:bg-orange-700 text-white font-medium py-1 rounded-xl transition flex items-center justify-center"
             >
               ✏️ 編輯商品
             </Link>
+
           </div>
+
         ))}
+
       </div>
+
     </main>
   );
 }

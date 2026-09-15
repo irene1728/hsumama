@@ -1,29 +1,19 @@
 import { jsPDF } from "jspdf";
 
+import { PDF_FONTS } from "./fontConfig";
+
 /**
  * PDF Font Manager
- * ---------------------------------------------
- * PDF Engine v1.0
+ * 
  *
  * 職責：
- * 1. 載入並註冊 PDF 字型
- * 2. 提供統一字型 API
- * 3. 統一管理所有 PDF 字型設定
+ * - 載入 PDF 使用的中文字型
+ * - 註冊到 jsPDF
+ * - 提供統一字型設定
  *
- * 呼叫流程：
- *
- * generateOrderPdf()
- *        │
- *        ▼
- * registerFonts()
- *        │
- *        ▼
- * drawHeader()
- * drawCustomer()
- * drawItems()
- * drawPayment()
- * drawShipping()
- * drawFooter()
+ * 支援：
+ * - Browser：從 /fonts/... 載入
+ * - Server：從 public/fonts/... 讀取
  */
 
 export const PDF_FONT = {
@@ -41,35 +31,83 @@ export const PDF_FONT = {
 } as const;
 
 /**
- * 載入 TTF 並轉成 Binary String
+ * 將 ArrayBuffer 轉成 binary string
+ *
+ * jsPDF.addFileToVFS() 需要 binary string。
  */
-async function loadFontAsBinary(path: string): Promise<string> {
-  const response = await fetch(path);
-
-  if (!response.ok) {
-    throw new Error(`無法載入字型：${path}`);
-  }
-
-  const buffer = await response.arrayBuffer();
+function arrayBufferToBinary(buffer: ArrayBuffer): string {
   const bytes = new Uint8Array(buffer);
 
   let binary = "";
 
-  for (const byte of bytes) {
-    binary += String.fromCharCode(byte);
+  const chunkSize = 0x8000;
+
+  for (let i = 0; i < bytes.length; i += chunkSize) {
+    const chunk = bytes.subarray(
+      i,
+      Math.min(i + chunkSize, bytes.length)
+    );
+
+    binary += String.fromCharCode(...chunk);
   }
 
   return binary;
 }
 
 /**
+ * Browser / Server 共用字型載入
+ */
+async function loadFontAsBinary(path: string): Promise<string> {
+  // ------------------------------------------
+  // Browser
+  // ------------------------------------------
+
+  if (typeof window !== "undefined") {
+    const response = await fetch(path);
+
+    if (!response.ok) {
+      throw new Error(`無法載入字型：${path}`);
+    }
+
+    const buffer = await response.arrayBuffer();
+
+    return arrayBufferToBinary(buffer);
+  }
+
+  // ------------------------------------------
+  // Server
+  // ------------------------------------------
+
+  const { readFile } = await import("node:fs/promises");
+  const { join } = await import("node:path");
+
+  const filePath = join(
+    process.cwd(),
+    "public",
+    path.replace(/^\/+/, "")
+  );
+
+  try {
+    const buffer = await readFile(filePath);
+
+    return buffer.toString("latin1");
+  } catch (error) {
+    console.error("PDF font load error:", filePath, error);
+
+    throw new Error(`無法載入字型：${filePath}`);
+  }
+}
+
+/**
  * 註冊 PDF 字型
  */
 export async function registerFonts(doc: jsPDF): Promise<void> {
-
+  // ------------------------------------------
   // Regular
+  // ------------------------------------------
+
   const regular = await loadFontAsBinary(
-    "/fonts/NotoSansTC-Regular.ttf"
+    PDF_FONTS.zh.regular
   );
 
   doc.addFileToVFS(
@@ -83,10 +121,17 @@ export async function registerFonts(doc: jsPDF): Promise<void> {
     "normal"
   );
 
-  // Bold（先使用同一個字型驗證流程）
+  // ------------------------------------------
+  // Bold
+  // ------------------------------------------
+
+  const bold = await loadFontAsBinary(
+    PDF_FONTS.zh.bold
+  );
+
   doc.addFileToVFS(
     "NotoSansTC-Bold.ttf",
-    regular
+    bold
   );
 
   doc.addFont(
@@ -95,43 +140,68 @@ export async function registerFonts(doc: jsPDF): Promise<void> {
     "bold"
   );
 
-  // 設定預設字型
+  // ------------------------------------------
+  // Default Font
+  // ------------------------------------------
 
-  doc.setFont(PDF_FONT.family.regular);
-
-  console.log(doc.getFontList());
-
-  return;
+  doc.setFont(
+    PDF_FONT.family.regular,
+    "normal"
+  );
 }
 
 /**
- * 主標題
+ * 標題字型
  */
 export function setTitleFont(doc: jsPDF): void {
-  doc.setFont(PDF_FONT.family.bold, "bold");
-  doc.setFontSize(PDF_FONT.size.title);
+  doc.setFont(
+    PDF_FONT.family.bold,
+    "bold"
+  );
+
+  doc.setFontSize(
+    PDF_FONT.size.title
+  );
 }
 
 /**
- * 區塊標題
+ * 區塊標題字型
  */
 export function setHeadingFont(doc: jsPDF): void {
-  doc.setFont(PDF_FONT.family.bold, "bold");
-  doc.setFontSize(PDF_FONT.size.heading);
+  doc.setFont(
+    PDF_FONT.family.bold,
+    "bold"
+  );
+
+  doc.setFontSize(
+    PDF_FONT.size.heading
+  );
 }
 
 /**
- * 一般內容
+ * 內文字型
  */
 export function setBodyFont(doc: jsPDF): void {
-  doc.setFont(PDF_FONT.family.regular, "normal");
-  doc.setFontSize(PDF_FONT.size.body);
+  doc.setFont(
+    PDF_FONT.family.regular,
+    "normal"
+  );
+
+  doc.setFontSize(
+    PDF_FONT.size.body
+  );
 }
 
 /**
- * 小字
+ * 小字型
  */
 export function setSmallFont(doc: jsPDF): void {
-  doc.setFont(PDF_FONT.family.regular, "normal");
-  doc.setFontSize(PDF_FONT.size.small);
+  doc.setFont(
+    PDF_FONT.family.regular,
+    "normal"
+  );
+
+  doc.setFontSize(
+    PDF_FONT.size.small
+  );
 }

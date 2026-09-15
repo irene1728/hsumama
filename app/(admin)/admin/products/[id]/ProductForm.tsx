@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { supabase } from "@/lib/supabase";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 type ProductFormData = {
   id: number;
@@ -39,8 +39,56 @@ type Props = {
   product: ProductFormData;
 };
 
+
+// =========================
+// UTC 時間 → 台灣時間
+// datetime-local 使用
+// =========================
+function toTaiwanDateTimeLocal(
+  value: string | null
+) {
+  if (!value) return "";
+
+  const date = new Date(value);
+
+  const formatter = new Intl.DateTimeFormat(
+    "sv-SE",
+    {
+      timeZone: "Asia/Taipei",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    }
+  );
+
+  return formatter
+    .format(date)
+    .replace(" ", "T");
+}
+
 export default function ProductForm({ product }: Props) {
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  // =========================
+  // 記住進入編輯頁前的商品分頁
+  // =========================
+  const fromTab = searchParams.get("from");
+
+  const returnTab =
+    fromTab === "active" ||
+    fromTab === "inactive" ||
+    fromTab === "all"
+      ? fromTab
+      : "all";
+
+  const returnUrl =
+    returnTab === "all"
+      ? "/admin/products"
+      : `/admin/products?tab=${returnTab}`;
 
   const [slug, setSlug] = useState(product.slug);
   const [image, setImage] = useState(product.image);
@@ -84,17 +132,17 @@ export default function ProductForm({ product }: Props) {
     product.promotion_discount ?? 95
   );
 
-  const [promotionStartAt, setPromotionStartAt] = useState(
+const [promotionStartAt, setPromotionStartAt] = useState(
+  toTaiwanDateTimeLocal(
     product.promotion_start_at
-      ? product.promotion_start_at.slice(0, 16)
-      : ""
-  );
+  )
+);
 
-  const [promotionEndAt, setPromotionEndAt] = useState(
+const [promotionEndAt, setPromotionEndAt] = useState(
+  toTaiwanDateTimeLocal(
     product.promotion_end_at
-      ? product.promotion_end_at.slice(0, 16)
-      : ""
-  );
+  )
+);
 
   const [loading, setLoading] = useState(false);
 
@@ -239,7 +287,10 @@ export default function ProductForm({ product }: Props) {
         : "修改成功！"
     );
 
-    router.push("/admin/products");
+    // =========================
+    // 回到原本的商品分頁
+    // =========================
+    router.push(returnUrl);
     router.refresh();
   }
 
@@ -352,7 +403,8 @@ export default function ProductForm({ product }: Props) {
 
         <label className="flex items-center gap-3 text-lg font-semibold cursor-pointer">
           啟用促銷活動
-           <input
+
+          <input
             type="checkbox"
             checked={promotionEnabled}
             onChange={(e) =>
@@ -369,6 +421,7 @@ export default function ProductForm({ product }: Props) {
             {/* 促銷類型 */}
 
             <div>
+
               <label className="block font-semibold md:mt-2">
                 促銷類型
               </label>
@@ -376,6 +429,7 @@ export default function ProductForm({ product }: Props) {
               <div className="flex flex-col md:flex-row gap-3 mt-1">
 
                 <label className="flex items-center gap-2 border rounded-xl px-4 py-3 bg-white cursor-pointer">
+
                   <input
                     type="radio"
                     name="promotionType"
@@ -389,9 +443,11 @@ export default function ProductForm({ product }: Props) {
                   <span>
                     💰 特價活動
                   </span>
+
                 </label>
 
                 <label className="flex items-center gap-2 border rounded-xl px-4 py-3 bg-white cursor-pointer">
+
                   <input
                     type="radio"
                     name="promotionType"
@@ -405,21 +461,28 @@ export default function ProductForm({ product }: Props) {
                   <span>
                     🔖 折扣活動
                   </span>
+
                 </label>
 
               </div>
+
             </div>
 
             {/* 特價 */}
 
             {promotionType === "special" && (
+
               <div>
+
                 <label className="block font-semibold mt-2">
                   活動特價
                 </label>
 
                 <div className="flex items-center gap-2">
-                  <span>NT$</span>
+
+                  <span>
+                    NT$
+                  </span>
 
                   <input
                     type="number"
@@ -432,19 +495,25 @@ export default function ProductForm({ product }: Props) {
                     }
                     className="flex-1 border rounded-xl px-4 py-2 bg-white"
                   />
+
                 </div>
+
               </div>
+
             )}
 
             {/* 折扣 */}
 
             {promotionType === "discount" && (
+
               <div>
+
                 <label className="block font-semibold mt-1 md:mt-2">
                   折扣
                 </label>
 
                 <div className="flex items-center gap-2">
+
                   <input
                     type="number"
                     min="1"
@@ -461,18 +530,26 @@ export default function ProductForm({ product }: Props) {
                   <span className="font-bold">
                     折
                   </span>
+
                 </div>
 
                 {price > 0 && (
+
                   <p className="text-sm text-[#DC143C] mt-2">
+
                     原價 NT$ {price} → 活動價 NT${" "}
+
                     {Math.round(
                       price *
                         (promotionDiscount / 100)
                     )}
+
                   </p>
+
                 )}
+
               </div>
+
             )}
 
             {/* 活動時間 */}
@@ -480,6 +557,7 @@ export default function ProductForm({ product }: Props) {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3">
 
               <div>
+
                 <label className="block font-semibold mt-1">
                   活動開始
                 </label>
@@ -494,9 +572,11 @@ export default function ProductForm({ product }: Props) {
                   }
                   className="w-full border rounded-xl px-3 py-2 bg-white"
                 />
+
               </div>
 
               <div>
+
                 <label className="block font-semibold mt-1">
                   活動結束
                 </label>
@@ -511,6 +591,7 @@ export default function ProductForm({ product }: Props) {
                   }
                   className="w-full border rounded-xl px-3 py-2 bg-white"
                 />
+
               </div>
 
             </div>
@@ -521,6 +602,7 @@ export default function ProductForm({ product }: Props) {
       </div>
 
       <div>
+
         <label className="block font-semibold mb-1 md:mb-2">
           商品介紹
         </label>
@@ -533,9 +615,11 @@ export default function ProductForm({ product }: Props) {
           rows={3}
           className="w-full h-26 md:h-40 border rounded-xl px-2 md:px-4 py-1 md:py-3"
         />
+
       </div>
 
       <div>
+
         <label className="block font-semibold mb-1 md:mb-2">
           分類
         </label>
@@ -547,17 +631,41 @@ export default function ProductForm({ product }: Props) {
           }
           className="w-full border rounded-xl px-4 py-2 md:py-3"
         >
-          <option value="pork">豬肉</option>
-          <option value="chicken">雞肉</option>
-          <option value="beef">牛肉</option>
-          <option value="lamb">羊肉</option>
-          <option value="sausage">香腸</option>
-          <option value="seafood">海鮮</option>
-          <option value="soup">湯品</option>
+
+          <option value="pork">
+            豬肉
+          </option>
+
+          <option value="chicken">
+            雞肉
+          </option>
+
+          <option value="beef">
+            牛肉
+          </option>
+
+          <option value="lamb">
+            羊肉
+          </option>
+
+          <option value="sausage">
+            香腸
+          </option>
+
+          <option value="seafood">
+            海鮮
+          </option>
+
+          <option value="soup">
+            湯品
+          </option>
+
         </select>
+
       </div>
 
       <div>
+
         <label className="block font-semibold mb-1 md:mb-2">
           重量
         </label>
@@ -569,9 +677,11 @@ export default function ProductForm({ product }: Props) {
           }
           className="w-full border rounded-xl px-4 py-2 md:py-3"
         />
+
       </div>
 
       <div>
+
         <label className="block font-semibold mb-1 md:mb-2">
           保存方式
         </label>
@@ -583,9 +693,11 @@ export default function ProductForm({ product }: Props) {
           }
           className="w-full border rounded-xl px-4 py-2 md:py-3"
         />
+
       </div>
 
       <div>
+
         <label className="block font-semibold mb-1 md:mb-2">
           配送方式
         </label>
@@ -597,11 +709,13 @@ export default function ProductForm({ product }: Props) {
           }
           className="w-full border rounded-xl px-4 py-2 md:py-3"
         />
+
       </div>
 
       <div className="flex gap-10 text-xl">
 
         <label className="flex items-center gap-2">
+
           <input
             type="checkbox"
             checked={featured}
@@ -611,9 +725,11 @@ export default function ProductForm({ product }: Props) {
           />
 
           人氣商品
+
         </label>
 
         <label className="flex items-center gap-2">
+
           <input
             type="checkbox"
             checked={isActive}
@@ -623,14 +739,16 @@ export default function ProductForm({ product }: Props) {
           />
 
           上架
+
         </label>
 
       </div>
 
       <div className="pt-1 md:pt-2 flex justify-between">
 
+        {/* 返回原本分頁 */}
         <Link
-          href="/admin/products"
+          href={returnUrl}
           className="px-6 py-2 md:py-3 rounded-xl border border-gray-300 hover:bg-gray-100 transition"
         >
           ← 返回商品管理
@@ -641,11 +759,13 @@ export default function ProductForm({ product }: Props) {
           disabled={loading}
           className="bg-orange-600 hover:bg-orange-700 disabled:bg-gray-400 text-white font-bold px-8 py-2 md:py-3 rounded-xl transition"
         >
+
           {loading
             ? "儲存中..."
             : product.id === 0
             ? "➕ 新增商品"
             : "💾 儲存修改"}
+
         </button>
 
       </div>

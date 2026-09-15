@@ -269,12 +269,13 @@ export default function CheckoutPage() {
   // ==========================================
 
   async function handleSubmit() {
-    const error = validateCheckout({
-      customerName,
-      phone,
-      address,
-      cartLength: cart.length,
-    });
+const error = validateCheckout({
+  customerName,
+  phone,
+  email,
+  address,
+  cartLength: cart.length,
+});
 
     if (error) {
       alert(error);

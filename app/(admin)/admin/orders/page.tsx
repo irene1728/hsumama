@@ -120,6 +120,30 @@ export default function AdminOrdersPage() {
     console.log("目前登入 user_id：", session.user.id);
 
     // ==========================================
+    // 記錄儲存前的付款狀態
+    //
+    // 只有：
+    // 未付款 → 已付款
+    //
+    // 才會寄送付款完成 Email
+    // ==========================================
+
+    const previousPaymentStatus =
+      selectedOrder?.payment_status ?? "";
+
+    const paymentJustCompleted =
+      previousPaymentStatus === "未付款" &&
+      paymentStatus === "已付款";
+
+
+const previousOrderStatus =
+  selectedOrder?.status ?? "";
+
+const shippingJustCompleted =
+  previousOrderStatus !== "已出貨" &&
+  status === "已出貨";
+
+    // ==========================================
     // 已取消 → 自動退回庫存
     // ==========================================
 
@@ -191,6 +215,109 @@ export default function AdminOrdersPage() {
       return;
     }
 
+
+// ==========================================
+// 出貨通知 Email
+//
+// 只有其他狀態 → 已出貨
+// 才寄送一次。
+// ==========================================
+
+let shippingEmailFailed = false;
+
+if (shippingJustCompleted) {
+  try {
+    const response = await fetch(
+      "/api/email/shipped",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          orderId: selectedOrderId,
+        }),
+      }
+    );
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      shippingEmailFailed = true;
+
+      console.error(
+        "Shipped email failed:",
+        result
+      );
+    } else {
+      console.log(
+        "Shipped email sent:",
+        result
+      );
+    }
+  } catch (emailError) {
+    shippingEmailFailed = true;
+
+    console.error(
+      "Shipped email error:",
+      emailError
+    );
+  }
+}
+
+    // ==========================================
+    // 付款完成 Email
+    //
+    // 只有：
+    // 未付款 → 已付款
+    //
+    // 才寄送一次。
+    //
+    // Email 失敗不影響訂單更新結果。
+    // ==========================================
+
+    let paymentEmailFailed = false;
+
+    if (paymentJustCompleted) {
+      try {
+        const response = await fetch(
+          "/api/email/payment-completed",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              orderId: selectedOrderId,
+            }),
+          }
+        );
+
+        const result = await response.json();
+
+        if (!response.ok) {
+          paymentEmailFailed = true;
+
+          console.error(
+            "Payment completed email failed:",
+            result
+          );
+        } else {
+          console.log(
+            "Payment completed email sent:",
+            result
+          );
+        }
+      } catch (emailError) {
+        paymentEmailFailed = true;
+
+        console.error(
+          "Payment completed email error:",
+          emailError
+        );
+      }
+    }
+
     // ==========================================
     // RPC 回傳：
     //
@@ -200,13 +327,46 @@ export default function AdminOrdersPage() {
 
     const earnedPoints = Number(data ?? 0);
 
-    if (earnedPoints > 0) {
-      alert(
-        `訂單已更新，已自動發放 ${earnedPoints} 點積分 🎉`
-      );
-    } else {
-      alert("狀態已更新");
-    }
+    // ==========================================
+    // 儲存結果提示
+    // ==========================================
+
+if (earnedPoints > 0) {
+  if (paymentEmailFailed && shippingEmailFailed) {
+    alert(
+      `訂單已更新，已自動發放 ${earnedPoints} 點積分 🎉\n\n但付款完成 Email 與出貨通知 Email 都寄送失敗，請稍後確認。`
+    );
+  } else if (paymentEmailFailed) {
+    alert(
+      `訂單已更新，已自動發放 ${earnedPoints} 點積分 🎉\n\n但付款完成 Email 寄送失敗，請稍後確認。`
+    );
+  } else if (shippingEmailFailed) {
+    alert(
+      `訂單已更新，已自動發放 ${earnedPoints} 點積分 🎉\n\n但出貨通知 Email 寄送失敗，請稍後確認。`
+    );
+  } else {
+    alert(
+      `訂單已更新，已自動發放 ${earnedPoints} 點積分 🎉`
+    );
+  }
+} else if (
+  paymentEmailFailed &&
+  shippingEmailFailed
+) {
+  alert(
+    "狀態已更新，但付款完成 Email 與出貨通知 Email 都寄送失敗，請稍後確認。"
+  );
+} else if (paymentEmailFailed) {
+  alert(
+    "狀態已更新，但付款完成 Email 寄送失敗，請稍後確認。"
+  );
+} else if (shippingEmailFailed) {
+  alert(
+    "狀態已更新，但出貨通知 Email 寄送失敗，請稍後確認。"
+  );
+} else {
+  alert("狀態已更新");
+}
 
     await loadOrders();
     await loadItems(selectedOrderId);
@@ -263,11 +423,11 @@ export default function AdminOrdersPage() {
 
         subtotal: Number(selectedOrder.total_amount),
 
-shippingFee: Number(selectedOrder.shipping_fee),
+        shippingFee: Number(selectedOrder.shipping_fee),
 
-pointsUsed: Number(selectedOrder.points_used ?? 0),
+        pointsUsed: Number(selectedOrder.points_used ?? 0),
 
-total: Number(selectedOrder.grand_total),
+        total: Number(selectedOrder.grand_total),
       };
 
       const doc = await generateShippingPdf(shippingOrder);
@@ -440,14 +600,14 @@ total: Number(selectedOrder.grand_total),
                       }`}
                     >
                       {/* 訂單 */}
-                     <td>
-  <Link
-    href={`/admin/orders/${order.id}`}
-    className="text-blue-600 hover:text-blue-800 hover:underline font-medium ml-1"
-  >
-    {order.order_no ?? String(order.id)}
-  </Link>
-</td>
+                      <td>
+                        <Link
+                          href={`/admin/orders/${order.id}`}
+                          className="text-blue-600 hover:text-blue-800 hover:underline font-medium ml-1"
+                        >
+                          {order.order_no ?? String(order.id)}
+                        </Link>
+                      </td>
 
                       {/* 會員 */}
                       <td className="px-2 py-3 whitespace-nowrap overflow-hidden text-center">

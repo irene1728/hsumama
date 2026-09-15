@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { supabase } from "@/lib/supabase";
+import { createClient } from "@/lib/supabase/client";
 
 import { generateShippingPdf } from "@/features/checkout/utils/pdf/shipping/generateShippingPdf";
 import { generateReconciliationPdf } from "@/features/checkout/utils/pdf/reconciliation/generateReconciliationPdf";
@@ -48,7 +48,7 @@ type OrderItem = {
 export default function AdminOrderDetailPage() {
   const params = useParams();
   const router = useRouter();
-
+const supabase = createClient();
   const orderId = Number(params.id);
 
   const [order, setOrder] = useState<Order | null>(null);
