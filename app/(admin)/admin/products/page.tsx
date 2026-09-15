@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { Suspense } from "react";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
@@ -18,7 +19,7 @@ const categoryMap: Record<string, string> = {
   soup: "湯品",
 };
 
-export default function AdminProductsPage() {
+function AdminProductsPageContent() {
 
   const [products, setProducts] = useState<any[]>([]);
 
@@ -596,5 +597,12 @@ export default function AdminProductsPage() {
       </div>
 
     </main>
+  );
+}
+export default function AdminProductsPage() {
+  return (
+    <Suspense fallback={<p>讀取中...</p>}>
+      <AdminProductsPageContent />
+    </Suspense>
   );
 }

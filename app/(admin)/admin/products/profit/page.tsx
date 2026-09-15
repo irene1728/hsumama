@@ -1,5 +1,5 @@
 "use client";
-
+import { Suspense } from "react";
 import { useEffect, useMemo, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import ProductTabs from "../ProductTabs";
@@ -157,7 +157,9 @@ const missingCostProducts = useMemo(() => {
       {/* =========================
           商品管理分頁
           ========================= */}
-      <ProductTabs />
+     <Suspense fallback={<p>讀取中...</p>}>
+  <ProductTabs />
+</Suspense>
 
       {/* =========================
           毛利分析標題

@@ -1,4 +1,5 @@
 
+import { Suspense } from "react";
 import { supabase } from "@/lib/supabase";
 import ProductForm from "./ProductForm";
 
@@ -36,7 +37,9 @@ const { data: product, error } = await supabase
         編輯商品
       </h1>
 <hr></hr>
-    <ProductForm product={product} />
+    <Suspense fallback={<p>讀取中...</p>}>
+  <ProductForm product={product} />
+</Suspense>
 
     </main>
   );

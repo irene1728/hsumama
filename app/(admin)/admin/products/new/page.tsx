@@ -1,5 +1,5 @@
 import ProductForm from "../[id]/ProductForm";
-
+import { Suspense } from "react";
 export default function NewProductPage() {
 
  const emptyProduct = {
@@ -38,7 +38,9 @@ export default function NewProductPage() {
         新增商品
       </h1>
 
-      <ProductForm product={emptyProduct} />
+     <Suspense fallback={<p>讀取中...</p>}>
+  <ProductForm product={emptyProduct} />
+</Suspense>
 
     </main>
   );

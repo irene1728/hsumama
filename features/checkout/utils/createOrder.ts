@@ -22,8 +22,7 @@ type CreateOrderParams = {
   shippingFee: number;
   grandTotal: number;
   freeShippingThreshold: number;
-
-
+pointsUsed: number;
 
   cart: OrderItem[];
 };
@@ -41,6 +40,7 @@ export async function createOrder({
   shippingFee,
   grandTotal,
   freeShippingThreshold,
+  pointsUsed,
 
   cart,
 }: CreateOrderParams) {
@@ -75,6 +75,8 @@ export async function createOrder({
       p_free_shipping_threshold:
         freeShippingThreshold,
       p_items: items,
+      p_points_used: pointsUsed,
+
     }
   );
 
