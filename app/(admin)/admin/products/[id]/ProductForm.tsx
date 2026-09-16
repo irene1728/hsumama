@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { supabase } from "@/lib/supabase";
+import { createClient } from "@/lib/supabase/client";
 import { useRouter, useSearchParams } from "next/navigation";
 
 type ProductFormData = {
@@ -71,6 +71,7 @@ function toTaiwanDateTimeLocal(
 
 export default function ProductForm({ product }: Props) {
   const router = useRouter();
+  const supabase = createClient();
   const searchParams = useSearchParams();
 
   // =========================
@@ -275,11 +276,16 @@ const [promotionEndAt, setPromotionEndAt] = useState(
 
     setLoading(false);
 
-    if (error) {
-      console.error(error);
-      alert("儲存失敗！");
-      return;
-    }
+if (error) {
+  console.error("商品儲存失敗:", error);
+
+  alert(
+    `儲存失敗！\n\n錯誤訊息：${error.message}\n\n錯誤代碼：${error.code ?? "無"}`
+  );
+
+  return;
+}
+ 
 
     alert(
       product.id === 0
