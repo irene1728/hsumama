@@ -31,9 +31,21 @@ type Order = {
   created_at: string;
 };
 
+type OrderListItem = Pick<
+  Order,
+  | "id"
+  | "order_no"
+  | "member_no"
+  | "customer_name"
+  | "phone"
+  | "payment_status"
+  | "status"
+  | "created_at"
+>;
+
 export default function AdminOrdersPage() {
   const supabase = createClient();
-  const [orders, setOrders] = useState<Order[]>([]);
+  const [orders, setOrders] = useState<OrderListItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedOrderId, setSelectedOrderId] = useState<number | null>(null);
 
@@ -49,7 +61,9 @@ export default function AdminOrdersPage() {
   async function loadOrders() {
     const { data, error } = await supabase
       .from("orders")
-      .select("*")
+      .select(
+  "id, order_no, member_no, customer_name, phone, payment_status, status, created_at"
+)
       .order("id", { ascending: false });
 
     if (error) {
@@ -110,14 +124,13 @@ export default function AdminOrdersPage() {
       data: { session },
     } = await supabase.auth.getSession();
 
-    console.log("目前 Supabase Session：", session);
+   
 
     if (!session) {
       alert("目前沒有 Supabase 登入 Session");
       return;
     }
-
-    console.log("目前登入 user_id：", session.user.id);
+    
 
     // ==========================================
     // 記錄儲存前的付款狀態
@@ -226,43 +239,38 @@ const shippingJustCompleted =
 let shippingEmailFailed = false;
 
 if (shippingJustCompleted) {
-  try {
-    const response = await fetch(
-      "/api/email/shipped",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          orderId: selectedOrderId,
-        }),
-      }
-    );
-
-    const result = await response.json();
-
-    if (!response.ok) {
-      shippingEmailFailed = true;
-
-      console.error(
-        "Shipped email failed:",
-        result
-      );
-    } else {
-      console.log(
-        "Shipped email sent:",
-        result
-      );
+try {
+  const response = await fetch(
+    "/api/email/shipped",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        orderId: selectedOrderId,
+      }),
     }
-  } catch (emailError) {
+  );
+
+  const result = await response.json();
+
+  if (!response.ok) {
     shippingEmailFailed = true;
 
     console.error(
-      "Shipped email error:",
-      emailError
+      "Shipped email failed:",
+      result
     );
   }
+} catch (emailError) {
+  shippingEmailFailed = true;
+
+  console.error(
+    "Shipped email error:",
+    emailError
+  );
+}
 }
 
     // ==========================================
@@ -302,12 +310,15 @@ if (shippingJustCompleted) {
             "Payment completed email failed:",
             result
           );
-        } else {
-          console.log(
-            "Payment completed email sent:",
-            result
-          );
         }
+       if (!response.ok) {
+  paymentEmailFailed = true;
+
+  console.error(
+    "Payment completed email failed:",
+    result
+  );
+}
       } catch (emailError) {
         paymentEmailFailed = true;
 

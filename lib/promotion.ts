@@ -1,6 +1,15 @@
-import type { Product } from "@/types/product";
+type ProductForPrice = {
+  price: number;
+  promotion_enabled: boolean;
+  promotion_type: "special" | "discount" | null;
+  promotion_price: number | null;
+  promotion_discount: number | null;
+  promotion_start_at: string | null;
+  promotion_end_at: string | null;
+};
 
-export function getEffectivePrice(product: Product): number {
+export function getEffectivePrice(product: ProductForPrice): number {
+  
   // 沒有啟用促銷
   if (!product.promotion_enabled) {
     return product.price;

@@ -48,3 +48,5 @@ export type Product = {
 
   featured: boolean;
 };
+
+export type PublicProduct = Omit<Product, "wholesale_price">;

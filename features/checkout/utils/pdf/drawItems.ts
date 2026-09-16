@@ -23,7 +23,7 @@ export function drawItems({
   order,
 }: PdfContext): number {
 
-  console.log(order.items);
+ 
   //------------------------------------------
   // 標題
   //------------------------------------------

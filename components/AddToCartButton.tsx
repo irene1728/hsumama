@@ -1,11 +1,11 @@
 "use client";
 
-import type { Product } from "@/types/product";
+import type { PublicProduct } from "@/types/product";
 import { useCart } from "@/cart/CartContext";
 import { flyToCart } from "@/lib/flyToCart";
 
 type Props = {
-  product: Product;
+  product: PublicProduct;
 };
 
 export default function AddToCartButton({

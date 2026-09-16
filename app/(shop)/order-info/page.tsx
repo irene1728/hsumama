@@ -76,7 +76,7 @@ export default function OrderInfoPage() {
   <div className="text-4xl mb-4">🏦</div>
 
   <h3 className="text-2xl font-bold text-stone-800 mb-4">
-    ATM/線上轉帳
+    ATM／線上轉帳
   </h3>
 
   <p className="text-gray-600 leading-8">

@@ -3,7 +3,7 @@
 import { Suspense, useEffect, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { supabase } from "@/lib/supabase";
+
 import { orderToPdf } from "@/features/checkout/mapper";
 import DownloadOrderButton from "@/features/checkout/components/DownloadOrderButton";
 
@@ -14,8 +14,7 @@ type OrderItem = {
   price: number;
   subtotal: number;
 
-  wholesale_price: number | null;
-  wholesale_subtotal: number | null;
+
 };
 
 type Order = {
@@ -47,32 +46,57 @@ function OrderSuccessContent() {
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
-    async function loadOrder() {
-      if (!orderId) return;
+  async function loadOrder() {
+    if (!orderId) return;
 
-      const { data } = await supabase
-        .from("orders")
-      .select(
-  "id, order_no, customer_name, phone, email, address, note, payment, delivery_method, total_amount, shipping_fee, points_used, grand_total"
-)
-        .eq("id", Number(orderId))
-        .single();
+    try {
+      const saved = sessionStorage.getItem(
+        "order-success-verification"
+      );
 
-      const { data: items } = await supabase
-        .from("order_items")
-        .select("*")
-        .eq("order_id", Number(orderId));
-
-      if (data) {
-        setOrder({
-          ...data,
-          items: items ?? [],
-        });
+      if (!saved) {
+        return;
       }
-    }
 
-    loadOrder();
-  }, [orderId]);
+      const verification = JSON.parse(saved);
+
+      if (
+        Number(verification.orderId) !== Number(orderId) ||
+        typeof verification.email !== "string" ||
+        typeof verification.phone !== "string"
+      ) {
+        return;
+      }
+
+      const response = await fetch("/api/order-success", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          orderId: Number(orderId),
+          email: verification.email,
+          phone: verification.phone,
+        }),
+      });
+
+      if (!response.ok) {
+        return;
+      }
+
+      const result = await response.json();
+
+   if (result.order) {
+  setOrder(result.order);
+}
+
+    } catch (error) {
+      console.error("載入訂單失敗：", error);
+    }
+  }
+
+  loadOrder();
+}, [orderId]);
 
   async function copyAccount() {
     try {

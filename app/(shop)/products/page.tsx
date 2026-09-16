@@ -24,7 +24,29 @@ export default function ProductsPage() {
     async function loadProducts() {
       const { data, error } = await supabase
         .from("products")
-        .select("*")
+        .select(`
+  id,
+  slug,
+  name,
+  image,
+  category,
+  price,
+  description,
+  weight,
+  storage,
+  delivery,
+  featured,
+  is_active,
+  sort_order,
+  stock_quantity,
+  is_bbq,
+  promotion_enabled,
+  promotion_type,
+  promotion_price,
+  promotion_discount,
+  promotion_start_at,
+  promotion_end_at
+`)
         .eq("is_active", true)
         .order("sort_order");
 

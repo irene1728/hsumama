@@ -285,32 +285,44 @@ const error = validateCheckout({
     setLoading(true);
 
     try {
-      const order = await createOrder({
-        customerName,
-        phone,
-        email,
-        address,
-        note,
-        paymentMethod,
-        deliveryMethod,
 
-        totalQuantity,
-        totalAmount,
-        shippingFee,
-        grandTotal: finalGrandTotal,
-        freeShippingThreshold,
+const order = await createOrder({
+  customerName,
+  phone,
+  email,
+  address,
+  note,
+  paymentMethod,
+  deliveryMethod,
 
-        // ★ 本次使用積分
-        pointsUsed,
+  totalQuantity,
+  totalAmount,
+  shippingFee,
+  grandTotal: finalGrandTotal,
+  freeShippingThreshold,
 
-        cart,
-      });
+  // ★ 本次使用積分
+  pointsUsed,
 
-      clearCart();
+  cart,
+});
 
-      if (order) {
-        router.push(`/order-success?id=${order.id}`);
-      }
+if (order) {
+  sessionStorage.setItem(
+    "order-success-verification",
+    JSON.stringify({
+      orderId: order.id,
+      email,
+      phone,
+    })
+  );
+
+  clearCart();
+
+  router.push(`/order-success?id=${order.id}`);
+}
+
+
     } catch (error) {
       console.error("Supabase Error:", error);
 
@@ -491,7 +503,7 @@ const error = validateCheckout({
               disabled={loading}
               className="w-full bg-orange-600 hover:bg-orange-700 disabled:bg-gray-400 text-white py-4 rounded-xl text-lg font-bold transition"
             >
-              {loading ? "送出中..." : "確認送出訂單"}
+            {loading ? "⏳ 訂單處理中，請稍候..." : "確認送出訂單"}
             </button>
 
           </div>

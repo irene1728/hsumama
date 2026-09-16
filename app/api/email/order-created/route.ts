@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
 
-import { createClient } from "@/lib/supabase/server";
+import { createClient } from "@supabase/supabase-js";
 import { orderToPdf } from "@/features/checkout/mapper/orderToPdf";
 import { generateOrderPdf } from "@/features/checkout/utils/pdf/generateOrderPdf";
 
@@ -56,7 +56,10 @@ const resend = new Resend(
     // Supabase Server Client
     // ------------------------------------------
 
-    const supabase = await createClient();
+   const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!
+);
 
     // ------------------------------------------
     // 取得訂單
@@ -134,13 +137,21 @@ const resend = new Resend(
     // 取得訂單商品
     // ------------------------------------------
 
-    const {
-      data: items,
-      error: itemsError,
-    } = await supabase
-      .from("order_items")
-      .select("*")
-      .eq("order_id", orderId);
+ const {
+  data: items,
+  error: itemsError,
+} = await supabase
+  .from("order_items")
+  .select(
+    `
+      product_name,
+      quantity,
+      price,
+      subtotal
+    `
+  )
+  .eq("order_id", orderId);
+  
 
     if (itemsError) {
       console.error(

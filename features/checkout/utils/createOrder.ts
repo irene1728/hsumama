@@ -2,10 +2,9 @@ import { createClient } from "@/lib/supabase/client";
 
 type OrderItem = {
   id: number;
-  name: string;
+
   quantity: number;
-  price: number;
-  wholesale_price: number | null;
+
 };
 
 type CreateOrderParams = {
@@ -91,23 +90,7 @@ export async function createOrder({
     );
   }
 
-  // ------------------------------------------
-  // 取得完整訂單
-  // ------------------------------------------
 
-  const {
-    data: order,
-    error: orderError,
-  } = await supabase
-    .from("orders")
-
-    .select()
-    .eq("id", orderId)
-    .single();
-
-  if (orderError) {
-    throw orderError;
-  }
 
   // ------------------------------------------
   // 訂單 Email 通知
@@ -116,20 +99,17 @@ export async function createOrder({
   // 即使 Email 寄送失敗，訂單仍然視為建立成功。
   // ------------------------------------------
 
-  try {
-    const response = await fetch(
-      "/api/email/order-created",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          orderId,
-        }),
-      }
-    );
-
+void fetch("/api/email/order-created", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    orderId,
+  }),
+  keepalive: true,
+})
+  .then(async (response) => {
     const result = await response.json();
 
     if (!response.ok) {
@@ -137,22 +117,23 @@ export async function createOrder({
         "Order email notification failed:",
         result
       );
-    } else {
-      console.log(
-        "Order email notification sent:",
-        result
-      );
+      return;
     }
-  } catch (emailError) {
+
+ 
+  })
+  .catch((emailError) => {
     console.error(
       "Order email notification error:",
       emailError
     );
-  }
+  });
 
   // ------------------------------------------
   // 回傳訂單
   // ------------------------------------------
 
-  return order;
+  return {
+  id: orderId,
+};
 }

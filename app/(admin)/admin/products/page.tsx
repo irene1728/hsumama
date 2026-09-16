@@ -5,7 +5,7 @@ import { Suspense } from "react";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
-import { supabase } from "@/lib/supabase";
+import { createClient } from "@/lib/supabase/client";
 import { getEffectivePrice } from "@/lib/promotion";
 import ProductTabs from "./ProductTabs";
 
@@ -20,7 +20,7 @@ const categoryMap: Record<string, string> = {
 };
 
 function AdminProductsPageContent() {
-
+const supabase = createClient();
   const [products, setProducts] = useState<any[]>([]);
 
   const searchParams = useSearchParams();
@@ -52,10 +52,28 @@ function AdminProductsPageContent() {
   }, []);
 
   async function loadProducts() {
-    const { data, error } = await supabase
-      .from("products")
-      .select("*")
-      .order("sort_order");
+    
+const { data, error } = await supabase
+  .from("products")
+  .select(`
+    id,
+    name,
+    image,
+    category,
+    price,
+    promotion_enabled,
+    promotion_type,
+    promotion_price,
+    promotion_discount,
+    promotion_start_at,
+    promotion_end_at,
+    wholesale_price,
+    featured,
+    is_bbq,
+    is_active,
+    sort_order
+  `)
+  .order("sort_order");
 
     if (error) {
       console.error(error);

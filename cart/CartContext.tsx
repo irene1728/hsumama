@@ -8,11 +8,11 @@ import {
   ReactNode,
 } from "react";
 
-import type { Product } from "@/types/product";
+import type { PublicProduct } from "@/types/product";
 import { getEffectivePrice } from "@/lib/promotion";
 
 
-type CartItem = Product & {
+type CartItem = PublicProduct & {
   quantity: number;
 
   // 加入購物車當下的原價
@@ -22,7 +22,7 @@ type CartItem = Product & {
 type CartContextType = {
   cart: CartItem[];
 
-  addToCart: (product: Product) => boolean;
+  addToCart: (product: PublicProduct) => boolean;
 
   increaseQuantity: (slug: string) => void;
 
@@ -57,7 +57,7 @@ export function CartProvider({
   }, [cart]);
 
   // 加入購物車
-  function addToCart(product: Product): boolean {
+  function addToCart(product: PublicProduct): boolean {
     const effectivePrice = getEffectivePrice(product);
     const currentItem = cart.find(
       (item) => item.id === product.id

@@ -15,13 +15,21 @@ useEffect(() => {
 
  const { data, error } = await supabase
   .from("products")
-  .select("*")
+  .select(
+    "id, slug, name, image, price, promotion_enabled, promotion_type, promotion_price, promotion_discount, promotion_start_at, promotion_end_at"
+  )
   .eq("featured", true)
   .eq("is_active", true)
   .order("sort_order");
 
-    console.log(data);
-console.log(error);
+if (error) {
+  console.error("Popular products error:", error);
+  return;
+}
+
+if (data) {
+  setProducts(data);
+}
 
 if (data) {
   setProducts(data);

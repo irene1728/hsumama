@@ -70,7 +70,26 @@ const supabase = createClient();
 
     const { data: orderData, error: orderError } = await supabase
       .from("orders")
-      .select("*")
+      .select(`
+  id,
+  order_no,
+  customer_name,
+  phone,
+  email,
+  address,
+  note,
+  payment,
+  payment_status,
+  delivery_method,
+  total_quantity,
+  total_amount,
+  shipping_fee,
+  points_used,
+  grand_total,
+  free_shipping_threshold,
+  status,
+  created_at
+`)
       .eq("id", orderId)
       .single();
 

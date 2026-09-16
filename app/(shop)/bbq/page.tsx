@@ -9,12 +9,15 @@ export default function BBQPage() {
 
   useEffect(() => {
     async function loadProducts() {
+     
       const { data, error } = await supabase
-        .from("products")
-        .select("*")
-        .eq("is_active", true)
-        .eq("is_bbq", true)
-        .order("sort_order");
+  .from("products")
+  .select(
+    "id, slug, name, image, price, promotion_enabled, promotion_type, promotion_price, promotion_discount, promotion_start_at, promotion_end_at"
+  )
+  .eq("is_active", true)
+  .eq("is_bbq", true)
+  .order("sort_order");
 
       if (error) {
         console.error(error);
