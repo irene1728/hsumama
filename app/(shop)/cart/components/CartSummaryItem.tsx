@@ -3,10 +3,10 @@
 import Image from "next/image";
 
 import { formatPrice } from "@/lib/formatPrice";
-import type { Product } from "@/types/product";
+import type { PublicProduct } from "@/types/product";
 
 type CartSummaryItemProps = {
-  item: Product & {
+  item: PublicProduct & {
     quantity: number;
   };
 };
