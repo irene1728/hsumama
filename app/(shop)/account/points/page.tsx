@@ -238,13 +238,13 @@ export default async function PointsPage() {
 
                   <colgroup>
 
+                    <col className="w-[20%]" />
+
+                    <col className="w-[34%]" />
+
+                    <col className="w-[24%]" />
+
                     <col className="w-[22%]" />
-
-                    <col className="w-[28%]" />
-
-                    <col className="w-[25%]" />
-
-                    <col className="w-[25%]" />
 
                   </colgroup>
 
@@ -318,7 +318,7 @@ export default async function PointsPage() {
                               >
                                 {isPositive
                                   ? "🎁 +"
-                                  : "🛒 "}
+                                  : "🛒 -"}
 
                                 {Math.abs(
                                   transaction.amount
@@ -334,12 +334,9 @@ export default async function PointsPage() {
 
                             <td className="px-4 py-4 text-center">
 
-                              <span className="break-words">
-
-                                {transaction.description ??
-                                  "—"}
-
-                              </span>
+                              <span className="whitespace-pre-line break-words">
+  {transaction.description?.replace("｜訂單編號：", "\n｜訂單編號：") ?? "-"}
+</span>
 
                             </td>
 
@@ -441,7 +438,7 @@ export default async function PointsPage() {
 
                             {isPositive
                               ? "🎁 +"
-                              : "🛒 "}
+                              : "🛒 -"}
 
                             {Math.abs(
                               transaction.amount

@@ -156,6 +156,57 @@ const shippingJustCompleted =
   previousOrderStatus !== "已出貨" &&
   status === "已出貨";
 
+
+
+// 已完成 → 已退款＋已退貨
+if (
+  selectedOrder?.status === "已完成" &&
+  paymentStatus === "已退款" &&
+  status === "已退貨"
+) {
+  const { data: recoveredEarnedPoints, error } =
+    await supabase.rpc(
+      "return_completed_order",
+      {
+        p_order_id: selectedOrderId,
+      }
+    );
+
+  if (error) {
+    alert(error.message);
+    console.error(error);
+    return;
+  }
+
+  const earnedPoints = Number(
+    recoveredEarnedPoints ?? 0
+  );
+
+  const usedPointsReturned = Number(
+    (selectedOrder as any)?.points_used ?? 0
+  );
+
+  let message =
+    "📦 訂單已退貨，庫存已退回。";
+
+  if (earnedPoints > 0) {
+    message +=
+      `\n🛒 已回收 ${earnedPoints} 點消費回饋積分。`;
+  }
+
+  if (usedPointsReturned > 0) {
+    message +=
+      `\n🔄 +${usedPointsReturned} 點，退回原使用積分。`;
+  }
+
+  alert(message);
+
+  await loadOrders();
+  await loadItems(selectedOrderId);
+
+  return;
+}
+
     // ==========================================
     // 已取消 → 自動退回庫存
     // ==========================================
@@ -164,12 +215,13 @@ const shippingJustCompleted =
       status === "已取消" &&
       selectedOrder?.status !== "已取消"
     ) {
-      const { error } = await supabase.rpc(
-        "cancel_order_with_stock",
-        {
-          p_order_id: selectedOrderId,
-        }
-      );
+
+   const { data: recoveredPoints, error } = await supabase.rpc(
+  "cancel_order_with_stock",
+  {
+    p_order_id: selectedOrderId,
+  }
+);
 
       if (error) {
         alert(error.message);
@@ -191,7 +243,19 @@ const shippingJustCompleted =
         return;
       }
 
-      alert("訂單已取消，庫存已退回。");
+const usedPointsReturned = Number(
+  recoveredPoints ?? 0
+);
+
+let message =
+  "📦 訂單已取消，庫存已退回。";
+
+if (usedPointsReturned > 0) {
+  message +=
+    `\n🔄 +${usedPointsReturned} 點，取消訂單，退回原使用積分。`;
+}
+
+alert(message);
 
       await loadOrders();
       await loadItems(selectedOrderId);
@@ -868,13 +932,17 @@ if (earnedPoints > 0) {
                       }
                       className="border rounded-lg px-3 py-2 w-full"
                     >
-                      <option value="未付款">
-                        未付款
-                      </option>
+                  <option value="未付款">
+                    未付款
+                  </option>
 
-                      <option value="已付款">
-                        已付款
-                      </option>
+                  <option value="已付款">
+                    已付款
+                  </option>
+
+                    <option value="已退款">
+                    已退款
+                  </option>
 
 
                     </select>
@@ -912,8 +980,14 @@ if (earnedPoints > 0) {
                       <option value="已取消">
                         已取消
                       </option>
-                    </select>
 
+                      <option value="已退貨">
+                        已退貨
+                      </option>
+
+
+                    </select>
+                      
                     <button
                       onClick={saveStatus}
                       className="mt-4 bg-orange-500 hover:bg-orange-600 text-white px-5 py-2 rounded-lg"

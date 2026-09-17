@@ -650,8 +650,8 @@ async function saveStatus() {
               已付款
             </option>
 
-            <option value="待收款">
-              待收款
+            <option value="已退款">
+              已退款
             </option>
 
           </select>
@@ -697,6 +697,10 @@ async function saveStatus() {
               已取消
             </option>
 
+             <option value="已退貨">
+             已退貨
+             </option>
+             
           </select>
 
           <button
