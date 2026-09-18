@@ -82,9 +82,18 @@ export default async function AccountPage() {
 
   return (
     <main className="max-w-2xl mx-auto px-4 md:px-6 py-2 md:py-4">
-      <h1 className="text-4xl font-bold text-[#4E342E] mb-1 md:mb-2">
-        會員中心
-      </h1>
+      <div className="flex items-center justify-between mb-1 md:mb-2">
+  <h1 className="text-4xl font-bold text-[#4E342E]">
+    會員中心
+  </h1>
+
+  <Link
+    href="/account/points/rules"
+    className="flex items-center gap-1 text-lg md:text-xl font-bold text-purple-700 hover:text-purple-900 transition whitespace-nowrap pt-4 mr-7"
+  >
+    🎁積分規則
+  </Link>
+</div>
 
       <div className="border rounded-2xl p-5 space-y-2 shadow-sm">
 
