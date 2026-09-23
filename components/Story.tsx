@@ -1,9 +1,9 @@
 export default function Story() {
   return (
     
-      <div className="max-w-7xl mx-auto px-3 md:px-8 bg-white mt-1">
+      <div className="max-w-7xl mx-auto px-3 md:px-8 bg-white mt-1 mb-2">
 
-        <div className="grid md:grid-cols-2 gap-16 items-center">
+        <div className="grid md:grid-cols-2 gap-3 md:gap-16 items-center">
 
                  {/* 左邊品牌故事影片 */}
 <div>
@@ -27,17 +27,17 @@ export default function Story() {
               ABOUT US
             </p>
 
-            <h2 className="text-5xl font-bold text-stone-800 mb-8">
+            <h2 className="text-5xl font-bold text-stone-800 mb-2 md:mb-8">
               我們的故事
             </h2>
 
-            <h3 className="text-2xl font-semibold text-orange-600 mb-8">
+            <h3 className="text-2xl font-semibold text-orange-600 mb-2 md:mb-8">
   一鍋滷香，
   <br />
   傳承三代的溫暖。
 </h3>
 
-            <div className="space-y-6 text-gray-600 leading-9">
+            <div className="space-y-3 md:space-y-6 text-gray-600 leading-6 md:leading-9">
 
               <p>
                 徐媽媽冰鑽滷味的故事，

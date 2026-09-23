@@ -62,6 +62,17 @@ export default function Footer() {
                   退換貨政策
                 </Link>
               </li>
+                  
+                <li>
+               <Link
+                 href="/account/points/rules"
+                  className="hover:text-[#FFFF33] transition"
+                 >
+                   🎁積分規則
+                  </Link>
+
+              </li>  
+
 
             </ul>
 

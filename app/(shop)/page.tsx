@@ -13,7 +13,7 @@ export default function Home() {
   <PopularProducts />
   <BrandFeatures />
   <Story />
-  <OrderSteps />
+  
 </>
   );
 }

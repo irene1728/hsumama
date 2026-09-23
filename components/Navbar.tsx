@@ -183,34 +183,7 @@ async function loadMarqueeAnnouncements() {
 
   </nav>
 
-  {/* 跑馬燈 */}
-  {marqueeAnnouncements.length > 0 && (
-    <div className="hidden mt-1 w-full max-w-[560px] overflow-hidden">
-      <div className="relative h-6 overflow-hidden">
-       <div
-  className="marquee-track"
-  style={{
-    animationDuration: `${marqueeSpeed}s`,
-  }}
->
-          {[...marqueeAnnouncements, ...marqueeAnnouncements].map(
-            (item, index) => (
-              <span
-                key={`${item.id}-${index}`}
-                  className={`inline-block whitespace-nowrap text-lg mr-16 ${
-    isHome
-      ? "text-[#FFFF00] drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)]"
-      : "text-[#FFFF00] drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]"
-  }`}
-              >
-                {item.content}
-              </span>
-            )
-          )}
-        </div>
-      </div>
-    </div>
-  )}
+
 
 </div>
 

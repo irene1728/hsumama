@@ -18,28 +18,28 @@ export default function BrandFeatures() {
   ];
 
   return (
-    <section className="bg-white py-12">
+    <section className="bg-white py-5 md:py-12">
 
-      <div className="max-w-7xl mx-auto px-8">
+      <div className="max-w-7xl mx-auto px-5 md:px-8">
 
         <h2 className="text-4xl font-bold text-center text-stone-800">
           品牌特色
         </h2>
 
-        <p className="text-center text-gray-500 mt-4">
+        <p className="text-center text-gray-500 mt-2 md:mt-4">
           傳承的不只是味道，更是一份對家人的用心。
         </p>
 
-        <div className="grid md:grid-cols-3 gap-10 mt-10">
+        <div className="grid md:grid-cols-3 gap-3 md:gap-10 mt-4 md:mt-10">
 
           {features.map((item) => (
 
             <div
               key={item.title}
-              className="rounded-3xl border border-orange-100 p-10 text-center shadow-sm hover:shadow-lg transition"
+              className="rounded-3xl border border-orange-100 p-4 md:p-10 text-center shadow-sm hover:shadow-lg transition"
             >
 
-              <div className="text-5xl mb-6">
+              <div className="text-5xl mb-2 md:mb-6">
                 {item.icon}
               </div>
 
@@ -47,7 +47,7 @@ export default function BrandFeatures() {
                 {item.title}
               </h3>
 
-              <p className="text-gray-600 text-sm leading-8 mt-4">
+              <p className="text-gray-600 text-sm leading-6 md:leading-8 mt-2">
                 {item.desc}
               </p>
 
