@@ -202,14 +202,14 @@ export default function CheckoutPage() {
   // ==========================================
 
   const pointsEligible =
-    isLoggedIn &&
-    !pointsLoading &&
-    totalAmount >= 800 &&
-    currentPoints > 0;
+  isLoggedIn &&
+  !pointsLoading &&
+  totalAmount >= 1000 &&
+  currentPoints > 0;
 
-  // 每筆最多 500 點
+  // 每筆最多 100 點
   const maxUsablePoints = pointsEligible
-    ? Math.min(currentPoints, 500)
+    ? Math.min(currentPoints, 100)
     : 0;
 
   // ==========================================
@@ -412,15 +412,15 @@ if (order) {
                   </span>
                 </div>
 
-                {/* 未滿 800 */}
-                {totalAmount < 800 && (
+                {/* 未滿 1000 */}
+                {totalAmount < 1000 && (
                   <p className="mt-3 text-sm text-stone-500">
-                    商品金額滿 NT$800 才能使用積分折抵。
+                    商品金額滿 NT$1000 才能使用積分折抵。
                   </p>
                 )}
 
-                {/* 已滿 800，但沒有積分 */}
-                {totalAmount >= 800 && currentPoints <= 0 && (
+                {/* 已滿 1000，但沒有積分 */}
+                {totalAmount >= 1000 && currentPoints <= 0 && (
                   <p className="mt-3 text-sm text-stone-500">
                     目前沒有可使用的積分。
                   </p>
