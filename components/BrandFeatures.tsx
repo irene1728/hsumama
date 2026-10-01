@@ -20,7 +20,7 @@ export default function BrandFeatures() {
   return (
     <section className="bg-white py-5 md:py-12">
 
-      <div className="max-w-7xl mx-auto px-5 md:px-8">
+      <div className="max-w-7xl mx-auto px-3 md:px-8">
 
         <h2 className="text-4xl font-bold text-center text-stone-800">
           品牌特色

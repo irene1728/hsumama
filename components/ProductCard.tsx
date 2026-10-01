@@ -66,7 +66,7 @@ className="
       >
         <div
          ref={imageRef}
-       className="h-[150px] md:h-[180px] flex items-center justify-center bg-white p-2 md:p-5 overflow-hidden">
+       className="h-[140px] md:h-[180px] flex items-center justify-center bg-white p-2 md:p-5 overflow-hidden">
           <Image
             src={product.image}
             alt={product.name}
@@ -85,7 +85,7 @@ className="
       </Link>
 
       {/* 商品資訊 */}
-     <div className="px-4 md:px-5 pb-4 md:pb-5 pt-1 md:pt-2">
+     <div className="px-2 md:px-5 pb-4 md:pb-5 pt-1 md:pt-2">
         <Link
           href={`/products/${product.slug}`}
           className="

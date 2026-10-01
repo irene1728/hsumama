@@ -116,11 +116,8 @@ function statusClass(status: string | null) {
 export default async function AdminDashboardPage() {
   const supabase = await createClient();
 
-  const { start, end } = getTaipeiDayBounds();
-
-  // ==================================================
-  // 本月時間範圍
-  // ==================================================
+  const { start: todayStart, end: todayEnd } =
+    getTaipeiDayBounds();
 
   const {
     start: monthStart,
@@ -128,39 +125,108 @@ export default async function AdminDashboardPage() {
   } = getTaipeiMonthBounds();
 
   // ==================================================
-  // 今日訂單
+  // 首頁資料
+  //
+  // 這些查詢彼此沒有依賴，
+  // 因此同時執行，減少等待時間
   // ==================================================
 
-  const { data: todayOrders } = await supabase
-    .from("orders")
-    .select("id, grand_total, status")
-    .gte("created_at", start)
-    .lte("created_at", end);
+  const [
+    monthOrdersResult,
+    memberCountResult,
+    statusResults,
+    recentOrdersResult,
+    recentMembersResult,
+  ] = await Promise.all([
+    // 本月訂單
+    supabase
+      .from("orders")
+      .select("id, grand_total, status, created_at")
+      .gte("created_at", monthStart)
+      .lte("created_at", monthEnd),
 
-  const todayOrderCount = todayOrders?.length ?? 0;
+    // 會員總數
+    supabase
+      .from("profiles")
+      .select("user_id", {
+        count: "exact",
+        head: true,
+      }),
 
-  const todayRevenue =
-    todayOrders
-      ?.filter((order) => order.status !== "已取消")
-      .reduce(
-        (sum, order) => sum + Number(order.grand_total ?? 0),
-        0
-      ) ?? 0;
+    // 各訂單狀態數量
+    Promise.all(
+      orderStatuses.map(async (orderStatus) => {
+        const { count } = await supabase
+          .from("orders")
+          .select("id", {
+            count: "exact",
+            head: true,
+          })
+          .eq("status", orderStatus);
+
+        return {
+          status: orderStatus,
+          count: count ?? 0,
+        };
+      })
+    ),
+
+    // 最近訂單
+    supabase
+      .from("orders")
+      .select(
+        "id, order_no, member_no, customer_name, grand_total, status, payment_status, created_at"
+      )
+      .order("created_at", { ascending: false })
+      .limit(5),
+
+    // 最新會員
+    supabase
+      .from("profiles")
+      .select("member_no, name, created_at")
+      .order("created_at", { ascending: false })
+      .limit(5),
+  ]);
+
+  // ==================================================
+  // 本月訂單資料
+  // ==================================================
+
+  const monthOrders = monthOrdersResult.data ?? [];
+
+  // ==================================================
+  // 今日訂單
+  //
+  // 不再另外查詢 orders
+  // 直接從本月訂單中篩選今日資料
+  // ==================================================
+
+  const todayOrders = monthOrders.filter((order) => {
+    const createdAt = new Date(order.created_at);
+
+    return (
+      createdAt >= new Date(todayStart) &&
+      createdAt <= new Date(todayEnd)
+    );
+  });
+
+  const todayOrderCount = todayOrders.length;
+
+  const todayRevenue = todayOrders
+    .filter((order) => order.status !== "已取消")
+    .reduce(
+      (sum, order) =>
+        sum + Number(order.grand_total ?? 0),
+      0
+    );
 
   // ==================================================
   // 今月營業額
   // ==================================================
 
-  const { data: monthOrders } = await supabase
-    .from("orders")
-    .select("id, grand_total, status")
-    .gte("created_at", monthStart)
-    .lte("created_at", monthEnd);
-
-  const validMonthOrders =
-    monthOrders?.filter(
-      (order) => order.status !== "已取消"
-    ) ?? [];
+  const validMonthOrders = monthOrders.filter(
+    (order) => order.status !== "已取消"
+  );
 
   const monthRevenue = validMonthOrders.reduce(
     (sum, order) =>
@@ -210,12 +276,8 @@ export default async function AdminDashboardPage() {
   // 會員總數
   // ==================================================
 
-  const { count: memberCount } = await supabase
-    .from("profiles")
-    .select("user_id", {
-      count: "exact",
-      head: true,
-    });
+  const memberCount =
+    memberCountResult.count ?? 0;
 
   // ==================================================
   // 各訂單狀態數量
@@ -223,47 +285,26 @@ export default async function AdminDashboardPage() {
 
   const statusCounts: Record<string, number> = {};
 
-  await Promise.all(
-    orderStatuses.map(async (orderStatus) => {
-      const { count } = await supabase
-        .from("orders")
-        .select("id", {
-          count: "exact",
-          head: true,
-        })
-        .eq("status", orderStatus);
+  statusResults.forEach((result) => {
+    statusCounts[result.status] = result.count;
+  });
 
-      statusCounts[orderStatus] = count ?? 0;
-    })
-  );
-
-  const pendingOrderCount = statusCounts["待處理"] ?? 0;
+  const pendingOrderCount =
+    statusCounts["待處理"] ?? 0;
 
   // ==================================================
   // 最近訂單
   // ==================================================
 
-  const { data: recentOrders } = await supabase
-    .from("orders")
-    .select(
-      "id, order_no, member_no, customer_name, grand_total, status, payment_status, created_at"
-    )
-    .order("created_at", { ascending: false })
-    .limit(5);
-
-  const orders: Order[] = recentOrders ?? [];
+  const orders: Order[] =
+    recentOrdersResult.data ?? [];
 
   // ==================================================
   // 最新會員
   // ==================================================
 
-  const { data: recentMembers } = await supabase
-    .from("profiles")
-    .select("member_no, name, created_at")
-    .order("created_at", { ascending: false })
-    .limit(5);
-
-  const members: Member[] = recentMembers ?? [];
+  const members: Member[] =
+    recentMembersResult.data ?? [];
 
   return (
     <main className="max-w-6xl mx-auto px-3 md:px-4 py-2 md:py-4">
@@ -282,6 +323,7 @@ export default async function AdminDashboardPage() {
           ================================================== */}
 
       <section className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-8 text-center">
+
         {/* 今日訂單 */}
 
         <Link
@@ -326,7 +368,7 @@ export default async function AdminDashboardPage() {
           </p>
 
           <p className="md:mt-2 text-2xl md:text-3xl font-bold text-stone-800">
-            {memberCount ?? 0}
+            {memberCount}
             <span className="ml-1 text-base md:text-lg font-normal text-gray-500">
               人
             </span>
@@ -357,9 +399,11 @@ export default async function AdminDashboardPage() {
           ================================================== */}
 
       <section className="mt-3 md:mt-5 grid grid-cols-1 lg:grid-cols-2 gap-3 md:gap-5">
+
         {/* 訂單狀態 */}
 
         <div className="rounded-xl border bg-white p-4 md:p-5 shadow-sm">
+
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-xl md:text-2xl font-bold text-stone-800">
               訂單狀態
@@ -399,6 +443,7 @@ export default async function AdminDashboardPage() {
         {/* 快速操作 */}
 
         <div className="rounded-xl border bg-white p-4 md:p-5 shadow-sm">
+
           <h2 className="text-xl md:text-2xl font-bold text-stone-800 mb-4">
             快速操作
           </h2>
@@ -420,9 +465,7 @@ export default async function AdminDashboardPage() {
 
             {/* 今月營業額 */}
 
-            <div
-              className="rounded-xl border px-4 py-2 text-center font-bold text-gray-700 h-[66px] flex flex-col items-center justify-center"
-            >
+            <div className="rounded-xl border px-4 py-2 text-center font-bold text-gray-700 h-[66px] flex flex-col items-center justify-center">
               <div className="text-sm leading-none mb-1">
                 今月營業額
               </div>
@@ -434,9 +477,7 @@ export default async function AdminDashboardPage() {
 
             {/* 今月批發額 */}
 
-            <div
-              className="rounded-xl border px-4 py-2 text-center font-bold text-gray-700 h-[66px] flex flex-col items-center justify-center"
-            >
+            <div className="rounded-xl border px-4 py-2 text-center font-bold text-gray-700 h-[66px] flex flex-col items-center justify-center">
               <div className="text-sm leading-none mb-1">
                 今月批發額
               </div>
@@ -511,7 +552,9 @@ export default async function AdminDashboardPage() {
         {/* 最近訂單 */}
 
         <div className="rounded-xl border bg-white shadow-sm overflow-hidden">
+
           <div className="flex items-center justify-between p-4 md:p-5 border-b">
+
             <h2 className="text-xl md:text-2xl font-bold text-stone-800">
               最近訂單
             </h2>
@@ -539,8 +582,6 @@ export default async function AdminDashboardPage() {
                   <div className="flex items-start justify-between gap-3">
 
                     <div className="min-w-0">
-
-                      {/* ★ 改為新的會員可見訂單編號 */}
 
                       <p className="font-bold text-stone-800">
                         訂單 {order.order_no ?? `#${order.id}`}
@@ -585,7 +626,9 @@ export default async function AdminDashboardPage() {
         {/* 最新會員 */}
 
         <div className="rounded-xl border bg-white shadow-sm overflow-hidden">
+
           <div className="flex items-center justify-between p-4 md:p-5 border-b">
+
             <h2 className="text-xl md:text-2xl font-bold text-stone-800">
               最新會員
             </h2>
@@ -615,6 +658,7 @@ export default async function AdminDashboardPage() {
                   className="block p-4 border-b last:border-b-0 hover:bg-orange-50 transition"
                 >
                   <div className="flex items-center justify-between gap-3">
+
                     <div className="min-w-0">
 
                       <p className="font-bold text-stone-800">
@@ -630,6 +674,7 @@ export default async function AdminDashboardPage() {
                     <p className="shrink-0 text-xs text-gray-400">
                       {formatDate(member.created_at)}
                     </p>
+
                   </div>
                 </Link>
               ))}

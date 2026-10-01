@@ -14,16 +14,16 @@ const menus = [
     href: "/admin/products",
   },
   {
+    name: "首頁 Banner",
+    href: "/admin/banners",
+  },
+  {
     name: "庫存管理",
     href: "/admin/inventory",
   },
   {
     name: "訂單管理",
     href: "/admin/orders",
-  },
-  {
-    name: "銷售統計",
-    href: "/admin/sales",
   },
   {
     name: "會員管理",
