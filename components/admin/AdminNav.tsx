@@ -14,7 +14,7 @@ const menus = [
     href: "/admin/products",
   },
   {
-    name: "首頁 Banner",
+    name: "首頁活動",
     href: "/admin/banners",
   },
   {
@@ -25,6 +25,11 @@ const menus = [
     name: "訂單管理",
     href: "/admin/orders",
   },
+{
+    name: "銷售統計",
+    href: "/admin/sales",
+  },
+
   {
     name: "會員管理",
     href: "/admin/members",
