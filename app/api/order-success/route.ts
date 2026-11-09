@@ -68,7 +68,8 @@ export async function POST(request: Request) {
     address,
     note,
     payment,
-    delivery_method,
+payment_status,
+delivery_method,
     total_amount,
     shipping_fee,
     points_used,
@@ -161,9 +162,10 @@ export async function POST(request: Request) {
   address: orderData.address,
   note: orderData.note,
 payment: orderData.payment,
+payment_status: orderData.payment_status,
+delivery_method:orderData.delivery_method,
 
-        delivery_method:
-          orderData.delivery_method,
+
         total_amount:
           Number(orderData.total_amount ?? 0),
         shipping_fee:

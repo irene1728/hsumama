@@ -34,7 +34,7 @@ export interface Order {
 
   note: string;
 
-  paymentMethod: "ATM";
+ paymentMethod: string;
 
   paymentStatus?: string;
 

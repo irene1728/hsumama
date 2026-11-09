@@ -38,7 +38,9 @@ type OrderListItem = Pick<
   | "member_no"
   | "customer_name"
   | "phone"
+  | "payment"
   | "payment_status"
+  | "delivery_method"
   | "status"
   | "created_at"
 >;
@@ -61,8 +63,8 @@ export default function AdminOrdersPage() {
   async function loadOrders() {
     const { data, error } = await supabase
       .from("orders")
-      .select(
-  "id, order_no, member_no, customer_name, phone, payment_status, status, created_at"
+.select(
+  "id, order_no, member_no, customer_name, phone, payment, payment_status, delivery_method, status, created_at"
 )
       .order("id", { ascending: false });
 
@@ -724,14 +726,24 @@ if (earnedPoints > 0) {
                       {/* 狀態 */}
                       <td className="px-2 py-3 overflow-hidden text-center">
                         <div className="space-y-1 text-sm">
-                          <div className="whitespace-nowrap">
-                            💰 {order.payment_status}
-                          </div>
+<div className="space-y-1 text-sm">
+  <div>💰 {order.payment_status}</div>
 
-                          <div className="whitespace-nowrap">
-                            📦 {order.status}
-                          </div>
-                        </div>
+  <div>
+    {order.payment === "自取現場現金付款"
+      ? "💵 現金自取"
+      : "💳 ATM 轉帳"}
+  </div>
+
+  <div>
+    {order.delivery_method === "自取"
+      ? "📍 自取"
+      : "🚚 宅配"}
+  </div>
+
+  <div>📦 {order.status}</div>
+</div>
+</div>
                       </td>
 
                       {/* 建立時間 */}

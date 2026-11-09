@@ -1,3 +1,4 @@
+
 import type { PdfContext } from "../../types/pdf";
 
 import { PDF } from "./pdfConfig";
@@ -6,14 +7,6 @@ import {
   setHeadingFont,
 } from "./fonts";
 
-/**
- * PDF Payment Section
- *
- * 職責：
- * - 顯示付款資訊
- * - 固定使用 ATM／線上轉帳
- * - 不處理付款邏輯
- */
 interface DrawPaymentProps extends PdfContext {
   startY: number;
 }
@@ -23,6 +16,16 @@ export function drawPayment({
   order,
   startY,
 }: DrawPaymentProps): number {
+
+  //------------------------------------------
+  // 判斷付款方式
+  //------------------------------------------
+
+  const isCashPickup =
+    order.paymentMethod === "自取現場現金付款";
+
+  const isPickup =
+    order.shippingMethod === "自取";
 
   //------------------------------------------
   // 標題
@@ -51,52 +54,80 @@ export function drawPayment({
 
   const y = startY + PDF.spacing.line;
 
+  // 付款方式
   doc.text(
-    "付款方式：ATM／線上轉帳",
+    `付款方式：${order.paymentMethod}`,
     PDF.payment.leftX,
     y
   );
 
+  // 付款狀態
   doc.text(
-    "付款狀態：未付款",
+    `付款狀態：${order.paymentStatus ?? "未付款"}`,
     PDF.payment.rightX,
     y
   );
 
   //------------------------------------------
-  // ATM／線上轉帳付款資訊
+  // 自取現場現金付款
   //------------------------------------------
 
-  doc.text(
-    "銀行：台灣銀行",
-    PDF.payment.leftX,
-    y + PDF.payment.line
-  );
+  if (isCashPickup) {
 
-  doc.text(
-    "銀行代碼：004",
-    PDF.payment.rightX,
-    y + PDF.payment.line
-  );
+    doc.text(
+      "※ 請於取貨時支付現金。",
+      PDF.payment.leftX,
+      y + PDF.payment.line
+    );
 
-  doc.text(
-    "帳號：170001010083",
-    PDF.payment.leftX,
-    y + PDF.payment.line * 2
-  );
+    if (isPickup) {
+      doc.text(
+        "取貨方式：自取",
+        PDF.payment.leftX,
+        y + PDF.payment.line * 2
+      );
+    }
 
-  doc.text(
-    "※ 請於三日內完成付款。",
-    PDF.payment.leftX,
-    y + PDF.payment.line * 3
-  );
+  } else {
+
+    //------------------------------------------
+    // ATM／線上轉帳付款資訊
+    //------------------------------------------
+
+    doc.text(
+      "銀行：台灣銀行",
+      PDF.payment.leftX,
+      y + PDF.payment.line
+    );
+
+    doc.text(
+      "銀行代碼：004",
+      PDF.payment.rightX,
+      y + PDF.payment.line
+    );
+
+    doc.text(
+      "帳號：170001010083",
+      PDF.payment.leftX,
+      y + PDF.payment.line * 2
+    );
+
+    doc.text(
+      "※ 請於三日內完成付款。",
+      PDF.payment.leftX,
+      y + PDF.payment.line * 3
+    );
+
+  }
 
   //------------------------------------------
   // 結束位置
   //------------------------------------------
 
   const endY =
-    y + PDF.payment.line * 3;
+    isCashPickup
+      ? y + PDF.payment.line * 2
+      : y + PDF.payment.line * 3;
 
   return endY;
 }

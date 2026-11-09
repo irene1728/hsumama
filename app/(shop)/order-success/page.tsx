@@ -28,6 +28,7 @@ type Order = {
   note: string;
 
   payment: string;
+  payment_status: string;
   delivery_method: string;
 
 total_amount: number;
@@ -245,7 +246,6 @@ function OrderSuccessContent() {
                     <br />
                     感謝您的支持～❤️
                   </p>
-
                   <a
                     href="https://lin.ee/q8kagIG"
                     target="_blank"
@@ -256,9 +256,57 @@ function OrderSuccessContent() {
                   </a>
                 </div>
               </div>
+       
+            )}
+
+            {/* 自取現場現金付款 */}
+            {order.payment === "自取現場現金付款" && (
+              <div className="mt-2 md:mt-4 rounded-2xl border border-orange-200 bg-orange-50 p-4">
+
+                <h3 className="text-xl font-bold text-orange-700 mb-3">
+                  💵 自取現場現金付款
+                </h3>
+
+                <div className="space-y-2 text-gray-700">
+                  <p>
+                    您的訂單已成功成立！
+                  </p>
+
+                  <p>
+                    <strong>付款方式：</strong>
+                    現場現金付款
+                  </p>
+
+                  <p>
+                    <strong>應付金額：</strong>
+                    <span className="font-bold text-orange-600">
+                      NT$ {order.grand_total.toLocaleString("zh-TW")}
+                    </span>
+                  </p>
+
+                  <p className="mt-3 leading-7">
+                    請於約定取貨時間，前往指定地點取貨並支付現金。
+                  </p>
+
+                  <div className="rounded-xl border border-orange-200 bg-white p-3 mt-3">
+                    <p className="font-bold text-orange-700">
+                      📍 固定取貨地址
+                    </p>
+
+                    <p className="mt-2">
+                      臺中市太平區中興里永義路139巷20號
+                    </p>
+                  </div>
+
+                  <p className="text-sm text-gray-500 mt-3">
+                    感謝您的訂購，期待您的光臨！❤️
+                  </p>
+                </div>
+              </div>
             )}
           </div>
         )}
+
 
         <Link
           href="/"

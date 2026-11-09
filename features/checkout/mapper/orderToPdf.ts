@@ -1,3 +1,4 @@
+
 import type { Order as PdfOrder } from "../types/order";
 
 /**
@@ -6,7 +7,6 @@ import type { Order as PdfOrder } from "../types/order";
 interface OrderItemRow {
   product_name: string;
   quantity: number;
-
   price: number;
   subtotal: number;
 }
@@ -22,6 +22,7 @@ export interface OrderRow {
   note: string;
 
   payment: string;
+  payment_status?: string | null;
   delivery_method: string;
 
   total_amount: number;
@@ -36,7 +37,7 @@ export interface OrderRow {
  * Database Model -> PDF Model
  */
 export function orderToPdf(order: OrderRow): PdfOrder {
-  
+
   return {
     // Header
     orderNo: order.order_no ?? String(order.id),
@@ -64,8 +65,11 @@ export function orderToPdf(order: OrderRow): PdfOrder {
     pointsUsed: order.points_used ?? 0,
     total: order.grand_total,
 
-    // 付款方式
-    paymentMethod: "ATM",
+    // 付款方式：使用訂單實際資料
+    paymentMethod: order.payment,
+
+    // 付款狀態
+    paymentStatus: order.payment_status ?? "未付款",
 
     // 配送方式
     shippingMethod: order.delivery_method,

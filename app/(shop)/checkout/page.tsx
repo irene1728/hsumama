@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 
 // Features
 import CheckoutForm from "@/features/checkout/components/CheckoutForm";
-
+import DeliveryMethod from "@/features/checkout/components/DeliveryMethod";
 import OrderSummary from "@/features/checkout/components/OrderSummary";
 
 
@@ -77,6 +77,13 @@ export default function CheckoutPage() {
     loading,
     setLoading,
   } = useCheckout();
+  
+useEffect(() => {
+  if (deliveryMethod !== "自取" &&
+      paymentMethod === "自取現場現金付款") {
+    setPaymentMethod("ATM／線上轉帳");
+  }
+}, [deliveryMethod, paymentMethod, setPaymentMethod]);
 
   // ==========================================
   // 讀取目前登入會員
@@ -135,6 +142,7 @@ export default function CheckoutPage() {
 
   useEffect(() => {
     async function loadShippingSetting() {
+      setShippingSetting(null);
       const { data, error } = await supabase
         .from("shipping_settings")
         .select(
@@ -177,11 +185,18 @@ export default function CheckoutPage() {
   // 計算運費與原始應付金額
   // ==========================================
 
-  const {
-    shippingFee,
-    grandTotal,
-    freeShippingThreshold,
-  } = shippingSetting
+const {
+  shippingFee,
+  grandTotal,
+  freeShippingThreshold,
+} =
+  deliveryMethod === "自取"
+    ? {
+        shippingFee: 0,
+        grandTotal: totalAmount,
+        freeShippingThreshold: 0,
+      }
+    : shippingSetting
     ? calculateOrderTotal({
         totalAmount,
         shippingFee: shippingSetting.shipping_fee,
@@ -269,11 +284,13 @@ export default function CheckoutPage() {
   // ==========================================
 
   async function handleSubmit() {
+
 const error = validateCheckout({
   customerName,
   phone,
   email,
   address,
+  deliveryMethod,
   cartLength: cart.length,
 });
 
@@ -355,7 +372,17 @@ if (order) {
           ========================================== */}
 
           <div className="lg:col-span-2">
+
+              <DeliveryMethod
+    deliveryMethod={deliveryMethod}
+    onDeliveryMethodChange={setDeliveryMethod}
+  />
+
+  <div className="mt-2"></div>
             <CheckoutForm
+              deliveryMethod={deliveryMethod}
+                paymentMethod={paymentMethod}
+  onPaymentMethodChange={setPaymentMethod}
               customerName={customerName}
               onCustomerNameChange={setCustomerName}
 
@@ -384,9 +411,11 @@ if (order) {
               totalQuantity={totalQuantity}
               totalAmount={totalAmount}
               shippingFee={shippingFee}
-              freeShippingThreshold={
-                shippingSetting?.free_shipping_threshold ?? 0
-              }
+             freeShippingThreshold={
+  deliveryMethod === "自取"
+    ? 0
+    : shippingSetting?.free_shipping_threshold ?? 0
+}
               grandTotal={finalGrandTotal}
               deliveryMethod={deliveryMethod}
               paymentMethod={paymentMethod}
